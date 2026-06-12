@@ -91,41 +91,4 @@ LeetCode_SQL50/
 Interview_Questions/
 Real_World_Case_Studies/
 
-## Progress Tracker
 
-* [ ] Database Basics
-* [ ] RDBMS
-* [ ] Tables
-* [ ] Rows
-* [ ] Columns
-* [ ] Primary Keys
-* [ ] Foreign Keys
-* [ ] SELECT
-* [ ] DISTINCT
-* [ ] WHERE
-* [ ] ORDER BY
-* [ ] LIMIT
-* [ ] TOP
-* [ ] Aliases
-* [ ] IN
-* [ ] BETWEEN
-* [ ] LIKE
-* [ ] Wildcards
-* [ ] IS NULL
-* [ ] CASE WHEN
-* [ ] COUNT
-* [ ] SUM
-* [ ] AVG
-* [ ] MIN
-* [ ] MAX
-* [ ] GROUP BY
-* [ ] HAVING
-* [ ] INNER JOIN
-* [ ] LEFT JOIN
-* [ ] RIGHT JOIN
-* [ ] FULL JOIN
-* [ ] CROSS JOIN
-* [ ] SELF JOIN
-* [ ] UNION
-* [ ] UNION ALL
-* [ ] Subqueries
