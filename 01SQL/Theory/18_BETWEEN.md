@@ -26,7 +26,7 @@ BETWEEN is inclusive.
 
 ## Business Use Cases
 
-- Salary range
+-  Price range
 
 The following SQL returns all products with a price between 10 and 20:
 
@@ -36,7 +36,14 @@ SELECT * FROM Products
 WHERE Price BETWEEN 10 AND 20;
 
 - Date range
-- Price range
+
+The following SQL selects all orders placed in July, 1996:
+
+Example
+
+
+SELECT * FROM Orders
+WHERE OrderDate BETWEEN '1996-07-01' AND '1996-07-31';
 
 ---
 
