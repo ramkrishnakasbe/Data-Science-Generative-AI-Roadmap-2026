@@ -27,11 +27,14 @@ BETWEEN is inclusive.
 ## Business Use Cases
 
 - Salary range
+
 The following SQL returns all products with a price between 10 and 20:
 
 Example
+
 SELECT * FROM Products
 WHERE Price BETWEEN 10 AND 20;
+
 - Date range
 - Price range
 
