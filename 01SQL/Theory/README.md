@@ -287,6 +287,4 @@ Business Case Studies + Interview Questions
 
 ✔ Solve 100+ SQL Questions
 
-✔ Build 10+ Business Case Studies
-
 ✔ Become Interview Ready for Data Scientist / AI Engineer Roles
