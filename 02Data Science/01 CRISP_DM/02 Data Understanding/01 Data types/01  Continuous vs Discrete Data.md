@@ -196,7 +196,6 @@ Categories with meaningful order.
 ---
 
 # 4. Interview Questions
-
 # 1.1 Continuous Data
 
 ## Definition
