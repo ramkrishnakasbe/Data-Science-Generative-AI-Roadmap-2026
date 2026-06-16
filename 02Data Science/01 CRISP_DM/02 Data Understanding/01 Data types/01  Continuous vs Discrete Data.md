@@ -197,18 +197,82 @@ Categories with meaningful order.
 
 # 4. Interview Questions
 
-### Q1. Difference between Continuous and Discrete Data?
+# 1.1 Continuous Data
 
-### Q2. What is Count Data?
+## Definition
 
-### Q3. Difference between Interval and Ratio Scale?
+Continuous data can take any value within a range.
 
-### Q4. Why is Ratio Scale preferred?
+### Examples
 
-### Q5. Difference between Nominal and Ordinal Data?
+- Height
+- Weight
+- Temperature
+- Income
 
-### Q6. What is Binary Data?
+### Interview Questions
 
-### Q7. Is Age Interval or Ratio?
+#### Q1. What is Continuous Data?
 
-### Q8. Is Temperature Ratio Data?
+**Answer:** Continuous data is numerical data that can take any value within a range and is measured rather than counted.
+
+#### Q2. Give examples of Continuous Data.
+
+**Answer:**
+- Height
+- Weight
+- Salary
+- Temperature
+
+#### Q3. Why is Continuous Data called continuous?
+
+**Answer:** Because infinitely many values can exist between any two observations.
+
+---
+
+# 1.1.1 Interval Scale
+
+## Definition
+
+Values have equal intervals but no true zero.
+
+### Examples
+
+- Temperature (°C)
+- Temperature (°F)
+- IQ Score
+
+### Characteristics
+
+- Equal intervals
+- No absolute zero
+- Ratios are meaningless
+
+### Interview Questions
+
+#### Q1. What is Interval Data?
+
+**Answer:** Interval data has equal spacing between values but lacks a true zero point.
+
+#### Q2. Give examples of Interval Data.
+
+**Answer:**
+- Temperature in Celsius
+- Temperature in Fahrenheit
+- IQ Scores
+
+#### Q3. Why is Celsius temperature Interval Data?
+
+**Answer:** Because 0°C does not represent the complete absence of temperature.
+
+#### Q4. Can ratios be calculated in Interval Data?
+
+**Answer:** No. For example, 20°C is not twice as hot as 10°C.
+
+---
+
+# 1.1.2 Ratio Scale
+
+## Definition
+
+Values have equal intervals and a
