@@ -1,435 +1,617 @@
 # Data Types
 
-## What is Data?
+## Mind Map
 
-Data is a collection of facts, observations, measurements, or information that can be analyzed to derive insights and support decision-making.
+```text
+Data Types
+│
+├── Continuous Data
+│   │
+│   ├── Ratio Scale
+│   │   └── Most Preferred Scale
+│   │
+│   ├── Decimal Values Allowed
+│   │
+│   ├── Infinite Possibilities
+│   │
+│   └── Examples
+│       ├── Height
+│       ├── Weight
+│       ├── Age
+│       ├── Salary
+│       ├── Revenue
+│       └── Temperature
+│
+└── Discrete Data
+    │
+    ├── Count Data
+    │
+    ├── Finite Values
+    │
+    ├── Decimal Values Not Meaningful
+    │
+    └── Categorical Data
+        │
+        ├── Binary
+        │   ├── Yes / No
+        │   ├── True / False
+        │   ├── Fraud / Non-Fraud
+        │   └── Pass / Fail
+        │
+        └── Multiple Categories
+            │
+            ├── Nominal
+            │   ├── Country
+            │   ├── Blood Group
+            │   ├── Product Category
+            │   └── City
+            │
+            └── Ordinal
+                ├── Poor
+                ├── Average
+                ├── Good
+                ├── Excellent
+                └── Education Levels
+```
+
+---
+
+# Introduction
+
+Data is the foundation of Data Science, Machine Learning, Artificial Intelligence, Business Analytics, and Statistics.
+
+Before performing:
+
+* Data Cleaning
+* Data Analysis
+* Data Visualization
+* Feature Engineering
+* Machine Learning
+
+we must first understand the nature and type of data.
+
+Different data types require different preprocessing techniques, statistical methods, visualizations, and machine learning algorithms.
+
+---
+
+# What is Data?
+
+Data refers to raw facts, measurements, observations, or information collected from various sources.
 
 Examples:
 
 | Customer_ID | Name | Age | Salary |
-|------------|------|------|--------|
-| 101 | Ram | 28 | 50000 |
-| 102 | John | 31 | 70000 |
+| ----------- | ---- | --- | ------ |
+| 101         | Ram  | 28  | 50000  |
+| 102         | John | 32  | 70000  |
 
-Here:
-
-- Customer_ID → Data
-- Name → Data
-- Age → Data
-- Salary → Data
+In Data Science, every column is considered a variable (feature).
 
 ---
 
-# Why Understanding Data Types is Important
+# Classification of Data
 
-Before performing:
-
-- Data Cleaning
-- Data Analysis
-- Data Visualization
-- Machine Learning
-
-we must understand the type of data we are working with.
-
-Different data types require different handling techniques.
-
-Examples:
-
-| Data Type | Technique |
-|------------|------------|
-| Numerical | Scaling |
-| Categorical | Encoding |
-| Text | NLP |
-| Images | Computer Vision |
-
----
-
-# Classification of Data Types
+Data can be broadly classified into:
 
 ```text
 Data
 │
-├── Qualitative (Categorical)
-│   │
-│   ├── Nominal
-│   └── Ordinal
+├── Continuous Data
 │
-└── Quantitative (Numerical)
+└── Discrete Data
     │
-    ├── Discrete
-    └── Continuous
+    └── Categorical Data
+        │
+        ├── Binary
+        ├── Nominal
+        └── Ordinal
 ```
 
 ---
 
-# 1. Qualitative Data
+# Continuous Data
 
-Also called:
+## Definition
 
-- Categorical Data
-- Non-Numerical Data
+Continuous data represents measurements that can take any value within a range.
 
-Qualitative data describes qualities or categories.
+The values are not restricted to whole numbers.
 
-It cannot be meaningfully measured using arithmetic operations.
-
----
-
-## Examples
-
-| Customer | Gender |
-|-----------|-----------|
-| A | Male |
-| B | Female |
-
----
-
-| Product | Category |
-|----------|----------|
-| iPhone | Electronics |
-| Shoes | Fashion |
+Continuous data can contain decimal points and fractions.
 
 ---
 
 ## Characteristics
 
-- Represents categories
-- Cannot be added or averaged
-- Used for grouping
-
----
-
-# Types of Qualitative Data
-
-## 1. Nominal Data
-
-Nominal means "Naming".
-
-Categories have no order.
-
----
-
-### Examples
-
-Gender
-
-| Value |
-|---------|
-| Male |
-| Female |
-
----
-
-Blood Group
-
-| Value |
-|---------|
-| A |
-| B |
-| AB |
-| O |
-
----
-
-Country
-
-| India |
-| USA |
-| Canada |
-
----
-
-### Characteristics
-
-- No ranking
-- No ordering
-- Only labels
-
----
-
-### Machine Learning Handling
-
-Convert using:
-
-- One Hot Encoding
-- Label Encoding
-
----
-
-## 2. Ordinal Data
-
-Categories have a meaningful order.
-
----
-
-### Examples
-
-Customer Satisfaction
-
-| Rating |
-|---------|
-| Poor |
-| Average |
-| Good |
-| Excellent |
-
----
-
-Education
-
-| Level |
-|----------|
-| High School |
-| Bachelor's |
-| Master's |
-| PhD |
-
----
-
-Salary Band
-
-| Band |
-|---------|
-| Low |
-| Medium |
-| High |
-
----
-
-### Characteristics
-
-- Order exists
-- Distance between categories unknown
-
-Example:
-
-Good > Average
-
-But we don't know how much greater.
-
----
-
-### Machine Learning Handling
-
-Usually:
-
-Ordinal Encoding
-
-Example:
-
-Poor = 1
-
-Average = 2
-
-Good = 3
-
-Excellent = 4
-
----
-
-# 2. Quantitative Data
-
-Also called:
-
-- Numerical Data
-
-Contains measurable quantities.
-
-Arithmetic operations are meaningful.
+* Measured rather than counted
+* Infinite possible values
+* Supports arithmetic operations
+* Usually numerical
+* Most statistical techniques work best with continuous data
 
 ---
 
 ## Examples
 
-| Employee | Salary |
-|----------|---------|
-| A | 50000 |
-| B | 60000 |
-
----
-
-| Student | Marks |
-|----------|---------|
-| A | 80 |
-| B | 90 |
-
----
-
-## Characteristics
-
-- Numerical
-- Measurable
-- Arithmetic operations possible
-
----
-
-# Types of Quantitative Data
-
-## 1. Discrete Data
-
-Countable values.
-
-Cannot take every possible value.
-
-Usually whole numbers.
-
----
-
-### Examples
-
-Number of Employees
-
-| Department | Employees |
-|-------------|-------------|
-| IT | 50 |
-| HR | 10 |
-
----
-
-Number of Cars
-
-Number of Defects
-
-Number of Customers
-
----
-
-### Characteristics
-
-- Counted
-- Whole numbers
-- Finite values
-
----
-
-### Examples
-
-Valid:
-
-```text
-10
-25
-100
-```
-
-Invalid:
-
-```text
-10.5 employees
-4.7 customers
-```
-
----
-
-## Real World Examples
-
-### Banking
-
-Number of Accounts
-
-### Retail
-
-Number of Products Sold
-
-### Healthcare
-
-Number of Patients
-
----
-
-## 2. Continuous Data
-
-Measured values.
-
-Can take any value within a range.
-
----
-
-### Examples
-
-Height
+### Height
 
 ```text
 170.5 cm
-172.75 cm
+171.8 cm
+172.35 cm
 ```
 
----
-
-Weight
+### Weight
 
 ```text
 65.2 kg
-68.95 kg
+72.45 kg
+85.12 kg
 ```
 
----
-
-Temperature
+### Salary
 
 ```text
-36.5°C
-37.8°C
+₹55,000.50
+₹87,350.75
 ```
 
----
-
-Salary
+### Revenue
 
 ```text
-50000.75
-80000.50
+₹15,67,845.75
+```
+
+### Temperature
+
+```text
+36.7°C
+37.2°C
 ```
 
 ---
 
-### Characteristics
+## Why Continuous Data is Important
 
-- Infinite possibilities
-- Decimal values allowed
-- Measured not counted
+Most Machine Learning algorithms perform better when features are continuous.
 
----
+Examples:
 
-## Real World Examples
-
-### Healthcare
-
-- Blood Pressure
-- Weight
-- Temperature
-
-### Finance
-
-- Revenue
-- Profit
-
-### Manufacturing
-
-- Product Weight
-- Machine Temperature
+* Linear Regression
+* Logistic Regression
+* Random Forest
+* XGBoost
+* Neural Networks
 
 ---
 
-# Discrete vs Continuous
+# Ratio Scale
 
-| Feature | Discrete | Continuous |
-|-----------|-----------|-----------|
-| Nature | Counted | Measured |
-| Values | Whole Numbers | Decimal Values |
-| Example | Number of Customers | Customer Salary |
-| Example | Number of Orders | Revenue |
+The screenshot specifically highlights Ratio Scale under Continuous Data.
 
 ---
 
-# Qualitative vs Quantitative
+## Definition
 
-| Feature | Qualitative | Quantitative |
-|-----------|-----------|-----------|
-| Type | Categories | Numbers |
-| Arithmetic | Not Meaningful | Meaningful |
-| Example | Gender | Salary |
-| Example | Country | Revenue |
+Ratio Scale is the highest level of measurement.
+
+It contains:
+
+* Order
+* Equal Intervals
+* True Zero
+
+---
+
+## Examples
+
+| Feature  | Ratio Scale |
+| -------- | ----------- |
+| Height   | Yes         |
+| Weight   | Yes         |
+| Salary   | Yes         |
+| Revenue  | Yes         |
+| Distance | Yes         |
+| Age      | Yes         |
+
+---
+
+## Why Ratio Scale is Preferred
+
+All mathematical operations are valid.
+
+### Addition
+
+```text
+50 + 100 = 150
+```
+
+### Subtraction
+
+```text
+100 - 50 = 50
+```
+
+### Multiplication
+
+```text
+50 × 2 = 100
+```
+
+### Division
+
+```text
+100 / 50 = 2
+```
+
+---
+
+## True Zero
+
+A true zero means complete absence.
+
+Examples:
+
+```text
+0 kg weight
+0 revenue
+0 distance
+```
+
+Because of true zero:
+
+```text
+100kg is twice 50kg
+```
+
+This statement is mathematically correct.
+
+---
+
+## Why Data Scientists Prefer Ratio Scale
+
+Supports:
+
+* Mean
+* Median
+* Mode
+* Standard Deviation
+* Variance
+* Correlation
+* Regression
+* Hypothesis Testing
+* Machine Learning Algorithms
+
+---
+
+# Infinite Possibilities
+
+Continuous variables have infinite possible values.
+
+Example:
+
+Between:
+
+```text
+10 and 11
+```
+
+We have:
+
+```text
+10.1
+10.01
+10.001
+10.0001
+```
+
+and infinitely more values.
+
+---
+
+# Discrete Data
+
+## Definition
+
+Discrete data represents countable quantities.
+
+Values occur as distinct, separate numbers.
+
+Usually represented using whole numbers.
+
+---
+
+## Characteristics
+
+* Counted not measured
+* Finite values
+* Usually integers
+* Decimal values generally do not make practical sense
+
+---
+
+## Examples
+
+### Number of Employees
+
+```text
+10
+20
+100
+```
+
+Not:
+
+```text
+10.5 Employees
+```
+
+---
+
+### Number of Cars
+
+```text
+5 Cars
+15 Cars
+```
+
+---
+
+### Number of Orders
+
+```text
+100 Orders
+250 Orders
+```
+
+---
+
+### Number of Students
+
+```text
+35 Students
+```
+
+---
+
+# Count Data
+
+Discrete data is often called Count Data.
+
+Examples:
+
+* Number of Customers
+* Number of Orders
+* Number of Employees
+* Number of Transactions
+* Number of Products
+
+---
+
+# Finite Values
+
+Unlike continuous data, discrete data has limited possible outcomes.
+
+Example:
+
+Number of children in a family:
+
+```text
+0
+1
+2
+3
+4
+5
+```
+
+Not:
+
+```text
+2.5 children
+```
+
+---
+
+# Categorical Data
+
+Categorical Data represents labels or groups.
+
+It answers:
+
+```text
+Which Category?
+```
+
+instead of:
+
+```text
+How Much?
+```
+
+---
+
+# Binary Data
+
+Binary Data contains only two possible outcomes.
+
+---
+
+## Examples
+
+### Gender
+
+```text
+Male
+Female
+```
+
+---
+
+### Fraud Detection
+
+```text
+Fraud
+Not Fraud
+```
+
+---
+
+### Medical Diagnosis
+
+```text
+Disease
+No Disease
+```
+
+---
+
+### Student Result
+
+```text
+Pass
+Fail
+```
+
+---
+
+# Nominal Data
+
+## Definition
+
+Nominal data consists of categories without any order.
+
+---
+
+## Examples
+
+### Country
+
+```text
+India
+USA
+Canada
+Australia
+```
+
+---
+
+### Blood Group
+
+```text
+A
+B
+AB
+O
+```
+
+---
+
+### Product Category
+
+```text
+Electronics
+Fashion
+Food
+Books
+```
+
+---
+
+## Characteristics
+
+* No ranking
+* No order
+* Purely labels
+
+---
+
+## Machine Learning Handling
+
+Common Encoding:
+
+* One Hot Encoding
+* Label Encoding
+
+---
+
+# Ordinal Data
+
+## Definition
+
+Ordinal data consists of categories with meaningful order.
+
+---
+
+## Examples
+
+### Customer Satisfaction
+
+```text
+Poor
+Average
+Good
+Excellent
+```
+
+---
+
+### Education Level
+
+```text
+High School
+Bachelor's
+Master's
+PhD
+```
+
+---
+
+### Salary Band
+
+```text
+Low
+Medium
+High
+```
+
+---
+
+## Characteristics
+
+* Order exists
+* Distance between categories unknown
+
+Example:
+
+```text
+Excellent > Good > Average > Poor
+```
+
+But we do not know how much better.
+
+---
+
+# Nominal vs Ordinal
+
+| Feature                 | Nominal        | Ordinal             |
+| ----------------------- | -------------- | ------------------- |
+| Order                   | No             | Yes                 |
+| Ranking                 | No             | Yes                 |
+| Example                 | Country        | Satisfaction Rating |
+| Mathematical Difference | Not Meaningful | Not Meaningful      |
+
+---
+
+# Continuous vs Discrete
+
+| Feature        | Continuous | Discrete           |
+| -------------- | ---------- | ------------------ |
+| Nature         | Measured   | Counted            |
+| Values         | Infinite   | Finite             |
+| Decimal Values | Allowed    | Not Meaningful     |
+| Example        | Height     | Number of Students |
+| Example        | Salary     | Number of Orders   |
 
 ---
 
@@ -437,90 +619,90 @@ Salary
 
 ## Customer Churn Dataset
 
-### Qualitative
+Continuous:
 
-- Gender
-- Geography
-- Product Type
+* Age
+* Salary
+* Account Balance
 
-### Quantitative
+Categorical:
 
-- Age
-- Salary
-- Balance
+* Gender
+* Geography
+
+Binary:
+
+* Churn
+* Not Churn
 
 ---
 
 ## Employee Attrition Dataset
 
-### Qualitative
+Continuous:
 
-- Department
-- Education Field
-- Job Role
+* Monthly Income
+* Age
 
-### Quantitative
+Categorical:
 
-- Salary
-- Age
-- Years Experience
+* Department
+* Job Role
+
+Binary:
+
+* Leave Company
+* Stay Company
 
 ---
 
 # Interview Questions
 
-## What is Qualitative Data?
+## What is Continuous Data?
 
-Categorical data describing qualities or characteristics.
-
----
-
-## What is Quantitative Data?
-
-Numerical data representing measurable quantities.
+Data that can take any value within a range and is usually measured.
 
 ---
 
-## Difference between Nominal and Ordinal?
+## What is Discrete Data?
 
-Nominal:
-
-No order.
-
-Example:
-
-- Male
-- Female
-
-Ordinal:
-
-Order exists.
-
-Example:
-
-- Poor
-- Good
-- Excellent
+Data that consists of countable values.
 
 ---
 
-## Difference between Discrete and Continuous?
+## What is Binary Data?
 
-Discrete:
-
-Countable values.
-
-Continuous:
-
-Measurable values.
+Data having exactly two categories.
 
 ---
 
-## Is Age Discrete or Continuous?
+## Difference Between Nominal and Ordinal?
+
+Nominal has no order.
+
+Ordinal has order.
+
+---
+
+## Difference Between Continuous and Discrete Data?
+
+Continuous is measured.
+
+Discrete is counted.
+
+---
+
+## Why is Ratio Scale Most Preferred?
+
+Because it supports all statistical and mathematical operations and contains a true zero.
+
+---
+
+## Is Age Continuous or Discrete?
 
 Technically Continuous.
 
-Often treated as Discrete in business datasets.
+In business datasets it is often stored as Discrete.
 
 ---
 
@@ -528,18 +710,22 @@ Often treated as Discrete in business datasets.
 
 Yes.
 
-Salary can take decimal values.
+Salary can contain decimal values.
 
 ---
 
 # Key Takeaways
 
-✅ Data is classified into Qualitative and Quantitative
+✅ Continuous Data = Measured Values
 
-✅ Qualitative → Nominal + Ordinal
+✅ Discrete Data = Counted Values
 
-✅ Quantitative → Discrete + Continuous
+✅ Binary Data = Two Categories
 
-✅ Understanding data types is critical for EDA, Feature Engineering, and Machine Learning
+✅ Nominal Data = Categories Without Order
 
-✅ Different data types require different preprocessing techniques
+✅ Ordinal Data = Categories With Order
+
+✅ Ratio Scale = Most Powerful Measurement Scale
+
+✅ Understanding Data Types is the first step of Data Science, Statistics, Machine Learning, and AI
