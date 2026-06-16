@@ -34,6 +34,8 @@ Cross-Sectional Data contains observations collected from multiple entities at a
 
 Think of it as a "snapshot" of the population.
 
+Date, time, and Sequence in which you have collected data do not matter.
+
 ---
 
 ## Example
@@ -94,6 +96,7 @@ Population information collected during a specific year.
 Time Series Data contains observations collected over time for a single entity or variable.
 
 Time order is extremely important.
+Date, Time and Sequance in which data is collected matter.
 
 ---
 
