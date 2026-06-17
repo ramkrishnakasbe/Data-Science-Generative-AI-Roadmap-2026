@@ -238,20 +238,6 @@ After completing this section, you should understand:
 
 ---
 
-# Next Files
-
-```text
-03_Data_Collection
-│
-├── README.md
-│
-├── 01_Data_Sources.md
-├── 02_Primary_vs_Secondary_Data.md
-├── 03_Data_Requirements.md
-├── 04_Data_Description.md
-├── 05_Data_Verification.md
-└── 06_Data_Version_Control.md
-```
 
 ---
 
