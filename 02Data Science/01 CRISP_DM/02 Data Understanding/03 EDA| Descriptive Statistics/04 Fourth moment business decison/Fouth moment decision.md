@@ -382,6 +382,22 @@ Kurtosis - 3
 
 ---
 
+
+# Kurtosis Comparison
+
+```text
+Leptokurtic          Mesokurtic           Platykurtic
+
+      *                   *              ***********
+      *                *     *        *****************
+     ***             *         *    *********************
+    *****          *             *
+   *******       *                 *
+---------------------------------------------------------
+ Heavy Tail      Normal Tail        Light Tail
+ High Risk       Normal Risk        Low Risk
+ More Outliers   Normal Outliers    Fewer Outliers
+```  
 # 6. Tail Risk
 
 ## What is Tail Risk?
