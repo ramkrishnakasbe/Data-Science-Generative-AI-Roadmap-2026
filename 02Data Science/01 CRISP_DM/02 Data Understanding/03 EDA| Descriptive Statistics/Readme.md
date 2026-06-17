@@ -1,35 +1,3 @@
-# Exploratory Data Analysis (EDA) / Descriptive Analysis
-
-## What is EDA?
-
-Exploratory Data Analysis (EDA) is the process of understanding, summarizing, visualizing, and investigating data before applying statistical models or machine learning algorithms.
-
-EDA helps discover:
-
-- Patterns
-- Trends
-- Relationships
-- Anomalies
-- Data Quality Issues
-
-EDA is often the most important phase in a Data Science project because it helps transform raw data into meaningful insights.
-
----
-
-# Why EDA is Important
-
-EDA helps:
-
-- Understand business data
-- Identify missing values
-- Detect outliers
-- Understand distributions
-- Find relationships between variables
-- Generate business insights
-- Prepare data for modeling
-
----
-
 # EDA Roadmap
 
 ```text
@@ -52,201 +20,183 @@ EDA / Descriptive Analysis
 │   └── Kurtosis
 │
 ├── 5. Graphical Representation
-│   ├── Histogram
-│   ├── Box Plot
-│   ├── Bar Chart
-│   ├── Pie Chart
-│   ├── Scatter Plot
-│   ├── Line Chart
-│   └── Heatmap
+│   │
+│   ├── 5.1 Univariate Analysis
+│   │   ├── Histogram
+│   │   ├── Density Plot (KDE)
+│   │   ├── Box Plot
+│   │   ├── Violin Plot
+│   │   ├── Bar Chart
+│   │   └── Pie Chart
+│   │
+│   ├── 5.2 Bivariate Analysis
+│   │   ├── Scatter Plot
+│   │   ├── Grouped Bar Chart
+│   │   ├── Stacked Bar Chart
+│   │   ├── Line Plot
+│   │   ├── Box Plot by Category
+│   │   └── Correlation Plot
+│   │
+│   └── 5.3 Multivariate Analysis
+│       ├── Pair Plot
+│       ├── Heatmap
+│       ├── Bubble Plot
+│       ├── 3D Scatter Plot
+│       ├── Parallel Coordinates Plot
+│       └── Cluster Visualization
 │
-├── 6. Auto EDA Tools
+├── 6. Auto EDA
 │   ├── Pandas Profiling
 │   ├── Sweetviz
 │   ├── AutoViz
 │   └── DTale
 │
 └── 7. Key Documents
-    ├── Data Dictionary
-    └── EDA Report
+    │
+    ├── 7.1 Business Insights
+    └── 7.2 Statistical Insights
 ```
 
 ---
 
-# Topics Covered
+# 5. Graphical Representation
 
-## 1. First Moment Business
-
-Measures the central tendency of data.
-
-Topics:
-
-- Mean
-- Median
-- Mode
-
-Purpose:
-
-- Identify the center of data
-- Understand typical values
+Graphical Representation helps visualize data patterns, distributions, trends, relationships, and anomalies.
 
 ---
 
-## 2. Second Moment Business
+## 5.1 Univariate Analysis
 
-Measures variability or spread of data.
+### Definition
 
-Topics:
+Analysis of a single variable.
 
-- Variance
-- Standard Deviation
-- Range
+### Objective
 
-Purpose:
+- Understand distribution
+- Identify outliers
+- Check skewness
+- Study frequency patterns
 
-- Understand consistency
-- Measure data dispersion
-
----
-
-## 3. Third Moment Business
-
-Measures asymmetry in data.
-
-Topic:
-
-- Skewness
-
-Purpose:
-
-- Understand distribution shape
-- Detect left/right tail behavior
-
----
-
-## 4. Fourth Moment Business
-
-Measures peakedness and tail behavior.
-
-Topic:
-
-- Kurtosis
-
-Purpose:
-
-- Detect extreme values
-- Understand outlier tendencies
-
----
-
-## 5. Graphical Representation
-
-Visual exploration of data.
-
-Common Charts:
+### Common Charts
 
 - Histogram
+- Density Plot (KDE)
 - Box Plot
-- Scatter Plot
+- Violin Plot
 - Bar Chart
 - Pie Chart
-- Line Chart
-- Heatmap
 
-Purpose:
-
-- Faster insight generation
-- Pattern detection
-- Outlier identification
-
----
-
-## 6. Auto EDA
-
-Automated tools that generate EDA reports.
-
-Popular Tools:
-
-- Pandas Profiling (YData Profiling)
-- Sweetviz
-- AutoViz
-- DTale
-
-Purpose:
-
-- Quick dataset understanding
-- Automated summaries
-- Faster reporting
-
----
-
-## 7. Key Documents
-
-### Data Dictionary
-
-Contains:
-
-- Feature Name
-- Data Type
-- Description
-- Business Meaning
-
----
-
-### EDA Report
-
-Contains:
-
-- Dataset Overview
-- Missing Value Analysis
-- Outlier Analysis
-- Statistical Summary
-- Visualizations
-- Business Insights
-
----
-
-# Learning Outcome
-
-After completing EDA, you should understand:
-
-- Data distributions
-- Central tendency
-- Data spread
-- Skewness
-- Kurtosis
-- Visualization techniques
-- Automated EDA tools
-- EDA documentation
-
----
-
-# Folder Structure
+### Example
 
 ```text
-04_EDA
-│
-├── README.md
-│
-├── 01_First_Moment_Business.md
-├── 02_Second_Moment_Business.md
-├── 03_Third_Moment_Business.md
-├── 04_Fourth_Moment_Business.md
-├── 05_Graphical_Representation.md
-├── 06_Auto_EDA.md
-├── 07_Data_Dictionary.md
-└── 08_EDA_Report.md
+Salary Distribution
+```
+
+Analyze only one column:
+
+```text
+Salary
 ```
 
 ---
 
-# Key Takeaways
+## 5.2 Bivariate Analysis
 
-- EDA is the foundation of statistical analysis.
-- First Moment explains the center of data.
-- Second Moment explains data variability.
-- Third Moment explains skewness.
-- Fourth Moment explains kurtosis.
-- Visualizations reveal hidden patterns.
-- Auto EDA tools accelerate analysis.
-- EDA reports communicate findings effectively.
+### Definition
+
+Analysis of two variables simultaneously.
+
+### Objective
+
+- Identify relationships
+- Compare groups
+- Measure correlation
+- Study dependency
+
+### Common Charts
+
+- Scatter Plot
+- Grouped Bar Chart
+- Stacked Bar Chart
+- Line Plot
+- Box Plot by Category
+- Correlation Plot
+
+### Example
+
+```text
+Salary vs Experience
+```
+
+Variables:
+
+```text
+Salary
+Experience
+```
+
+---
+
+## 5.3 Multivariate Analysis
+
+### Definition
+
+Analysis involving three or more variables.
+
+### Objective
+
+- Discover complex relationships
+- Feature interaction analysis
+- Pattern identification
+- Segment discovery
+
+### Common Charts
+
+- Pair Plot
+- Heatmap
+- Bubble Plot
+- 3D Scatter Plot
+- Parallel Coordinates Plot
+- Cluster Visualization
+
+### Example
+
+```text
+Salary vs Experience vs Education
+```
+
+Variables:
+
+```text
+Salary
+Experience
+Education
+```
+
+---
+
+# 7. Key Documents
+
+## 7.1 Business Insights
+
+Business-focused findings generated from EDA.
+
+Examples:
+
+- Customers aged 25–35 generate the highest revenue.
+- Employee attrition is highest in the Sales department.
+- Premium customers contribute 70% of profits.
+
+---
+
+## 7.2 Statistical Insights
+
+Data-driven findings generated using statistical analysis.
+
+Examples:
+
+- Salary is positively skewed.
+- Experience and Salary have a correlation of 0.82.
+- Dataset contains 4.5% missing values.
+- Kurtosis indicates presence of extreme outliers.
