@@ -1,299 +1,155 @@
-# UNIVARIATE ANALYSIS - GRAPHICAL REPRESENTATION (DETAILED STUDY NOTES)
+# Univariate Analysis
+
+## Overview
+
+Univariate Analysis is the process of analyzing a single variable at a time. It helps understand the distribution, central tendency, variability, and overall characteristics of a variable.
+
+It is the first step in Exploratory Data Analysis (EDA) and provides insights into the structure and quality of the data.
 
 ---
 
-# 1. INTRODUCTION
+## Objectives
 
-Univariate analysis studies **one variable at a time** using graphs and statistics.
-
-It helps in understanding:
-- Distribution
-- Outliers
-- Patterns
-- Skewness
-- Data type behavior
-
-It is the **foundation of Exploratory Data Analysis (EDA)**.
+* Understand the distribution of a variable
+* Identify the central value of the data
+* Measure variability and dispersion
+* Detect outliers and unusual observations
+* Check data quality and consistency
 
 ---
 
-# 2. HISTOGRAM
+## Types of Variables
 
-## 📌 Purpose
-Used to understand the **distribution of numerical data**.
+### Numerical Variables
 
-## 📊 Example Graph Representation
-- Age distribution of employees
-- Salary distribution in a company
+Variables that represent quantitative values.
 
-## 📈 What it shows
-- Frequency of data
-- Shape of distribution
-- Skewness
+Examples:
 
-## 🔍 Interpretation
-- Bell shaped → Normal distribution
-- Right skew → long right tail
-- Left skew → long left tail
+* Age
+* Salary
+* Sales
+* Profit
 
-## 📌 Use Case
-- Understanding salary distribution
-- Customer age distribution
+### Categorical Variables
 
-## 🎯 Interview Questions
-- What is histogram used for?
-- Difference between histogram and bar chart?
-- What does bin mean in histogram?
+Variables that represent categories or groups.
+
+Examples:
+
+* Gender
+* Department
+* Product Category
+* City
 
 ---
 
-# 3. BAR PLOT
+## Descriptive Statistics
 
-## 📌 Purpose
-Used for **categorical data comparison**.
+### Measures of Central Tendency
 
-## 📊 Example Graph Representation
-- Gender distribution
-- Product category sales
+#### Mean
 
-## 📈 What it shows
-- Count of categories
-- Comparison between groups
+Average value of a dataset.
 
-## 🔍 Interpretation
-- Taller bar = higher frequency
-- Helps ranking categories
+#### Median
 
-## 📌 Use Case
-- Top selling products
-- City-wise customer count
+Middle value after sorting the data.
 
-## 🎯 Interview Questions
-- Difference between bar chart and histogram?
-- When do we use bar plot?
-- Can bar chart show numerical data?
+#### Mode
+
+Most frequently occurring value.
 
 ---
 
-# 4. DENSITY PLOT (KDE)
+### Measures of Dispersion
 
-## 📌 Purpose
-Smooth version of histogram showing probability distribution.
+#### Range
 
-## 📊 Example Graph Representation
-- Age distribution curve
-- Salary distribution smooth curve
+Difference between maximum and minimum values.
 
-## 📈 What it shows
-- Density of data
-- Peaks and concentration
+#### Variance
 
-## 🔍 Interpretation
-- High peak = high concentration
-- Flat curve = uniform distribution
+Measures the spread of data around the mean.
 
-## 📌 Use Case
-- Comparing distributions
-- Checking normality
+#### Standard Deviation
 
-## 🎯 Interview Questions
-- Difference between histogram and KDE?
-- Why KDE is used?
-- What smoothing means in KDE?
+Square root of variance.
+
+#### Interquartile Range (IQR)
+
+Difference between the third quartile (Q3) and first quartile (Q1).
 
 ---
 
-# 5. BOX PLOT
+### Measures of Shape
 
-## 📌 Purpose
-Used to detect **outliers and spread of data**.
+#### Skewness
 
-## 📊 Example Graph Representation
-- Salary boxplot showing outliers
-- Age distribution spread
+Measures the asymmetry of the distribution.
 
-## 📈 What it shows
-- Median
-- Quartiles (Q1, Q3)
-- IQR
-- Outliers
+#### Kurtosis
 
-## 🔍 Interpretation
-- Points outside whiskers = outliers
-- Wide box = high variation
-
-## 📌 Use Case
-- Detect salary anomalies
-- Identify extreme values in data
-
-## 🎯 Interview Questions
-- What is IQR?
-- How do you detect outliers using boxplot?
-- What are whiskers in boxplot?
+Measures the heaviness of the tails of the distribution.
 
 ---
 
-# 6. Q-Q PLOT
+## Common Visualizations
 
-## 📌 Purpose
-Used to check **normal distribution assumption**.
+For Numerical Variables:
 
-## 📊 Example Graph Representation
-- Checking if salary data is normally distributed
+* Histogram
+* Box Plot
+* Density Plot
+* Violin Plot
 
-## 📈 What it shows
-- Data quantiles vs theoretical quantiles
+For Categorical Variables:
 
-## 🔍 Interpretation
-- Straight line → Normal distribution
-- Curve → Not normal
-
-## 📌 Use Case
-- Statistical modeling assumption check
-
-## 🎯 Interview Questions
-- What is Q-Q plot used for?
-- How do you check normality?
-- What happens if points deviate from line?
+* Bar Chart
+* Count Plot
+* Pie Chart
 
 ---
 
-# 7. STRIP PLOT
+## Outlier Detection
 
-## 📌 Purpose
-Shows **individual data points distribution**.
+Common methods:
 
-## 📊 Example Graph Representation
-- Salary per department
-- Age per gender
-
-## 📈 What it shows
-- Spread of data points
-- Clusters
-
-## 🔍 Interpretation
-- Dense area = more values
-- Spread = variation
-
-## 📌 Use Case
-- Small datasets visualization
-- Category-wise distribution
-
-## 🎯 Interview Questions
-- What is strip plot?
-- Difference between strip plot and box plot?
-- When to use strip plot?
+* IQR Method
+* Z-Score Method
+* Box Plot Analysis
 
 ---
 
-# 8. CANDLE (OHLC) PLOT
+## Missing Value Analysis
 
-## 📌 Purpose
-Used in **financial data analysis**.
-
-## 📊 Example Graph Representation
-- Stock price movement
-
-## 📈 What it shows
-- Open price
-- High price
-- Low price
-- Close price
-
-## 🔍 Interpretation
-- Green candle → price increase
-- Red candle → price decrease
-
-## 📌 Use Case
-- Stock market analysis
-- Trading patterns
-
-## 🎯 Interview Questions
-- What does OHLC mean?
-- Why candle chart is used in finance?
-- What does green/red candle indicate?
+* Identify missing values
+* Calculate missing value percentage
+* Decide whether to impute or remove missing observations
 
 ---
 
-# 9. TIME SERIES PLOT
+## Benefits of Univariate Analysis
 
-## 📌 Purpose
-Used to analyze **data over time**.
-
-## 📊 Example Graph Representation
-- Monthly sales trend
-- Temperature over time
-
-## 📈 What it shows
-- Trend
-- Seasonality
-- Pattern changes
-
-## 🔍 Interpretation
-- Upward trend → growth
-- Downward trend → decline
-
-## 📌 Use Case
-- Sales forecasting
-- Weather analysis
-
-## 🎯 Interview Questions
-- What is time series data?
-- Difference between time series and normal data?
-- What is seasonality?
+* Better understanding of individual variables
+* Improved data quality assessment
+* Early detection of anomalies
+* Foundation for Bivariate and Multivariate Analysis
+* Supports feature engineering and model building
 
 ---
 
-# 10. PIE CHART
+## Next Steps
 
-## 📌 Purpose
-Shows **percentage distribution of categories**.
+After completing Univariate Analysis:
 
-## 📊 Example Graph Representation
-- Market share
-- Gender distribution
-
-## 📈 What it shows
-- Part-to-whole relationship
-
-## 🔍 Interpretation
-- Larger slice = higher proportion
-
-## 📌 Use Case
-- Business revenue breakdown
-- Market share analysis
-
-## 🎯 Interview Questions
-- When should you not use pie chart?
-- Difference between pie chart and bar chart?
-- Why pie chart is limited?
+1. Bivariate Analysis
+2. Multivariate Analysis
+3. Feature Engineering
+4. Model Building
 
 ---
 
-# 11. SUMMARY TABLE
+## Conclusion
 
-| Graph | Type | Purpose |
-|------|------|--------|
-| Histogram | Numerical | Distribution |
-| Bar Plot | Categorical | Comparison |
-| KDE | Numerical | Smooth distribution |
-| Box Plot | Numerical | Outliers |
-| Q-Q Plot | Numerical | Normality check |
-| Strip Plot | Both | Data points |
-| Candle Plot | Time/Finance | OHLC movement |
-| Time Series | Time | Trend analysis |
-| Pie Chart | Categorical | Percentage |
-
----
-
-# 12. FINAL CONCLUSION
-
-Univariate graphical analysis is essential for:
-
-- Understanding data distribution
-- Detecting outliers
-- Checking normality
-- Identifying patterns
-- Preparing data for ML models
-
-It is the **first and most important step in EDA**.
+Univariate Analysis focuses on understanding one variable at a time using statistical summaries and simple visualizations. It serves as the foundation of Exploratory Data Analysis and helps prepare data for deeper analysis and machine learning.
