@@ -465,6 +465,393 @@ Higher-quality incoming links
 Higher PageRank.
 
 ---
+# Network Properties
+
+Network properties describe the overall structure and characteristics of a graph. They help us understand how nodes are connected, how efficiently information flows, and how tightly the network is organized.
+
+---
+
+# 1. Path
+
+## Definition
+
+A **path** is a sequence of nodes connected by edges that allows movement from one node to another.
+
+Example
+
+```
+A ----- B ----- C ----- D
+```
+
+Possible paths from **A to D**
+
+```
+A → B → C → D
+```
+
+Length of Path
+
+```
+Number of edges traversed.
+```
+
+In the above example,
+
+```
+Path Length = 3
+```
+
+### Types of Paths
+
+### Simple Path
+
+A path in which no node is repeated.
+
+Example
+
+```
+A → B → C → D
+```
+
+---
+
+### Closed Path (Cycle)
+
+Starts and ends at the same node.
+
+Example
+
+```
+A → B → C → A
+```
+
+---
+
+# 2. Shortest Path
+
+## Definition
+
+The **Shortest Path** is the path between two nodes having the minimum total distance (or minimum number of edges).
+
+Example
+
+```
+      B
+     / \
+A---     ---D
+     \ /
+      C
+```
+
+Possible paths
+
+```
+A → B → D
+
+Distance = 8
+
+A → C → D
+
+Distance = 5
+```
+
+Shortest Path
+
+```
+A → C → D
+```
+
+### Applications
+
+- Google Maps
+- GPS Navigation
+- Network Routing
+- Flight Planning
+- Robot Navigation
+
+### Algorithms
+
+- BFS (Unweighted Graph)
+- Dijkstra Algorithm
+- Bellman-Ford Algorithm
+- Floyd-Warshall Algorithm
+- A* Algorithm
+
+---
+
+# 3. Average Path Length (APL)
+
+## Definition
+
+Average Path Length is the **average number of steps required to travel between every pair of nodes in a network.**
+
+It measures how efficiently information travels through the network.
+
+Formula
+
+```
+Average Path Length
+
+=
+
+Sum of all shortest path lengths
+
+---------------------------------
+
+Number of node pairs
+```
+
+### Interpretation
+
+- Small APL → Faster communication
+- Large APL → Slower communication
+
+Example
+
+```
+Social Network
+
+Average Path Length = 4
+```
+
+This means any two people are connected through approximately four intermediate connections.
+
+### Applications
+
+- Social Networks
+- Communication Networks
+- Internet Routing
+- Transportation Networks
+
+---
+
+# 4. Diameter
+
+## Definition
+
+The **Diameter** of a graph is the **longest shortest path** between any two nodes.
+
+It represents the maximum distance needed to travel between any pair of nodes.
+
+Example
+
+```
+A ----- B ----- C ----- D ----- E
+```
+
+Shortest paths
+
+```
+A → E = 4
+```
+
+No other shortest path is longer.
+
+Therefore,
+
+```
+Diameter = 4
+```
+
+### Interpretation
+
+- Small Diameter → Compact network
+- Large Diameter → Spread-out network
+
+### Applications
+
+- Internet Topology
+- Social Networks
+- Transportation Planning
+
+---
+
+# 5. Density
+
+## Definition
+
+Density measures **how many edges are present compared to the maximum possible number of edges.**
+
+It tells us how well connected the graph is.
+
+---
+
+### Formula (Undirected Graph)
+
+```
+Density
+
+=
+
+2E
+
+-----------
+
+V(V-1)
+```
+
+Where
+
+```
+E = Number of Edges
+
+V = Number of Vertices
+```
+
+---
+
+### Formula (Directed Graph)
+
+```
+Density
+
+=
+
+E
+
+-----------
+
+V(V-1)
+```
+
+---
+
+### Range
+
+```
+0 ≤ Density ≤ 1
+```
+
+| Density | Meaning |
+|----------|---------|
+| 0 | No connections |
+| 1 | Fully connected graph |
+
+### Interpretation
+
+High Density
+
+- Highly connected network
+- Faster communication
+- More redundancy
+
+Low Density
+
+- Sparse network
+- Fewer relationships
+- Lower communication efficiency
+
+### Applications
+
+- Social Networks
+- Biological Networks
+- Computer Networks
+- Recommendation Systems
+
+---
+
+# 6. Clustering Coefficient
+
+## Definition
+
+The **Clustering Coefficient** measures how closely the neighbors of a node are connected to each other.
+
+It indicates the tendency of nodes to form clusters or communities.
+
+Example
+
+```
+      B
+     / \
+A -------- C
+```
+
+Here,
+
+A's neighbors (B and C) are also connected.
+
+Hence,
+
+High Clustering Coefficient.
+
+---
+
+### Formula (Local Clustering Coefficient)
+
+```
+Clustering Coefficient
+
+=
+
+Number of Existing Connections
+
+--------------------------------------
+
+Maximum Possible Connections
+```
+
+For a node
+
+```
+CC(v)
+
+=
+
+2E
+
+------------
+
+k(k-1)
+```
+
+Where
+
+- **E** = Number of edges among neighboring nodes
+- **k** = Number of neighboring nodes
+
+---
+
+### Range
+
+```
+0 ≤ CC ≤ 1
+```
+
+| Value | Meaning |
+|--------|---------|
+| 0 | Neighbors are not connected |
+| 1 | Every neighbor is connected to every other neighbor |
+
+---
+
+### Global Clustering Coefficient
+
+Average of the local clustering coefficients of all nodes in the graph.
+
+It gives an overall measure of how clustered the entire network is.
+
+---
+
+### Applications
+
+- Social Network Analysis
+- Community Detection
+- Recommendation Systems
+- Protein Interaction Networks
+- Fraud Detection
+
+---
+
+# Summary of Network Properties
+
+| Property | Definition | Interpretation |
+|----------|------------|----------------|
+| Path | Sequence of connected nodes | Connectivity between nodes |
+| Shortest Path | Minimum distance between two nodes | Efficient routing |
+| Average Path Length | Average shortest path among all node pairs | Overall communication efficiency |
+| Diameter | Longest shortest path | Size of the network |
+| Density | Ratio of existing edges to maximum possible edges | Connectivity of the graph |
+| Clustering Coefficient | Degree to which neighbors are connected | Community structure and local cohesiveness |
 
 # Community Detection
 
