@@ -492,7 +492,183 @@ Disadvantages
 - High-dimensional sparse vectors
 
 ---
+# Document-Term Matrix (DTM) & Term-Document Matrix (TDM)
 
+Before applying Machine Learning algorithms, text documents are converted into a matrix representation. The two most common representations are:
+
+- Document-Term Matrix (DTM)
+- Term-Document Matrix (TDM)
+
+---
+
+# 1. Document-Term Matrix (DTM)
+
+## Definition
+
+A **Document-Term Matrix (DTM)** is a matrix where:
+
+- **Rows represent documents**
+- **Columns represent unique terms (words)**
+- Each cell contains the frequency or weight of a term in a document.
+
+It is the most commonly used representation in text mining.
+
+---
+
+## Example
+
+Documents
+
+```
+D1 : I love AI
+
+D2 : AI loves Python
+
+D3 : I love Python
+```
+
+Vocabulary
+
+```
+I
+Love
+AI
+Loves
+Python
+```
+
+### Document-Term Matrix
+
+| Document | I | Love | AI | Loves | Python |
+|-----------|:-:|:-:|:-:|:-:|:-:|
+| D1 |1|1|1|0|0|
+| D2 |0|0|1|1|1|
+| D3 |1|1|0|0|1|
+
+---
+
+### Characteristics
+
+- Rows = Documents
+- Columns = Terms
+- Widely used in Machine Learning
+- Input to BoW and TF-IDF
+- Usually sparse
+
+---
+
+# 2. Term-Document Matrix (TDM)
+
+## Definition
+
+A **Term-Document Matrix (TDM)** is simply the transpose of a Document-Term Matrix.
+
+Here,
+
+- **Rows represent terms**
+- **Columns represent documents**
+
+---
+
+## Example
+
+| Term | D1 | D2 | D3 |
+|------|:-:|:-:|:-:|
+| I |1|0|1|
+| Love |1|0|1|
+| AI |1|1|0|
+| Loves |0|1|0|
+| Python |0|1|1|
+
+---
+
+### Characteristics
+
+- Rows = Terms
+- Columns = Documents
+- Useful for word analysis
+- Commonly used in information retrieval and topic modeling
+
+---
+
+# DTM vs TDM
+
+| Feature | DTM | TDM |
+|----------|-----|-----|
+| Rows | Documents | Terms |
+| Columns | Terms | Documents |
+| Most Common | ✅ Yes | Less Common |
+| ML Algorithms | ✅ Used | Rarely Used |
+| TF-IDF | ✅ Yes | Yes |
+| BoW | ✅ Yes | Yes |
+
+---
+
+# Relationship
+
+```
+           DTM
+
+        Terms →
+      ┌───────────────┐
+Docs ↓│ D1 D2 D3 ...  │
+      └───────────────┘
+
+Transpose (T)
+
+↓
+
+           TDM
+
+        Docs →
+      ┌───────────────┐
+Terms↓│ D1 D2 D3 ...  │
+      └───────────────┘
+```
+
+Mathematically,
+
+```
+TDM = (DTM)ᵀ
+```
+
+---
+
+# Applications
+
+- Bag of Words (BoW)
+- TF-IDF
+- Topic Modeling (LSA, LDA, NMF)
+- Text Classification
+- Information Retrieval
+- Document Clustering
+- Recommendation Systems
+
+---
+
+# Interview Questions
+
+### What is a Document-Term Matrix?
+
+A matrix where rows represent documents, columns represent terms, and values indicate the frequency or weight of each term in each document.
+
+---
+
+### What is a Term-Document Matrix?
+
+A matrix where rows represent terms and columns represent documents. It is the transpose of a Document-Term Matrix.
+
+---
+
+### Which one is commonly used in Machine Learning?
+
+**Document-Term Matrix (DTM)** is the most commonly used representation for machine learning and NLP tasks.
+
+---
+
+### Is TF-IDF calculated on DTM or TDM?
+
+Typically, **TF-IDF is computed on a Document-Term Matrix (DTM)**, where each row is a document and each column is a term.
 ## 4.2 TF-IDF (Term Frequency-Inverse Document Frequency)
 
 ### Definition
