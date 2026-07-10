@@ -669,41 +669,95 @@ A matrix where rows represent terms and columns represent documents. It is the t
 ### Is TF-IDF calculated on DTM or TDM?
 
 Typically, **TF-IDF is computed on a Document-Term Matrix (DTM)**, where each row is a document and each column is a term.
-## 4.2 TF-IDF (Term Frequency-Inverse Document Frequency)
+#### TF-IDF (Term Frequency–Inverse Document Frequency)
 
 ### Definition
 
-TF-IDF assigns higher importance to words that appear frequently in one document but rarely across all documents.
+**TF-IDF** is a statistical technique used to measure the importance of a word in a document relative to a collection of documents (corpus).
 
-Formula
+- Words that appear **frequently in a document** receive a higher score.
+- Words that appear **frequently across all documents** (e.g., *the*, *is*, *and*) receive a lower score.
+
+---
+
+### Formula
 
 ```
 TF-IDF = TF × IDF
 ```
 
-Where
+Where,
+
+**Term Frequency (TF)**
+
+Measures how often a term appears in a document.
 
 ```
-TF
-
-=
-
-Term Frequency
-
-IDF
-
-=
-
-log(Total Documents / Documents containing the term)
+TF = (Number of times a term appears in a document)
+     ------------------------------------------------
+       Total number of terms in the document
 ```
 
-Advantages
+**Inverse Document Frequency (IDF)**
 
-- Reduces importance of common words.
-- Better than BoW for many NLP tasks.
+Measures how unique or rare a term is across the corpus.
+
+```
+IDF = log(Total Number of Documents
+          -------------------------
+          Number of Documents containing the term)
+```
 
 ---
 
+### Example
+
+Documents
+
+```
+D1 : I love AI
+
+D2 : I love Python
+
+D3 : AI is amazing
+```
+
+- **"love"** appears in multiple documents → Lower IDF
+- **"Python"** appears in only one document → Higher IDF
+
+Therefore,
+
+```
+TF-IDF(Python) > TF-IDF(love)
+```
+
+---
+
+### Advantages
+
+- Gives more importance to unique words.
+- Reduces the impact of common words.
+- Improves text classification and information retrieval.
+- Simple and computationally efficient.
+
+---
+
+### Limitations
+
+- Ignores word order and context.
+- Produces sparse vectors.
+- Cannot capture semantic meaning (unlike Word2Vec or BERT).
+
+---
+
+### Applications
+
+- Search Engines
+- Text Classification
+- Information Retrieval
+- Document Ranking
+- Keyword Extraction
+- Recommendation Systems
 ## 4.3 One-Hot Encoding
 
 Each word is represented as a binary vector.
