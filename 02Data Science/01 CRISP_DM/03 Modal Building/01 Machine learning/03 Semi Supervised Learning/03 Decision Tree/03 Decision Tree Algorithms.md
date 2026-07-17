@@ -417,7 +417,226 @@ Algorithms
 - C4.5
 - CHAID
 
+---# Greedy Algorithm in Decision Trees
+
+## What is a Greedy Algorithm?
+
+A **Greedy Algorithm** makes the **best possible decision at the current step** without considering future consequences.
+
+Decision Trees are built using a greedy approach because, at every node, the algorithm selects the feature that produces the **best split** according to the chosen impurity measure.
+
+```
+Dataset
+    │
+    ▼
+Evaluate All Features
+    │
+    ▼
+Choose Best Split
+    │
+    ▼
+Split Data
+    │
+    ▼
+Repeat on Child Nodes
+```
+
+Once a split is made, **it is never reconsidered or changed**.
+
 ---
+
+## Why is Decision Tree called Greedy?
+
+Suppose we have three candidate features.
+
+| Feature | Information Gain |
+|---------|------------------:|
+| Age | 0.18 |
+| Income | 0.42 |
+| Education | 0.25 |
+
+The Decision Tree immediately selects **Income** because it has the **highest Information Gain**.
+
+It **does not check** whether choosing another feature first could produce a better overall tree later.
+
+This is called a **Greedy Choice**.
+
+---
+
+## Advantages
+
+- Fast
+- Easy to implement
+- Efficient for large datasets
+
+---
+
+## Disadvantages
+
+- Does not guarantee the globally optimal tree
+- May produce a locally optimal solution
+- Sensitive to noisy data
+
+---
+
+# Attribute Selection Measure (ASM)
+
+## Definition
+
+An **Attribute Selection Measure** is a criterion used to determine **which feature should be selected for splitting** at each node of the Decision Tree.
+
+The goal is to choose the attribute that produces the **purest child nodes**.
+
+```
+Dataset
+
+↓
+
+Evaluate Every Feature
+
+↓
+
+Compute ASM
+
+↓
+
+Choose Best Feature
+
+↓
+
+Split Dataset
+```
+
+---
+
+## Common Attribute Selection Measures
+
+| Measure | Used In |
+|----------|---------|
+| Information Gain | ID3 |
+| Gain Ratio | C4.5, C5.0 |
+| Gini Index | CART |
+| Chi-Square | CHAID |
+| Variance Reduction | Regression Tree |
+
+---
+
+## Desired Properties of a Good ASM
+
+A good Attribute Selection Measure should:
+
+- Maximize class purity
+- Minimize impurity
+- Produce meaningful splits
+- Avoid overfitting
+- Handle different types of data effectively
+
+---
+
+# Information Gain Attribute Selection
+
+Information Gain is one of the most popular **Attribute Selection Measures**.
+
+It measures **how much uncertainty decreases after splitting** on an attribute.
+
+## Formula
+
+```
+Information Gain
+
+=
+
+Entropy(Parent)
+
+−
+
+Weighted Entropy(Children)
+```
+
+or
+
+```
+IG(S,A)
+
+=
+
+Entropy(S)
+
+−
+
+Σ
+
+(|Sv| / |S|)
+
+×
+
+Entropy(Sv)
+```
+
+Where:
+
+- **S** = Dataset
+- **A** = Attribute
+- **Sv** = Subset after split
+
+---
+
+## Working
+
+```
+Calculate Entropy
+
+↓
+
+Calculate Information Gain
+for every attribute
+
+↓
+
+Choose attribute with
+Highest Information Gain
+
+↓
+
+Split Dataset
+```
+
+---
+
+## Example
+
+| Attribute | Information Gain |
+|-----------|------------------:|
+| Age | 0.23 |
+| Income | 0.54 |
+| Education | 0.18 |
+
+Selected Attribute
+
+```
+Income
+```
+
+because it has the **highest Information Gain**.
+
+---
+
+## Advantages
+
+- Simple to understand
+- Produces informative splits
+- Reduces uncertainty
+- Works well for classification problems
+
+---
+
+## Limitations
+
+- Biased toward attributes with many distinct values
+- May overfit on high-cardinality features
+
+This drawback is addressed by **Gain Ratio**, which is used in **C4.5** and **C5.0**.
+
 
 # 8. Classification Tree vs Regression Tree
 
