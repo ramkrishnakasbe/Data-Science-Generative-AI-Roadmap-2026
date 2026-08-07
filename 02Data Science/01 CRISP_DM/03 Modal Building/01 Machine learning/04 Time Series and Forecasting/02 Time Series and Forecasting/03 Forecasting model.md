@@ -1,217 +1,105 @@
 # 03_Time_Series_Forecasting_Models.md
 
-# Time Series & Forecasting — Forecasting Models
+# Time Series & Forecasting — Models
 
-## 1. Overview
+## 1. Time Series Model Categories
 
-Forecasting is the process of predicting future values using historical observations and, when available, external variables.
-
-```text
-Historical Data
-      ↓
-Data Preparation
-      ↓
-EDA
-      ↓
-Trend / Seasonality
-      ↓
-Stationarity
-      ↓
-Model Selection
-      ↓
-Train Model
-      ↓
-Forecast
-      ↓
-Evaluate
-      ↓
-Deploy & Monitor
-```
-
-This file covers the major forecasting models required for Data Science interviews:
-
-* Naive Forecast
-* Seasonal Naive
-* Moving Average
-* Simple Exponential Smoothing
-* Holt's Method
-* Holt-Winters
-* AR
-* MA
-* ARMA
-* ARIMA
-* SARIMA
-* SARIMAX
-* VAR
-* Prophet
-* ML-based Forecasting
-* Deep Learning Forecasting
-* Forecast Evaluation
-* Walk-Forward Validation
-* Forecast Intervals
-* Model Selection
-* Interview Questions
-
----
-
-# 2. Forecasting Problem
-
-Suppose we have:
-
-| Date     | Sales |
-| -------- | ----: |
-| Jan 2025 |   100 |
-| Feb 2025 |   110 |
-| Mar 2025 |   125 |
-| Apr 2025 |   130 |
-
-We want to predict future values:
+Time-series forecasting models can be broadly divided into:
 
 ```text
-Jan 2026
-Feb 2026
-Mar 2026
-...
-```
-
-General notation:
-
-```text
-Forecast = Ŷ(t+h)
-```
-
-Where:
-
-* `t` = current time
-* `h` = forecast horizon
-* `Ŷ(t+h)` = predicted value h steps into the future
-
----
-
-# 3. Forecast Horizon
-
-Forecast horizon defines how far into the future we predict.
-
-### Short-Term
-
-```text
-Next hour
-Next day
-Next week
-```
-
-### Medium-Term
-
-```text
-Next month
-Next quarter
-```
-
-### Long-Term
-
-```text
-Next year
-Next 5 years
-```
-
-The appropriate model and validation strategy depend heavily on the forecast horizon.
-
----
-
-# 4. Major Forecasting Approaches
-
-```text
-Forecasting
+Time Series Forecasting
 │
-├── Statistical
-│   ├── Naive
-│   ├── Moving Average
-│   ├── Exponential Smoothing
+├── Naive Methods
+│
+├── Moving Average
+│
+├── Exponential Smoothing
+│   ├── Simple Exponential Smoothing
+│   ├── Holt's Method
+│   └── Holt-Winters
+│
+├── Statistical Models
 │   ├── AR
 │   ├── MA
 │   ├── ARMA
 │   ├── ARIMA
-│   └── SARIMA
+│   ├── SARIMA
+│   └── SARIMAX
 │
-├── Regression / Machine Learning
+├── Multivariate Models
+│   └── VAR
+│
+├── Machine Learning
 │   ├── Linear Regression
 │   ├── Random Forest
 │   ├── XGBoost
 │   └── LightGBM
 │
-├── Deep Learning
-│   ├── RNN
-│   ├── LSTM
-│   ├── GRU
-│   └── Transformer
-│
-└── Specialized / Hybrid
-    ├── SARIMAX
-    ├── Prophet
-    └── Ensemble Models
+└── Deep Learning
+    ├── RNN
+    ├── LSTM
+    ├── GRU
+    └── Transformer
 ```
 
 ---
 
-# 5. Naive Forecast
+# 2. Naive Forecasting
 
-The simplest forecasting method.
+The naive method uses the most recent observation as the next forecast.
 
-The next forecast equals the most recent observed value.
+Formula:
 
 ```text
-Ŷ(t+1) = Y(t)
+Y_hat(t+1) = Y(t)
 ```
 
 Example:
 
 ```text
-Monday    = 100
-Tuesday   = 120
-Wednesday = 130
+Today's Sales = 500
+
+Tomorrow's Forecast = 500
 ```
 
-Forecast:
+Python:
 
-```text
-Thursday = 130
+```python
+forecast = train["sales"].iloc[-1]
 ```
+
+### Advantages
+
+* Very simple
+* Fast
+* No training required
+* Excellent baseline
+
+### Disadvantages
+
+* Cannot model trend
+* Cannot model seasonality
+* Cannot capture complex patterns
 
 ---
 
-# 6. Why Naive Forecast Is Important
+# 3. Seasonal Naive Forecast
 
-Naive forecasting is an important baseline.
+Seasonal naive forecasting uses the value from the previous seasonal cycle.
 
-A sophisticated forecasting model should ideally outperform a reasonable naive benchmark.
-
-```text
-Naive Model
-     ↓
-Baseline
-     ↓
-Advanced Model
-     ↓
-Compare Performance
-```
-
-If a complex model does not outperform the baseline, the added complexity may not be justified.
-
----
-
-# 7. Seasonal Naive Forecast
-
-For seasonal data, forecast using the value from the previous season.
-
-General formula:
+Formula:
 
 ```text
-Ŷ(t) = Y(t-m)
+Y_hat(t) = Y(t-m)
 ```
 
 Where:
 
-* `m` = seasonal period
+```text
+m = Seasonal Period
+```
+
+Example:
 
 For monthly data with yearly seasonality:
 
@@ -222,74 +110,144 @@ m = 12
 Therefore:
 
 ```text
-January 2026 Forecast
-=
-January 2025 Actual
+Y_hat(t) = Y(t-12)
 ```
 
-Seasonal naive is often a strong baseline for seasonal business data.
+Python:
+
+```python
+forecast = df["sales"].shift(12)
+```
+
+Useful when strong seasonality exists.
 
 ---
 
-# 8. Moving Average Forecast
+# 4. Moving Average Model
 
-Moving Average forecasting uses the average of recent observations.
+A moving average forecast uses the average of recent observations.
 
-For a 3-period moving average:
+For window size `k`:
 
 ```text
-Ŷ(t+1) = [Y(t) + Y(t-1) + Y(t-2)] / 3
+Y_hat(t+1) =
+[Y(t) + Y(t-1) + ... + Y(t-k+1)]
+-----------------------------------
+k
+```
+
+Example with `k = 3`:
+
+```text
+Sales:
+
+100
+110
+120
+
+Forecast:
+
+(100 + 110 + 120) / 3
+= 110
+```
+
+Python:
+
+```python
+forecast = (
+    df["sales"]
+    .rolling(3)
+    .mean()
+)
+```
+
+---
+
+# 5. Weighted Moving Average
+
+More recent observations can receive greater weight.
+
+Formula:
+
+```text
+Y_hat(t+1) =
+w1Y(t) + w2Y(t-1) + ... + wkY(t-k+1)
+```
+
+Subject to:
+
+```text
+w1 + w2 + ... + wk = 1
 ```
 
 Example:
 
 ```text
-100, 110, 120
+Today's value      → Weight 0.5
+Yesterday's value  → Weight 0.3
+2 days ago         → Weight 0.2
+```
 
-Forecast
-= (100 + 110 + 120) / 3
-= 110
+Recent observations have more influence.
+
+---
+
+# 6. Exponential Smoothing
+
+Exponential smoothing gives greater weight to recent observations.
+
+Basic idea:
+
+```text
+Recent observations
+        ↓
+Higher weight
+
+Older observations
+        ↓
+Lower weight
+```
+
+The major methods are:
+
+```text
+Simple Exponential Smoothing
+Holt's Method
+Holt-Winters
 ```
 
 ---
 
-# 9. Limitations of Moving Average
+# 7. Simple Exponential Smoothing
 
-Advantages:
+Simple Exponential Smoothing is appropriate when the series has:
 
-* Simple
-* Easy to understand
-* Smooths random noise
+* No significant trend
+* No significant seasonality
 
-Limitations:
-
-* Can lag behind trends
-* Equal weight is assigned to observations
-* Does not naturally handle seasonality
-* Can perform poorly when the underlying process changes rapidly
-
----
-
-# 10. Exponential Smoothing
-
-Exponential smoothing assigns more weight to recent observations.
-
-Basic formula:
+Formula:
 
 ```text
-S(t) = αY(t) + (1-α)S(t-1)
+L(t) = αY(t) + (1-α)L(t-1)
 ```
 
 Where:
 
-* `S(t)` = smoothed value
-* `Y(t)` = current observation
-* `α` = smoothing parameter
-* `0 < α < 1`
+```text
+L(t) = Current level
+Y(t) = Actual observation
+α = Smoothing parameter
+```
+
+`α` ranges from:
+
+```text
+0 < α < 1
+```
 
 ---
 
-# 11. Interpretation of Alpha
+# 8. Effect of Alpha
 
 ### High Alpha
 
@@ -297,9 +255,14 @@ Where:
 α → 1
 ```
 
-More weight is given to recent observations.
+The model gives more importance to recent observations.
 
-The model reacts quickly to changes.
+Result:
+
+```text
+More responsive
+More sensitive to noise
+```
 
 ### Low Alpha
 
@@ -307,156 +270,170 @@ The model reacts quickly to changes.
 α → 0
 ```
 
-More smoothing occurs.
+The model gives more importance to historical values.
 
-The model reacts more slowly to changes.
+Result:
+
+```text
+Smoother
+Less responsive
+```
 
 ---
 
-# 12. Simple Exponential Smoothing
-
-Simple Exponential Smoothing is suitable when the series has:
-
-```text
-No strong trend
-No strong seasonality
-```
-
-Model:
-
-```text
-S(t) = αY(t) + (1-α)S(t-1)
-```
-
-Forecast:
-
-```text
-Ŷ(t+h) = S(t)
-```
-
-for future horizons `h`.
-
----
-
-# 13. Python — Simple Exponential Smoothing
+# 9. Simple Exponential Smoothing in Python
 
 ```python
-from statsmodels.tsa.holtwinters import SimpleExpSmoothing
+from statsmodels.tsa.holtwinters import (
+    SimpleExpSmoothing
+)
 
-model = SimpleExpSmoothing(train)
+model = SimpleExpSmoothing(
+    train["sales"]
+)
 
 fit = model.fit()
 
 forecast = fit.forecast(
-    steps=len(test)
+    len(test)
 )
 ```
 
 ---
 
-# 14. Holt's Linear Trend Method
+# 10. Holt's Linear Trend Method
 
-Simple Exponential Smoothing cannot explicitly model trend.
+Holt's method extends exponential smoothing to handle trend.
 
-Holt's method adds a trend component.
-
-Level:
+It maintains:
 
 ```text
-l(t) = αY(t) + (1-α)[l(t-1) + b(t-1)]
+Level
+Trend
 ```
 
-Trend:
+Equations:
 
 ```text
-b(t) = β[l(t) - l(t-1)] + (1-β)b(t-1)
+L(t) =
+αY(t) + (1-α)[L(t-1) + B(t-1)]
+```
+
+```text
+B(t) =
+β[L(t) - L(t-1)] + (1-β)B(t-1)
 ```
 
 Forecast:
 
 ```text
-Ŷ(t+h) = l(t) + h × b(t)
+Y_hat(t+h) =
+L(t) + hB(t)
 ```
 
 Where:
 
-* `l(t)` = level
-* `b(t)` = trend
-* `α` = level smoothing parameter
-* `β` = trend smoothing parameter
+```text
+L(t) = Level
+B(t) = Trend
+α = Level smoothing parameter
+β = Trend smoothing parameter
+h = Forecast horizon
+```
 
 ---
 
-# 15. When to Use Holt's Method
-
-Use Holt's method when the series has:
-
-```text
-Trend
-+
-No strong seasonality
-```
-
-Example:
-
-```text
-100
-110
-120
-130
-140
-150
-```
-
-Holt's method can capture the upward trend.
-
----
-
-# 16. Holt-Winters Method
-
-Holt-Winters extends exponential smoothing to handle:
-
-```text
-Level
-Trend
-Seasonality
-```
-
-Therefore:
-
-```text
-Holt-Winters
-=
-Level
-+
-Trend
-+
-Seasonality
-```
-
-It is useful for data with repeated seasonal patterns.
-
----
-
-# 17. Holt-Winters Components
-
-Holt-Winters can use:
-
-```text
-Trend:
-Additive / Multiplicative
-
-Seasonality:
-Additive / Multiplicative
-```
-
-Example:
+# 11. Holt's Method in Python
 
 ```python
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
+from statsmodels.tsa.holtwinters import Holt
+
+model = Holt(
+    train["sales"]
+)
+
+fit = model.fit()
+
+forecast = fit.forecast(
+    len(test)
+)
+```
+
+Use Holt when:
+
+```text
+Trend exists
+Seasonality is absent
+```
+
+---
+
+# 12. Holt-Winters Method
+
+Holt-Winters extends Holt's method by incorporating seasonality.
+
+It models:
+
+```text
+Level
+Trend
+Seasonality
+```
+
+Two major forms:
+
+```text
+Additive Seasonality
+Multiplicative Seasonality
+```
+
+---
+
+# 13. Holt-Winters Additive Seasonality
+
+Use when seasonal variation is approximately constant.
+
+Example:
+
+```text
+January  → +100
+February → +80
+March    → +120
+```
+
+Seasonal effect remains approximately similar over time.
+
+---
+
+# 14. Holt-Winters Multiplicative Seasonality
+
+Use when seasonal variation changes with the level.
+
+Example:
+
+```text
+Year 1:
+Base = 1000
+Seasonal increase = 200
+
+Year 2:
+Base = 2000
+Seasonal increase = 400
+```
+
+The seasonal effect increases with the level.
+
+---
+
+# 15. Holt-Winters in Python
+
+```python
+from statsmodels.tsa.holtwinters import (
+    ExponentialSmoothing
+)
 
 model = ExponentialSmoothing(
-    train,
+    train["sales"],
     trend="add",
     seasonal="add",
     seasonal_periods=12
@@ -471,107 +448,92 @@ forecast = fit.forecast(
 
 ---
 
-# 18. Additive vs Multiplicative Seasonality
+# 16. AR Model — Autoregressive
 
-## Additive Seasonality
+AR means **AutoRegressive**.
 
-Seasonal effect is approximately constant.
-
-```text
-Y(t) = Trend(t) + Seasonality(t) + Error(t)
-```
-
-Example:
-
-```text
-Every December:
-+500 units
-```
-
-The seasonal effect is approximately constant.
-
----
-
-## Multiplicative Seasonality
-
-Seasonal effect is proportional to the level.
-
-```text
-Y(t) = Trend(t) × Seasonality(t) × Error(t)
-```
-
-Example:
-
-```text
-December sales are approximately 20% higher
-than the normal level.
-```
-
----
-
-# 19. Autoregressive Model — AR
-
-AR models use previous observations to predict the current observation.
+The current value depends on its previous values.
 
 AR(p):
 
 ```text
 Y(t) =
 c
-+ φ1Y(t-1)
-+ φ2Y(t-2)
-+ ...
-+ φpY(t-p)
-+ ε(t)
++
+φ1Y(t-1)
++
+φ2Y(t-2)
++
+...
++
+φpY(t-p)
++
+ε(t)
 ```
 
 Where:
 
-* `p` = number of lagged observations
-* `φ` = AR coefficients
-* `c` = constant
-* `ε(t)` = error term
+```text
+p = Number of lags
+φ = Model coefficients
+ε(t) = Error
+```
 
 ---
 
-# 20. AR(1)
+# 17. AR(1)
 
-AR(1) uses one previous observation.
+AR(1) uses only one previous observation.
 
 ```text
-Y(t) = c + φ1Y(t-1) + ε(t)
+Y(t) =
+c
++
+φ1Y(t-1)
++
+ε(t)
 ```
 
-Conceptually:
+Example:
 
 ```text
-Today's Value
-      ↑
-Yesterday's Value
+Today's Sales
+     ↑
+Yesterday's Sales
 ```
 
 The current value depends on the previous value.
 
 ---
 
-# 21. AR(p)
+# 18. AR(2)
 
-AR(p) uses multiple lagged observations.
-
-For AR(3):
+AR(2) uses two previous observations.
 
 ```text
 Y(t) =
 c
-+ φ1Y(t-1)
-+ φ2Y(t-2)
-+ φ3Y(t-3)
-+ ε(t)
++
+φ1Y(t-1)
++
+φ2Y(t-2)
++
+ε(t)
+```
+
+Conceptually:
+
+```text
+Today
+ ↑
+Yesterday
+ ↑
+2 Days Ago
 ```
 
 ---
 
-# 22. Moving Average Model — MA
+# 19. MA Model — Moving Average
 
 The MA model uses previous forecast errors.
 
@@ -580,26 +542,44 @@ MA(q):
 ```text
 Y(t) =
 c
-+ ε(t)
-+ θ1ε(t-1)
-+ θ2ε(t-2)
-+ ...
-+ θqε(t-q)
++
+ε(t)
++
+θ1ε(t-1)
++
+θ2ε(t-2)
++
+...
++
+θqε(t-q)
 ```
 
 Where:
 
-* `q` = number of previous errors
-* `θ` = MA coefficients
-* `ε(t)` = current error
+```text
+q = Number of previous errors
+θ = Model coefficients
+ε(t) = Error
+```
 
 Important:
 
-> MA in time-series modeling is different from a simple moving average used for smoothing.
+> MA in ARIMA is different from a simple moving-average smoothing method.
 
 ---
 
-# 23. ARMA
+# 20. AR vs MA
+
+| AR                                | MA                               |
+| --------------------------------- | -------------------------------- |
+| Uses previous observations        | Uses previous errors             |
+| AR(p)                             | MA(q)                            |
+| Uses lagged Y values              | Uses lagged residuals/errors     |
+| PACF is useful for identification | ACF is useful for identification |
+
+---
+
+# 21. ARMA Model
 
 ARMA combines:
 
@@ -614,20 +594,27 @@ ARMA(p,q):
 ```text
 Y(t) =
 c
-+ φ1Y(t-1)
-+ ...
-+ φpY(t-p)
-+ ε(t)
-+ θ1ε(t-1)
-+ ...
-+ θqε(t-q)
++
+φ1Y(t-1)
++
+...
++
+φpY(t-p)
++
+ε(t)
++
+θ1ε(t-1)
++
+...
++
+θqε(t-q)
 ```
 
-ARMA is generally applied to stationary time series.
+ARMA is generally used for stationary time series.
 
 ---
 
-# 24. ARIMA
+# 22. ARIMA Model
 
 ARIMA stands for:
 
@@ -637,7 +624,7 @@ Integrated
 Moving Average
 ```
 
-Notation:
+Written as:
 
 ```text
 ARIMA(p,d,q)
@@ -653,15 +640,7 @@ q = MA order
 
 ---
 
-# 25. Meaning of ARIMA Parameters
-
-```text
-ARIMA(p,d,q)
-       │ │ │
-       │ │ └── MA order
-       │ └──── Differencing order
-       └────── AR order
-```
+# 23. Meaning of ARIMA Parameters
 
 Example:
 
@@ -669,21 +648,58 @@ Example:
 ARIMA(2,1,1)
 ```
 
-means:
+Means:
 
 ```text
 p = 2
+→ Two AR terms
+
 d = 1
+→ First-order differencing
+
 q = 1
+→ One MA term
 ```
 
 ---
 
-# 26. ARIMA Concept
+# 24. ARIMA Workflow
 
-ARIMA handles non-stationary data by applying differencing.
+```text
+Original Time Series
+        ↓
+Check Stationarity
+        ↓
+Differencing
+        ↓
+Stationary Series
+        ↓
+ACF / PACF
+        ↓
+Select p and q
+        ↓
+Fit ARIMA
+        ↓
+Check Residuals
+        ↓
+Forecast
+```
 
-General workflow:
+---
+
+# 25. ARIMA Equation Concept
+
+ARIMA applies ARMA modeling to a differenced series.
+
+If:
+
+```text
+W(t) = Δ^d Y(t)
+```
+
+then ARMA can be applied to `W(t)`.
+
+Conceptually:
 
 ```text
 Original Series
@@ -693,45 +709,17 @@ Differencing
 Stationary Series
       ↓
 AR + MA
-      ↓
-Forecast
 ```
 
 ---
 
-# 27. Differencing
-
-First-order differencing:
-
-```text
-Y'(t) = Y(t) - Y(t-1)
-```
-
-Example:
-
-```text
-Original:
-100 → 110 → 125 → 140
-
-First Difference:
-10 → 15 → 15
-```
-
-If one difference makes the series appropriately stationary:
-
-```text
-d = 1
-```
-
----
-
-# 28. ARIMA in Python
+# 26. ARIMA in Python
 
 ```python
 from statsmodels.tsa.arima.model import ARIMA
 
 model = ARIMA(
-    train,
+    train["sales"],
     order=(2, 1, 1)
 )
 
@@ -744,99 +732,112 @@ forecast = fit.forecast(
 
 ---
 
-# 29. Choosing AR Order
+# 27. How to Select ARIMA p, d, q
 
-ACF and PACF can provide initial guidance.
+### `d`
 
-For an AR process:
+Determine using:
 
-```text
-ACF  → tails off
-PACF → cuts off around p
-```
+* Stationarity tests
+* Visual inspection
+* Amount of differencing required
 
-Example:
+### `p`
 
-```text
-PACF:
+PACF can provide diagnostic information.
 
-Lag 1 → Significant
-Lag 2 → Significant
-Lag 3 → Insignificant
-Lag 4 → Insignificant
-```
+### `q`
 
-Possible starting point:
+ACF can provide diagnostic information.
+
+Then compare candidate models using:
 
 ```text
-p = 2
-```
-
-ACF/PACF are diagnostic guides, not absolute rules.
-
----
-
-# 30. Choosing MA Order
-
-For an MA process:
-
-```text
-ACF  → cuts off around q
-PACF → tails off
-```
-
-Example:
-
-```text
-ACF:
-
-Lag 1 → Significant
-Lag 2 → Significant
-Lag 3 → Insignificant
-```
-
-Possible starting point:
-
-```text
-q = 2
+AIC
+BIC
+Validation Error
+Residual Diagnostics
 ```
 
 ---
 
-# 31. Choosing Differencing Order
+# 28. AIC
 
-`d` represents the number of regular differences.
+AIC means:
 
-Workflow:
+**Akaike Information Criterion**
+
+It balances:
 
 ```text
-Original Series
-      ↓
-Check Stationarity
-      ↓
-Non-Stationary?
-      ↓
-First Difference
-      ↓
-Check Again
-      ↓
-Repeat only if necessary
+Model Fit
++
+Model Complexity
 ```
 
-Avoid unnecessary differencing because excessive differencing can introduce additional noise and make the model harder to interpret.
+General form:
+
+```text
+AIC = 2k - 2ln(L)
+```
+
+Where:
+
+```text
+k = Number of estimated parameters
+L = Maximum likelihood
+```
+
+Lower AIC is generally preferred when comparing models fit to the same data and objective.
 
 ---
 
-# 32. SARIMA
+# 29. BIC
 
-SARIMA stands for:
+BIC means:
+
+**Bayesian Information Criterion**
+
+General form:
 
 ```text
-Seasonal AutoRegressive
-Integrated Moving Average
+BIC =
+k ln(n)
+-
+2ln(L)
 ```
 
-Notation:
+Where:
+
+```text
+k = Number of parameters
+n = Number of observations
+L = Maximum likelihood
+```
+
+BIC generally penalizes model complexity more strongly than AIC.
+
+Lower BIC is generally preferred.
+
+---
+
+# 30. AIC vs BIC
+
+| AIC                                       | BIC                         |
+| ----------------------------------------- | --------------------------- |
+| Penalizes complexity                      | Stronger complexity penalty |
+| Often favors slightly more complex models | Often favors simpler models |
+| Useful for model comparison               | Useful for model comparison |
+
+Neither should replace out-of-sample validation.
+
+---
+
+# 31. SARIMA
+
+SARIMA extends ARIMA to handle seasonality.
+
+Written as:
 
 ```text
 SARIMA(p,d,q)(P,D,Q,m)
@@ -845,101 +846,74 @@ SARIMA(p,d,q)(P,D,Q,m)
 Where:
 
 ```text
-p = non-seasonal AR order
-d = non-seasonal differencing
-q = non-seasonal MA order
+p = Non-seasonal AR order
+d = Non-seasonal differencing
+q = Non-seasonal MA order
 
-P = seasonal AR order
-D = seasonal differencing
-Q = seasonal MA order
-
-m = seasonal period
+P = Seasonal AR order
+D = Seasonal differencing
+Q = Seasonal MA order
+m = Seasonal period
 ```
 
 ---
 
-# 33. Example of SARIMA
-
-For monthly data with yearly seasonality:
+# 32. Example SARIMA
 
 ```text
 SARIMA(1,1,1)(1,1,1,12)
+```
+
+For monthly data:
+
+```text
+m = 12
 ```
 
 Meaning:
 
 ```text
 Non-seasonal:
-p = 1
-d = 1
-q = 1
+AR = 1
+Differencing = 1
+MA = 1
 
 Seasonal:
-P = 1
-D = 1
-Q = 1
-
-Seasonal Period:
-m = 12
+AR = 1
+Differencing = 1
+MA = 1
+Seasonal period = 12
 ```
 
 ---
 
-# 34. Why SARIMA?
+# 33. Seasonal Differencing in SARIMA
 
-Use SARIMA when the series has:
+Seasonal differencing:
 
 ```text
-Non-seasonal dynamics
-+
-Seasonal dynamics
+Y'(t) =
+Y(t) - Y(t-m)
 ```
 
-Example:
+For monthly yearly seasonality:
 
 ```text
-Monthly Sales
-+
-Yearly Seasonality
-+
-Trend
+Y'(t) =
+Y(t) - Y(t-12)
 ```
 
 ---
 
-# 35. SARIMA Workflow
-
-```text
-Time Series
-     ↓
-EDA
-     ↓
-Identify Seasonality
-     ↓
-Check Stationarity
-     ↓
-Regular Differencing
-     ↓
-Seasonal Differencing
-     ↓
-ACF / PACF
-     ↓
-Candidate SARIMA Models
-     ↓
-Validation
-     ↓
-Final Model
-```
-
----
-
-# 36. SARIMA in Python
+# 34. SARIMA in Python
 
 ```python
-from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.statespace.sarimax import (
+    SARIMAX
+)
 
 model = SARIMAX(
-    train,
+    train["sales"],
     order=(1, 1, 1),
     seasonal_order=(1, 1, 1, 12)
 )
@@ -955,613 +929,679 @@ forecast = fit.forecast(
 
 ---
 
-# 37. SARIMAX
+# 35. SARIMAX
 
-SARIMAX stands for:
+SARIMAX means:
 
 ```text
-Seasonal ARIMA
+SARIMA
 +
 Exogenous Variables
 ```
 
-It allows external variables to influence the forecast.
+It can incorporate external variables.
 
 Example:
 
 ```text
-                 ┌── Price
-                 │
-Sales Forecast ←─┼── Promotion
-                 │
-                 ├── Holiday
-                 │
-                 └── Weather
+Sales
+  ↑
+  ├── Historical Sales
+  ├── Seasonality
+  ├── Price
+  ├── Promotion
+  └── Holiday
 ```
 
 ---
 
-# 38. Exogenous Variables
+# 36. SARIMAX Example
 
-Exogenous variables are external predictors.
-
-Examples:
-
-### Demand Forecasting
+Suppose:
 
 ```text
+Target:
+Sales
+
+Exogenous variables:
 Price
-Discount
 Promotion
-Holiday
-Weather
-```
-
-### Energy Forecasting
-
-```text
 Temperature
-Humidity
-Wind Speed
 ```
 
-### Financial Forecasting
-
-```text
-Interest Rate
-Exchange Rate
-Economic Indicators
-```
-
----
-
-# 39. SARIMAX Example
+Python:
 
 ```python
 model = SARIMAX(
     train["sales"],
-    exog=train[["price", "promotion"]],
+    exog=train[
+        ["price", "promotion", "temperature"]
+    ],
     order=(1, 1, 1),
     seasonal_order=(1, 1, 1, 12)
 )
-
-fit = model.fit()
-
-forecast = fit.get_forecast(
-    steps=len(test),
-    exog=test[["price", "promotion"]]
-)
 ```
 
-Important:
-
-> Future values of exogenous variables must be known or separately forecasted.
+For future forecasting, future values of the exogenous variables generally need to be known or forecasted.
 
 ---
 
-# 40. ARIMA vs SARIMA vs SARIMAX
+# 37. SARIMA vs SARIMAX
 
-| Model   | Non-Seasonal Dynamics | Seasonality                    | External Variables |
-| ------- | --------------------- | ------------------------------ | ------------------ |
-| ARIMA   | Yes                   | No explicit seasonal structure | No                 |
-| SARIMA  | Yes                   | Yes                            | No                 |
-| SARIMAX | Yes                   | Yes                            | Yes                |
+| SARIMA                 | SARIMAX                                     |
+| ---------------------- | ------------------------------------------- |
+| Uses historical target | Uses historical target + external variables |
+| Univariate             | Can incorporate exogenous variables         |
+| No external regressors | Supports external regressors                |
 
 ---
 
-# 41. VAR
+# 38. VAR — Vector Autoregression
 
-VAR stands for:
+VAR is used for multivariate time series.
 
-```text
-Vector Autoregression
-```
-
-It is used when multiple time series influence one another.
-
-Example:
+Suppose we have:
 
 ```text
 Sales
 Price
-Advertising
+Production
 ```
 
-These variables may influence each other over time.
-
-Instead of modeling:
-
-```text
-Sales
-```
-
-alone, VAR models multiple variables jointly.
-
----
-
-# 42. VAR Concept
-
-For multiple variables:
-
-```text
-Y(t) =
-A1Y(t-1)
-+ A2Y(t-2)
-+ ...
-+ ApY(t-p)
-+ ε(t)
-```
-
-Here `Y(t)` is a vector containing multiple time series.
-
-Example:
-
-```text
-Y(t) =
-[
-    Sales
-    Price
-]
-```
-
----
-
-# 43. When to Use VAR
-
-Use VAR when:
-
-* Multiple time series are available
-* Variables may influence one another
-* Variables need to be modeled jointly
-* The data satisfies the assumptions/transformations required by the VAR model
-
-Example:
-
-```text
-Sales
-Price
-Advertising
-```
-
----
-
-# 44. Prophet
-
-Prophet is a forecasting framework designed for business time series.
-
-It can model:
-
-* Trend
-* Seasonality
-* Holidays
-* Special events
-* External regressors
-* Missing observations
+VAR allows each variable to depend on lagged values of all variables.
 
 Conceptually:
 
 ```text
-y(t) = g(t) + s(t) + h(t) + ε(t)
+Sales(t)
+   ↑
+Sales(t-1)
+Price(t-1)
+Production(t-1)
 ```
 
-Where:
+And:
 
 ```text
-g(t) = Trend
-s(t) = Seasonality
-h(t) = Holiday Effects
-ε(t) = Error
+Price(t)
+   ↑
+Sales(t-1)
+Price(t-1)
+Production(t-1)
 ```
 
 ---
 
-# 45. Prophet Components
+# 39. When to Use VAR
+
+Use VAR when:
+
+* Multiple time-series variables exist
+* Variables may influence each other
+* Relationships among variables are important
+
+Examples:
 
 ```text
-Prophet
-│
-├── Trend
-├── Seasonality
-├── Holiday Effects
-└── Error
+GDP
+Inflation
+Interest Rate
 ```
 
-Prophet can automatically model common:
+or:
 
 ```text
-Daily Seasonality
-Weekly Seasonality
-Yearly Seasonality
+Sales
+Price
+Production
 ```
 
 ---
 
-# 46. Prophet Data Format
+# 40. Machine Learning for Forecasting
 
-Prophet generally expects two columns:
-
-```text
-ds
-y
-```
+Time-series forecasting can also be converted into a supervised-learning problem.
 
 Example:
-
-| ds         |   y |
-| ---------- | --: |
-| 2025-01-01 | 100 |
-| 2025-01-02 | 105 |
-| 2025-01-03 | 110 |
-
-Where:
-
-```text
-ds = Date/Time
-y  = Target
-```
-
----
-
-# 47. Prophet Example
-
-```python
-from prophet import Prophet
-
-model = Prophet(
-    yearly_seasonality=True,
-    weekly_seasonality=True
-)
-
-model.fit(train)
-
-future = model.make_future_dataframe(
-    periods=30
-)
-
-forecast = model.predict(
-    future
-)
-```
-
----
-
-# 48. Prophet vs ARIMA
-
-| Feature          | ARIMA                                | Prophet             |
-| ---------------- | ------------------------------------ | ------------------- |
-| Autocorrelation  | Strong focus                         | Less direct focus   |
-| Trend            | Through model structure/differencing | Explicit trend      |
-| Seasonality      | SARIMA extension                     | Built-in components |
-| Holidays         | External setup                       | Built-in support    |
-| Missing dates    | More sensitive                       | More flexible       |
-| Interpretability | Statistical                          | Component-based     |
-
-Neither model is universally better.
-
-Model selection should be based on validation performance and business requirements.
-
----
-
-# 49. Machine Learning for Time Series
-
-Traditional ML models can be used for forecasting by converting time-series data into supervised learning data.
-
-Original:
-
-```text
-Time → Sales
-```
-
-Transform into:
 
 ```text
 Features:
-
-Lag_1
-Lag_2
-Lag_3
-Rolling_Mean
-Month
-Day_of_Week
-Holiday
+lag_1
+lag_7
+lag_14
+rolling_mean_7
+month
+day_of_week
+promotion
 
 Target:
+sales(t)
+```
 
-Sales
+Then use:
+
+```text
+Linear Regression
+Random Forest
+XGBoost
+LightGBM
+CatBoost
 ```
 
 ---
 
-# 50. Lag Features
-
-Lag features represent previous observations.
-
-```python
-df["lag_1"] = df["sales"].shift(1)
-df["lag_7"] = df["sales"].shift(7)
-df["lag_12"] = df["sales"].shift(12)
-```
-
-For daily data:
+# 41. Machine Learning Forecasting Pipeline
 
 ```text
-lag_1
-→ Yesterday
-
-lag_7
-→ Same weekday last week
-```
-
-For monthly data:
-
-```text
-lag_12
-→ Same month last year
+Time Series
+    ↓
+Feature Engineering
+    ↓
+Lag Features
+    ↓
+Rolling Features
+    ↓
+Calendar Features
+    ↓
+External Variables
+    ↓
+Train/Test Split
+    ↓
+ML Model
+    ↓
+Forecast
 ```
 
 ---
 
-# 51. Rolling Features
-
-Rolling statistics capture local patterns.
-
-```python
-df["rolling_mean_7"] = (
-    df["sales"]
-    .shift(1)
-    .rolling(7)
-    .mean()
-)
-
-df["rolling_std_7"] = (
-    df["sales"]
-    .shift(1)
-    .rolling(7)
-    .std()
-)
-```
-
-Important:
-
-> Shift before calculating the rolling feature when predicting the current observation, so the feature does not include the target's actual value.
-
----
-
-# 52. Calendar Features
-
-Useful calendar features include:
-
-```text
-Year
-Month
-Quarter
-Week
-Day
-Day of Week
-Weekend
-Holiday
-Financial Year
-```
+# 42. Linear Regression for Forecasting
 
 Example:
 
+```text
+Sales(t) =
+β0
++
+β1 Sales(t-1)
++
+β2 Sales(t-7)
++
+β3 Promotion(t)
++
+β4 Price(t)
++
+ε(t)
+```
+
+Python:
+
 ```python
-df["month"] = df.index.month
-df["quarter"] = df.index.quarter
-df["day_of_week"] = df.index.dayofweek
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+
+model.fit(
+    X_train,
+    y_train
+)
 ```
 
 ---
 
-# 53. Cyclical Encoding
+# 43. Tree-Based Models
 
-Calendar variables such as month and day-of-week are cyclical.
-
-For month:
+Common models:
 
 ```text
-Month_Sin = sin(2π × Month / 12)
-
-Month_Cos = cos(2π × Month / 12)
+Decision Tree
+Random Forest
+XGBoost
+LightGBM
+CatBoost
 ```
 
-This helps the model understand:
-
-```text
-December → January
-```
-
-as neighboring points in a cycle.
-
----
-
-# 54. ML Forecasting Pipeline
-
-```text
-Raw Time Series
-      ↓
-Create Lag Features
-      ↓
-Create Rolling Features
-      ↓
-Create Calendar Features
-      ↓
-Add External Variables
-      ↓
-Time-Based Split
-      ↓
-Train ML Model
-      ↓
-Forecast
-      ↓
-Evaluate
-```
-
----
-
-# 55. XGBoost for Forecasting
-
-XGBoost can model nonlinear relationships among:
+They can learn nonlinear relationships between:
 
 ```text
 Lag Features
-Rolling Features
 Calendar Features
 External Variables
 ```
 
+and the target.
+
+---
+
+# 44. XGBoost for Forecasting
+
+XGBoost does not inherently understand temporal order.
+
+Therefore, create time-based features.
+
 Example:
 
-```python
-from xgboost import XGBRegressor
-
-model = XGBRegressor(
-    n_estimators=500,
-    learning_rate=0.05,
-    max_depth=6
-)
-
-model.fit(
-    X_train,
-    y_train
-)
-
-pred = model.predict(
-    X_test
-)
+```text
+lag_1
+lag_7
+lag_28
+rolling_mean_7
+rolling_mean_28
+month
+day_of_week
+holiday
+promotion
 ```
+
+Then train XGBoost as a supervised-learning model.
 
 ---
 
-# 56. Random Forest for Forecasting
+# 45. Important Difference
 
-Random Forest can also be used after converting the time series into supervised learning data.
-
-```python
-from sklearn.ensemble import RandomForestRegressor
-
-model = RandomForestRegressor(
-    n_estimators=300,
-    random_state=42
-)
-
-model.fit(
-    X_train,
-    y_train
-)
-
-pred = model.predict(
-    X_test
-)
-```
-
-Random Forest does not inherently understand temporal order.
-
-Temporal information must be encoded through:
+Statistical models such as:
 
 ```text
-Lag Features
-Rolling Features
-Calendar Features
+ARIMA
+SARIMA
 ```
 
----
+explicitly model temporal dependence.
 
-# 57. Statistical vs ML Forecasting
-
-| Feature                 | Statistical Models | ML Models       |
-| ----------------------- | ------------------ | --------------- |
-| Autocorrelation         | Explicit           | Feature-based   |
-| External Variables      | SARIMAX            | Easy            |
-| Nonlinear Relationships | Limited            | Strong          |
-| Feature Engineering     | Lower              | Higher          |
-| Large Feature Sets      | Limited            | Strong          |
-| Interpretability        | Often strong       | Model-dependent |
-| Complex Interactions    | Limited            | Strong          |
-
----
-
-# 58. Deep Learning Forecasting
-
-Common deep-learning models:
+Machine-learning models such as:
 
 ```text
-RNN
-LSTM
-GRU
-Transformer
-Temporal CNN
+XGBoost
+Random Forest
 ```
 
-These models can be useful for:
-
-* Large datasets
-* Complex temporal relationships
-* Nonlinear patterns
-* Multiple interacting features
-* Long sequences
-
-However:
-
-> Deep learning is not automatically better than classical forecasting models.
+learn temporal patterns indirectly through engineered features.
 
 ---
 
-# 59. LSTM Forecasting
+# 46. LSTM
 
-LSTM can learn temporal dependencies.
+LSTM stands for:
+
+**Long Short-Term Memory**
+
+It is a type of Recurrent Neural Network.
+
+LSTM is designed to learn dependencies over sequences.
 
 Conceptually:
 
 ```text
-Previous Observations
-        ↓
-      LSTM
-        ↓
-    Prediction
+Past Sequence
+     ↓
+LSTM
+     ↓
+Future Prediction
+```
+
+---
+
+# 47. LSTM Architecture
+
+An LSTM contains:
+
+```text
+Forget Gate
+Input Gate
+Output Gate
+Cell State
+Hidden State
+```
+
+The gates control information flow through the network.
+
+---
+
+# 48. Why LSTM for Time Series?
+
+LSTM can model:
+
+* Nonlinear relationships
+* Sequential dependencies
+* Complex temporal patterns
+* Long-term dependencies
+
+But:
+
+> LSTM is not automatically better than statistical or tree-based models.
+
+For smaller datasets, classical models or gradient boosting can often be more effective.
+
+---
+
+# 49. GRU
+
+GRU stands for:
+
+**Gated Recurrent Unit**
+
+GRU is another recurrent neural-network architecture.
+
+Compared with LSTM, GRU has a simpler architecture.
+
+Common gates:
+
+```text
+Update Gate
+Reset Gate
+```
+
+GRU can be faster and use fewer parameters than an equivalent LSTM in some situations.
+
+---
+
+# 50. LSTM vs GRU
+
+| LSTM                        | GRU                              |
+| --------------------------- | -------------------------------- |
+| More complex                | Simpler                          |
+| More gates                  | Fewer gates                      |
+| More parameters             | Fewer parameters                 |
+| Can model long dependencies | Can also model long dependencies |
+| Potentially slower          | Often faster                     |
+
+Actual performance depends on the dataset and architecture.
+
+---
+
+# 51. Transformer for Time Series
+
+Transformers use attention mechanisms to model relationships between different positions in a sequence.
+
+Conceptually:
+
+```text
+Time 1 ─┐
+Time 2 ─┤
+Time 3 ─┼──→ Attention → Forecast
+Time 4 ─┤
+Time 5 ─┘
+```
+
+Advantages can include:
+
+* Parallel processing during training
+* Modeling long-range relationships
+* Flexible multivariate inputs
+
+They can be computationally expensive and require sufficient data and careful validation.
+
+---
+
+# 52. Statistical vs ML vs Deep Learning
+
+| Approach              | Examples               | Strength                         |
+| --------------------- | ---------------------- | -------------------------------- |
+| Statistical           | ARIMA, SARIMA          | Interpretable temporal structure |
+| Exponential Smoothing | Holt-Winters           | Trend + seasonality              |
+| ML                    | XGBoost, Random Forest | Nonlinear feature relationships  |
+| Deep Learning         | LSTM, GRU              | Complex sequential patterns      |
+| Transformer           | Temporal Transformers  | Long-range dependencies          |
+
+---
+
+# 53. Choosing a Forecasting Model
+
+A practical approach:
+
+```text
+Start
+  ↓
+Naive / Seasonal Naive
+  ↓
+Exponential Smoothing
+  ↓
+ARIMA / SARIMA / SARIMAX
+  ↓
+Machine Learning
+  ↓
+Deep Learning
+```
+
+Do not automatically choose the most complex model.
+
+Choose based on:
+
+```text
+Data Size
+Seasonality
+Trend
+External Variables
+Forecast Horizon
+Interpretability
+Latency
+Computational Cost
+Business Requirements
+Validation Performance
+```
+
+---
+
+# 54. Model Selection Example
+
+### Case 1
+
+Small dataset:
+
+```text
+500 observations
+Strong seasonality
+```
+
+Possible starting models:
+
+```text
+Seasonal Naive
+Holt-Winters
+SARIMA
+```
+
+### Case 2
+
+Large dataset:
+
+```text
+Millions of observations
+Many external variables
+Complex nonlinear relationships
+```
+
+Possible candidates:
+
+```text
+XGBoost
+LightGBM
+Deep Learning
+```
+
+---
+
+# 55. Forecasting Workflow
+
+```text
+Business Problem
+      ↓
+Understand Data
+      ↓
+Define Forecast Horizon
+      ↓
+EDA
+      ↓
+Trend / Seasonality
+      ↓
+Stationarity
+      ↓
+Baseline
+      ↓
+Feature Engineering
+      ↓
+Candidate Models
+      ↓
+Time-Based Validation
+      ↓
+Hyperparameter Tuning
+      ↓
+Residual Diagnostics
+      ↓
+Final Model
+      ↓
+Forecast
+      ↓
+Monitoring
+```
+
+---
+
+# 56. Model Evaluation
+
+Important metrics:
+
+```text
+MAE
+RMSE
+MAPE
+WAPE
+MASE
+sMAPE
 ```
 
 Example:
 
-```text
-[100, 105, 110, 120, 125]
-              ↓
-            LSTM
-              ↓
-            130
-```
+```python
+from sklearn.metrics import (
+    mean_absolute_error,
+    mean_squared_error
+)
 
-LSTM is more appropriate when the data volume and problem complexity justify deep learning.
+mae = mean_absolute_error(
+    y_test,
+    forecast
+)
+
+rmse = mean_squared_error(
+    y_test,
+    forecast
+) ** 0.5
+```
 
 ---
 
-# 60. Direct vs Recursive Forecasting
+# 57. Residual Diagnostics
 
-Suppose we need:
+After fitting a model:
+
+```text
+Actual
+  ↓
+Forecast
+  ↓
+Residuals
+```
+
+Residuals should ideally have:
+
+```text
+Mean ≈ 0
+No trend
+No seasonality
+No significant autocorrelation
+Stable variance
+```
+
+---
+
+# 58. Residual ACF
+
+Plotting ACF of residuals can reveal remaining temporal structure.
+
+If residual ACF shows significant autocorrelation:
+
+```text
+Residuals
+    ↓
+Pattern remains
+    ↓
+Model may be missing information
+```
+
+A good model should leave residuals approximately uncorrelated.
+
+---
+
+# 59. Ljung-Box Test
+
+The Ljung-Box test checks whether autocorrelations in a series are jointly significant up to specified lags.
+
+Typical null hypothesis:
+
+```text
+H0:
+No autocorrelation up to the tested lags
+```
+
+A small p-value provides evidence against this null.
+
+Python:
+
+```python
+from statsmodels.stats.diagnostic import acorr_ljungbox
+
+result = acorr_ljungbox(
+    residuals,
+    lags=[10],
+    return_df=True
+)
+```
+
+---
+
+# 60. Confidence vs Prediction Intervals
+
+### Confidence Interval
+
+Represents uncertainty around an estimated quantity such as the mean forecast.
+
+### Prediction Interval
+
+Represents uncertainty around a future observation.
+
+Prediction intervals are generally wider because they include both:
+
+```text
+Parameter / forecast uncertainty
++
+Future observation noise
+```
+
+For forecasting, prediction intervals are often the more relevant concept.
+
+---
+
+# 61. Multi-Step Forecasting
+
+There are three common approaches:
+
+```text
+1. Recursive
+2. Direct
+3. Multi-output
+```
+
+### Recursive
 
 ```text
 t+1
+ ↓
 t+2
+ ↓
 t+3
 ```
 
-## Recursive Forecasting
-
-```text
-Predict t+1
-    ↓
-Use t+1 prediction
-    ↓
-Predict t+2
-    ↓
-Use t+2 prediction
-    ↓
-Predict t+3
-```
-
-## Direct Forecasting
-
-Train separate models:
+### Direct
 
 ```text
 Model 1 → t+1
@@ -1569,1154 +1609,242 @@ Model 2 → t+2
 Model 3 → t+3
 ```
 
----
-
-# 61. Recursive Forecasting
-
-Advantages:
-
-* One model
-* Simple implementation
-
-Disadvantages:
-
-* Errors can accumulate
-* Later predictions depend on earlier predictions
+### Multi-output
 
 ```text
-Error at t+1
-      ↓
-Affects t+2
-      ↓
-Affects t+3
-      ↓
-Potentially larger forecast error
+One model
+    ↓
+t+1, t+2, t+3
 ```
 
 ---
 
-# 62. Direct Forecasting
+# 62. Forecasting Example — Demand
 
-Advantages:
+Suppose we need to forecast milk demand.
 
-* Avoids recursive error propagation
-* Each forecast horizon can have its own model
-
-Disadvantages:
-
-* Requires multiple models
-* More computationally expensive
-* More maintenance
-* Different horizons may learn different relationships
-
----
-
-# 63. Multi-Step Forecasting
-
-Common approaches:
+Available data:
 
 ```text
-Recursive
-Direct
-Direct-Recursive
-Multi-Output
+Historical Demand
+Price
+Promotion
+Holiday
+Temperature
+Day of Week
 ```
 
-Choice depends on:
+Feature engineering:
 
-* Forecast horizon
-* Data size
-* Model type
-* Error propagation
-* Computational resources
+```text
+lag_1
+lag_7
+lag_14
+lag_28
+rolling_mean_7
+rolling_mean_28
+day_of_week
+month
+holiday
+price
+promotion
+temperature
+```
 
----
+Candidate models:
 
-# 64. Forecast Evaluation
+```text
+Seasonal Naive
+Holt-Winters
+SARIMAX
+XGBoost
+LSTM
+```
 
-Common forecasting metrics:
+Evaluate using:
 
 ```text
 MAE
-MSE
 RMSE
-MAPE
-sMAPE
 WAPE
 MASE
 ```
 
 ---
 
-# 65. MAE
+# 63. Interview Question — Explain ARIMA
 
-Mean Absolute Error:
+A strong answer:
 
-```text
-MAE = (1/n) × Σ|yᵢ - ŷᵢ|
-```
-
-Where:
-
-```text
-yᵢ  = Actual value
-ŷᵢ  = Forecast value
-n   = Number of observations
-```
-
-Advantages:
-
-* Easy to interpret
-* Same units as target
-* Less sensitive to large errors than MSE/RMSE
+> ARIMA stands for AutoRegressive Integrated Moving Average. It is represented as ARIMA(p,d,q), where p represents the autoregressive order, d represents the number of differences applied to achieve stationarity, and q represents the moving-average error order. I first analyze stationarity, determine appropriate differencing, use ACF and PACF as diagnostics for candidate orders, fit the model, validate it using time-based data, and then check residuals before using it for forecasting.
 
 ---
 
-# 66. MSE
+# 64. Interview Question — Explain SARIMA
 
-Mean Squared Error:
-
-```text
-MSE = (1/n) × Σ(yᵢ - ŷᵢ)²
-```
-
-Large errors receive disproportionately higher penalties.
+> SARIMA extends ARIMA by adding seasonal autoregressive, differencing, and moving-average components. It is represented as SARIMA(p,d,q)(P,D,Q,m), where the second set represents the seasonal components and m represents the seasonal period.
 
 ---
 
-# 67. RMSE
+# 65. Interview Question — AR vs MA
 
-Root Mean Squared Error:
-
-```text
-RMSE = √[(1/n) × Σ(yᵢ - ŷᵢ)²]
-```
-
-Advantages:
-
-* Same units as target
-* Penalizes large errors more strongly than MAE
+> AR uses previous values of the time series, while MA uses previous forecast errors. In practice, PACF provides diagnostic information for AR order and ACF provides diagnostic information for MA order.
 
 ---
 
-# 68. MAPE
+# 66. Interview Question — ARIMA vs SARIMA
 
-Mean Absolute Percentage Error:
-
-```text
-MAPE = (100/n) × Σ |(yᵢ - ŷᵢ) / yᵢ|
-```
-
-Problem:
-
-> MAPE becomes problematic when actual values are zero or close to zero.
+> ARIMA models non-seasonal temporal patterns, while SARIMA extends ARIMA to explicitly model recurring seasonal patterns.
 
 ---
 
-# 69. sMAPE
+# 67. Interview Question — SARIMA vs SARIMAX
 
-Symmetric Mean Absolute Percentage Error:
-
-```text
-sMAPE =
-(100/n) × Σ
-[
-  |yᵢ - ŷᵢ|
-  /
-  ((|yᵢ| + |ŷᵢ|) / 2)
-]
-```
-
-It reduces some asymmetry issues of MAPE but still has limitations around zero.
+> SARIMAX extends SARIMA by allowing exogenous variables such as price, promotion, holidays, or weather to influence the forecast.
 
 ---
 
-# 70. WAPE
+# 68. Interview Question — Why XGBoost for Time Series?
 
-Weighted Absolute Percentage Error:
-
-```text
-WAPE =
-[Σ|yᵢ - ŷᵢ| / Σ|yᵢ|] × 100
-```
-
-Useful for aggregate demand and sales forecasting.
+> XGBoost can model nonlinear relationships between engineered temporal features such as lag values, rolling statistics, calendar variables, and external variables. However, XGBoost itself does not inherently understand chronological order, so the features and validation strategy must preserve temporal structure.
 
 ---
 
-# 71. MASE
+# 69. Interview Question — Why Not Always Use LSTM?
 
-Mean Absolute Scaled Error compares forecast error against a naive benchmark.
+A good answer:
+
+> LSTM can model complex sequential relationships, but it requires more data, computation, and tuning. For smaller datasets or problems with strong trend and seasonality, simpler models such as seasonal naive, exponential smoothing, SARIMA, or gradient boosting may perform equally well or better. I would select the model based on out-of-sample performance and business requirements rather than complexity.
+
+---
+
+# 70. Interview Question — How Do You Select the Final Model?
+
+> I start with simple baselines and then compare statistical, machine-learning, or deep-learning approaches depending on the data. I use chronological or walk-forward validation, select appropriate forecasting metrics, analyze residuals, consider computational and business requirements, and choose the simplest model that provides reliable out-of-sample performance.
+
+---
+
+# 71. Common Mistakes
+
+## Mistake 1 — Random Train-Test Split
 
 ```text
-MASE =
-MAE of Forecast
-----------------
-MAE of Naive Forecast
-```
+Wrong:
+Random Split
 
-Interpretation:
-
-```text
-MASE < 1
-→ Better than naive benchmark
-
-MASE = 1
-→ Same as naive benchmark
-
-MASE > 1
-→ Worse than naive benchmark
+Correct:
+Chronological Split
 ```
 
 ---
 
-# 72. Choosing Forecast Metrics
-
-| Situation                    | Useful Metrics        |
-| ---------------------------- | --------------------- |
-| General forecasting          | MAE, RMSE             |
-| Large errors are important   | RMSE                  |
-| Percentage interpretation    | MAPE                  |
-| Zeros present                | MAE, RMSE, WAPE, MASE |
-| Comparing different scales   | MASE                  |
-| Aggregate demand forecasting | WAPE, MASE            |
-
-No single metric is universally best.
-
----
-
-# 73. Time-Based Train-Test Split
-
-Never randomly shuffle ordinary time-series data for forecasting evaluation.
-
-Incorrect:
-
-```text
-Random Train/Test Split
-```
-
-Preferred:
-
-```text
-Past
- ↓
-Train
- ↓
-Validation
- ↓
-Test
- ↓
-Future
-```
-
-Example:
-
-```text
-2022 ───────── 2023 ───────── 2024 ───────── 2025
-|--------------|--------------|--------------|
-    Train          Validation       Test
-```
-
----
-
-# 74. Why Random Split Is Dangerous
-
-Suppose:
-
-```text
-Train:
-Jan 2024
-Mar 2024
-May 2024
-```
-
-Test:
-
-```text
-Feb 2024
-Apr 2024
-```
-
-The model can indirectly learn information from future observations.
-
-This creates:
-
-```text
-Temporal Leakage
-```
-
-and produces overly optimistic evaluation.
-
----
-
-# 75. Walk-Forward Validation
-
-Walk-forward validation repeatedly trains using historical observations and evaluates on future observations.
-
-```text
-Fold 1:
-Train → Test
-
-Fold 2:
-Train + New Data → Test
-
-Fold 3:
-More Historical Data → Test
-```
-
-This better simulates real forecasting.
-
----
-
-# 76. Expanding Window
-
-Example:
-
-```text
-Train:
-[1 2 3]
-Test:
-[4]
-
-Train:
-[1 2 3 4]
-Test:
-[5]
-
-Train:
-[1 2 3 4 5]
-Test:
-[6]
-```
-
-Training data continuously expands.
-
----
-
-# 77. Rolling Window
-
-Example:
-
-```text
-Train:
-[1 2 3]
-Test:
-[4]
-
-Train:
-[2 3 4]
-Test:
-[5]
-
-Train:
-[3 4 5]
-Test:
-[6]
-```
-
-The training window remains fixed.
-
-Useful when old observations become less representative of current behavior.
-
----
-
-# 78. TimeSeriesSplit
-
-Scikit-learn provides:
-
-```python
-from sklearn.model_selection import TimeSeriesSplit
-
-tscv = TimeSeriesSplit(
-    n_splits=5
-)
-```
-
-It creates sequential train/test splits.
-
-For real forecasting, custom walk-forward validation may be preferable when you need:
-
-```text
-Fixed Forecast Horizon
-Gap Between Train and Test
-Rolling Window
-Expanding Window
-```
-
----
-
-# 79. Forecast Intervals
-
-A point forecast provides one value:
-
-```text
-Forecast = 150
-```
-
-An interval forecast provides a range:
-
-```text
-95% Prediction Interval:
-[130, 172]
-```
-
-A prediction interval represents uncertainty around a future observation under the model's assumptions and interval construction.
-
----
-
-# 80. Point Forecast vs Interval Forecast
-
-### Point Forecast
-
-```text
-Ŷ(t+h)
-```
-
-### Interval Forecast
-
-```text
-[L(t+h), U(t+h)]
-```
-
-Where:
-
-```text
-L = Lower Bound
-U = Upper Bound
-```
-
-Business decisions often benefit from intervals rather than point forecasts alone.
-
----
-
-# 81. Forecast Bias
-
-Forecast bias measures systematic overprediction or underprediction.
-
-A simple mean signed error is:
-
-```text
-Bias = (1/n) × Σ(yᵢ - ŷᵢ)
-```
-
-Interpretation depends on the sign convention.
+## Mistake 2 — Data Leakage
 
 Using:
 
 ```text
-Actual - Forecast
+Future values
 ```
 
-then:
+to create:
 
 ```text
-Positive Bias
-→ Model tends to underestimate
-
-Negative Bias
-→ Model tends to overestimate
+Current features
 ```
+
+is leakage.
 
 ---
 
-# 82. Forecast Residuals
+## Mistake 3 — Ignoring Baselines
 
-Residual:
-
-```text
-e(t) = Y(t) - Ŷ(t)
-```
-
-Good residuals should ideally show:
-
-```text
-No obvious trend
-No obvious seasonality
-No significant autocorrelation
-Stable variance
-Mean close to zero
-```
-
-If residuals contain strong structure, the model may not have captured all available information.
-
----
-
-# 83. Residual Diagnostics
-
-Important diagnostics:
-
-```text
-Residual Plot
-ACF of Residuals
-Histogram
-Q-Q Plot
-Ljung-Box Test
-```
-
-### Ljung-Box Test
-
-Used to test whether residual autocorrelations are collectively significant.
-
-A good forecasting model should generally leave residuals that are approximately uncorrelated.
-
----
-
-# 84. Model Selection
-
-Do not select a forecasting model only because it has the lowest training error.
-
-Use:
-
-```text
-Business Understanding
-        ↓
-Baseline
-        ↓
-Candidate Models
-        ↓
-Time-Series Validation
-        ↓
-Forecast Metrics
-        ↓
-Residual Diagnostics
-        ↓
-Business Constraints
-        ↓
-Final Model
-```
-
----
-
-# 85. AIC
-
-AIC stands for:
-
-```text
-Akaike Information Criterion
-```
-
-AIC balances model fit and model complexity.
-
-Formula:
-
-```text
-AIC = 2k - 2ln(L)
-```
-
-Where:
-
-```text
-k = Number of estimated parameters
-L = Likelihood
-```
-
-Lower AIC is generally preferred when comparing suitable models fitted to the same data.
-
----
-
-# 86. BIC
-
-BIC stands for:
-
-```text
-Bayesian Information Criterion
-```
-
-Formula:
-
-```text
-BIC = k × ln(n) - 2ln(L)
-```
-
-Where:
-
-```text
-k = Number of parameters
-n = Number of observations
-L = Likelihood
-```
-
-BIC penalizes model complexity more strongly than AIC as sample size grows.
-
----
-
-# 87. AIC vs BIC
-
-| AIC                                 | BIC                         |
-| ----------------------------------- | --------------------------- |
-| Complexity penalty                  | Stronger complexity penalty |
-| Often favors predictive flexibility | Often favors simpler models |
-| Useful for model comparison         | Useful for model comparison |
-
-Important:
-
-> AIC and BIC should not replace proper out-of-sample forecasting validation.
-
----
-
-# 88. Forecasting Workflow — Interview Ready
-
-```text
-1. Understand Business Problem
-        ↓
-2. Define Forecast Horizon
-        ↓
-3. Prepare Time Index
-        ↓
-4. Handle Missing Values
-        ↓
-5. Explore Trend / Seasonality
-        ↓
-6. Build Naive Baseline
-        ↓
-7. Check Stationarity
-        ↓
-8. Create Candidate Models
-        ↓
-9. Time-Based Validation
-        ↓
-10. Compare Metrics
-        ↓
-11. Residual Diagnostics
-        ↓
-12. Select Final Model
-        ↓
-13. Retrain
-        ↓
-14. Forecast Future
-        ↓
-15. Monitor Performance
-```
-
----
-
-# 89. Practical Model Selection
-
-## No Trend, No Seasonality
+Always compare against:
 
 ```text
 Naive
-Simple Exponential Smoothing
-```
-
-## Trend, No Seasonality
-
-```text
-Holt
-ARIMA
-```
-
-## Trend + Seasonality
-
-```text
-Holt-Winters
-SARIMA
-Prophet
-```
-
-## External Variables
-
-```text
-SARIMAX
-XGBoost
-LightGBM
-```
-
-## Multiple Interacting Time Series
-
-```text
-VAR
-```
-
-## Complex Nonlinear Patterns + Large Dataset
-
-```text
-XGBoost
-LSTM
-Transformer
-```
-
-This is a starting point, not a rigid rule.
-
----
-
-# 90. Sales Forecasting Example
-
-Suppose a company wants to forecast monthly sales.
-
-Available data:
-
-```text
-Date
-Sales
-Price
-Promotion
-Holiday
-```
-
-Possible approach:
-
-```text
-Sales
- ↓
-EDA
- ↓
-Trend + Seasonality
- ↓
-Naive Baseline
- ↓
-SARIMA
- ↓
-SARIMAX
- ↓
-XGBoost
- ↓
-Compare
- ↓
-Select
-```
-
----
-
-# 91. Feature Engineering for Sales Forecasting
-
-Possible features:
-
-```text
-Lag 1
-Lag 3
-Lag 6
-Lag 12
-
-Rolling Mean 3
-Rolling Mean 6
-Rolling Mean 12
-
-Month
-Quarter
-Holiday
-Promotion
-Price
-```
-
-Example:
-
-```python
-df["lag_1"] = df["sales"].shift(1)
-df["lag_12"] = df["sales"].shift(12)
-
-df["rolling_3"] = (
-    df["sales"]
-    .shift(1)
-    .rolling(3)
-    .mean()
-)
-```
-
-Important:
-
-```text
-shift(1)
-```
-
-ensures the rolling feature uses only historical information when predicting the current period.
-
----
-
-# 92. Data Leakage in Forecasting
-
-Data leakage occurs when information unavailable at prediction time is used to create features or train the model.
-
-Bad:
-
-```python
-df["rolling_mean"] = (
-    df["sales"]
-    .rolling(7)
-    .mean()
-)
-```
-
-If used to predict the current value, this may include the current actual value.
-
-Better:
-
-```python
-df["rolling_mean"] = (
-    df["sales"]
-    .shift(1)
-    .rolling(7)
-    .mean()
-)
-```
-
----
-
-# 93. Forecasting with Known Future Variables
-
-Suppose:
-
-```text
-Sales ← Promotion
-```
-
-If future promotions are already planned, they can be used.
-
-If future promotions are unknown:
-
-```text
-Forecast Promotion
-        ↓
-Use Promotion Forecast
-        ↓
-Forecast Sales
-```
-
-Uncertainty in future exogenous variables adds uncertainty to the final sales forecast.
-
----
-
-# 94. Intermittent Demand
-
-Some products have many zero-demand periods.
-
-Example:
-
-```text
-0
-0
-5
-0
-0
-0
-10
-0
-```
-
-Examples:
-
-```text
-Spare Parts
-Slow-Moving Inventory
-Rare Product Sales
-```
-
-Standard forecasting approaches and metrics may perform poorly.
-
-Specialized methods include:
-
-```text
-Croston
-SBA
-TSB
-```
-
----
-
-# 95. Hierarchical Forecasting
-
-Forecasts can exist at multiple levels.
-
-Example:
-
-```text
-Company
-│
-├── Region
-│   ├── State
-│   │   ├── City
-│   │   └── City
-│   │
-│   └── State
-│
-└── Region
-```
-
-Forecasts should ideally be coherent across levels.
-
-Example:
-
-```text
-Total Sales
-=
-North Sales
-+
-South Sales
-+
-West Sales
-+
-East Sales
-```
-
-This is called:
-
-```text
-Hierarchical Forecasting
-```
-
-and forecast reconciliation can be used to make forecasts coherent.
-
----
-
-# 96. Univariate vs Multivariate Forecasting
-
-## Univariate
-
-Uses only historical values of the target.
-
-```text
-Sales → Sales Forecast
-```
-
-Examples:
-
-```text
-ARIMA
-SARIMA
-ETS
-```
-
-## Multivariate
-
-Uses multiple variables.
-
-```text
-Sales
-Price
-Promotion
-Weather
-Holiday
-```
-
-Examples:
-
-```text
-SARIMAX
-VAR
-XGBoost
-LSTM
-```
-
----
-
-# 97. ARIMA vs XGBoost — Interview Question
-
-### Question
-
-When would you prefer ARIMA over XGBoost?
-
-### Answer
-
-I would consider ARIMA when the forecasting problem is primarily driven by temporal autocorrelation and the dataset is relatively focused on the target series.
-
-I would consider XGBoost when I have multiple explanatory variables, nonlinear relationships, complex feature interactions, or a feature-rich dataset.
-
-The final choice should be based on time-series validation performance.
-
----
-
-# 98. ARIMA vs LSTM — Interview Question
-
-### Question
-
-Is LSTM always better than ARIMA?
-
-### Answer
-
-No.
-
-LSTM requires sufficient data and careful tuning. For smaller datasets or relatively simple temporal structures, ARIMA, SARIMA, or exponential smoothing can perform as well as or better than LSTM.
-
-Model selection should depend on:
-
-```text
-Data Size
-Pattern Complexity
-Validation Performance
-Forecast Horizon
-Computational Cost
-Interpretability
-```
-
----
-
-# 99. Why Is Naive Forecast Important?
-
-### Interview Answer
-
-A naive forecast provides a simple benchmark.
-
-If a complex model cannot consistently outperform a reasonable naive or seasonal-naive model on proper out-of-sample validation, the added complexity may not be justified.
-
----
-
-# 100. Why Can't We Use Random Train-Test Split?
-
-### Interview Answer
-
-Time-series observations are ordered.
-
-Random splitting can allow information from the future to enter the training set.
-
-This causes:
-
-```text
-Temporal Leakage
-```
-
-and results in overly optimistic performance estimates.
-
----
-
-# 101. What Is Walk-Forward Validation?
-
-### Interview Answer
-
-Walk-forward validation repeatedly trains a model using historical observations and evaluates it on future observations.
-
-The training window can either:
-
-```text
-Expand
-```
-
-or:
-
-```text
-Roll Forward
-```
-
-This better represents how the model will operate in production.
-
----
-
-# 102. What Is Forecast Horizon?
-
-The forecast horizon is the number of future periods being predicted.
-
-Example:
-
-```text
-Forecast next 12 months
-
-Forecast Horizon = 12
-```
-
----
-
-# 103. What Is Recursive Forecasting?
-
-The model predicts one future step and then uses that prediction as input for the next step.
-
-```text
-t+1 Prediction
-      ↓
-t+2 Prediction
-      ↓
-t+3 Prediction
-```
-
-Main problem:
-
-```text
-Prediction errors can accumulate.
-```
-
----
-
-# 104. What Is Direct Forecasting?
-
-A separate model is trained for each forecast horizon.
-
-```text
-Model 1 → t+1
-Model 2 → t+2
-Model 3 → t+3
-```
-
-Advantage:
-
-```text
-Reduced recursive error propagation
-```
-
-Disadvantage:
-
-```text
-More models
-More computation
-More maintenance
-```
-
----
-
-# 105. What Is SARIMAX?
-
-SARIMAX is:
-
-```text
-Seasonal ARIMA
-+
-Exogenous Variables
-```
-
-Example:
-
-```text
-Sales
- ↑
- ├── Historical Sales
- ├── Price
- ├── Promotion
- └── Holiday
-```
-
-It is useful when external variables contain information that improves the target forecast.
-
----
-
-# 106. What Is Seasonality Period?
-
-The seasonality period is the number of observations in one complete seasonal cycle.
-
-Examples:
-
-| Data Frequency |      Seasonal Period |
-| -------------- | -------------------: |
-| Hourly         |   24 for daily cycle |
-| Daily          |   7 for weekly cycle |
-| Weekly         | ~52 for yearly cycle |
-| Monthly        |  12 for yearly cycle |
-| Quarterly      |   4 for yearly cycle |
-
-Multiple seasonalities can exist.
-
-Example:
-
-```text
-Hourly Data
-├── Daily Seasonality = 24
-└── Weekly Seasonality = 168
-```
-
----
-
-# 107. Forecasting Model Cheat Sheet
-
-```text
-Naive
-→ Last observed value
-
 Seasonal Naive
-→ Same season from previous cycle
+```
 
-Simple Exponential Smoothing
+when appropriate.
+
+---
+
+## Mistake 4 — Over-Differencing
+
+Too much differencing can add unnecessary noise.
+
+---
+
+## Mistake 5 — Blind Outlier Removal
+
+An unusual observation may represent a real business event.
+
+---
+
+## Mistake 6 — Choosing Model Only by AIC
+
+AIC is useful for model comparison, but final selection should consider:
+
+```text
+Out-of-sample performance
+Residual diagnostics
+Business requirements
+```
+
+---
+
+## Mistake 7 — Using Future Exogenous Variables Without Availability
+
+For SARIMAX or ML models, ask:
+
+> Will the external variable be known when the forecast is generated?
+
+If not, it must itself be forecasted or otherwise handled appropriately.
+
+---
+
+# 72. Model Comparison
+
+| Model          | Trend                        | Seasonality      | External Variables | Main Use                      |
+| -------------- | ---------------------------- | ---------------- | ------------------ | ----------------------------- |
+| Naive          | No                           | No               | No                 | Baseline                      |
+| Seasonal Naive | No                           | Yes              | No                 | Seasonal baseline             |
+| Moving Average | Limited                      | Limited          | No                 | Smoothing                     |
+| SES            | Level                        | No               | No                 | Stable series                 |
+| Holt           | Yes                          | No               | No                 | Trend                         |
+| Holt-Winters   | Yes                          | Yes              | No                 | Trend + Seasonality           |
+| AR             | Yes/depends on specification | No               | No                 | Lag dependence                |
+| MA             | Error dependence             | No               | No                 | Error structure               |
+| ARIMA          | Yes after differencing       | No               | No                 | Non-seasonal series           |
+| SARIMA         | Yes                          | Yes              | No                 | Seasonal series               |
+| SARIMAX        | Yes                          | Yes              | Yes                | Seasonal + external variables |
+| VAR            | Yes/depends on model         | Not explicit     | Multivariate       | Interacting series            |
+| XGBoost        | Learned from features        | Through features | Yes                | Nonlinear forecasting         |
+| LSTM           | Learned                      | Learned          | Yes                | Complex sequences             |
+| GRU            | Learned                      | Learned          | Yes                | Sequential data               |
+| Transformer    | Learned                      | Learned          | Yes                | Long-range dependencies       |
+
+---
+
+# 73. Quick Revision
+
+```text
+NAIVE
+→ Last value
+
+SEASONAL NAIVE
+→ Previous seasonal value
+
+MOVING AVERAGE
+→ Average recent observations
+
+SES
 → Level
 
-Holt
+HOLT
 → Level + Trend
 
-Holt-Winters
+HOLT-WINTERS
 → Level + Trend + Seasonality
 
 AR
@@ -2740,207 +1868,188 @@ SARIMAX
 VAR
 → Multiple interacting time series
 
-Prophet
-→ Trend + Seasonality + Holidays
-
-XGBoost
-→ Lag + Rolling + Calendar + External Features
+XGBOOST
+→ Feature-based nonlinear forecasting
 
 LSTM
-→ Neural Sequence Modeling
+→ Recurrent deep-learning model
+
+GRU
+→ Simplified recurrent architecture
+
+TRANSFORMER
+→ Attention-based sequence modeling
 ```
 
 ---
 
-# 108. Complete Interview Revision Table
-
-| Model          | Trend                         | Seasonality                    | External Variables            | Stationarity                       |
-| -------------- | ----------------------------- | ------------------------------ | ----------------------------- | ---------------------------------- |
-| Naive          | Implicit                      | No                             | No                            | No                                 |
-| Seasonal Naive | Implicit                      | Yes                            | No                            | No                                 |
-| SES            | Level                         | No                             | No                            | No                                 |
-| Holt           | Yes                           | No                             | No                            | No                                 |
-| Holt-Winters   | Yes                           | Yes                            | No                            | No                                 |
-| AR             | Through dynamics              | Not explicit                   | No                            | Generally yes                      |
-| MA             | Through errors                | Not explicit                   | No                            | Generally yes                      |
-| ARMA           | Through dynamics              | Not explicit                   | No                            | Yes                                |
-| ARIMA          | Through differencing          | No explicit seasonal structure | No                            | Stationary after differencing      |
-| SARIMA         | Yes                           | Yes                            | No                            | Stationary representation          |
-| SARIMAX        | Yes                           | Yes                            | Yes                           | Stationary representation          |
-| VAR            | Through multivariate dynamics | Not inherently seasonal        | Multiple endogenous variables | Usually stationary or transformed  |
-| Prophet        | Yes                           | Yes                            | Regressors / holidays         | No strict stationarity requirement |
-| XGBoost        | Feature-based                 | Feature-based                  | Yes                           | No strict stationarity requirement |
-| LSTM           | Learned                       | Learned                        | Yes                           | No strict stationarity requirement |
-
----
-
-# 109. Important Formula Cheat Sheet
-
-## Naive
+# 74. ARIMA Parameter Cheat Sheet
 
 ```text
-Ŷ(t+1) = Y(t)
+ARIMA(p,d,q)
+
+p → AR order
+d → Differencing order
+q → MA order
 ```
 
-## Seasonal Naive
+Example:
 
 ```text
-Ŷ(t) = Y(t-m)
-```
+ARIMA(2,1,1)
 
-## Moving Average
-
-```text
-Ŷ(t+1)
-=
-[Y(t) + Y(t-1) + ... + Y(t-k+1)] / k
-```
-
-## Simple Exponential Smoothing
-
-```text
-S(t) = αY(t) + (1-α)S(t-1)
-```
-
-## Holt
-
-```text
-Level:
-l(t) = αY(t) + (1-α)[l(t-1) + b(t-1)]
-
-Trend:
-b(t) = β[l(t)-l(t-1)] + (1-β)b(t-1)
-
-Forecast:
-Ŷ(t+h) = l(t) + h × b(t)
-```
-
-## AR(p)
-
-```text
-Y(t) =
-c
-+ φ1Y(t-1)
-+ φ2Y(t-2)
-+ ...
-+ φpY(t-p)
-+ ε(t)
-```
-
-## MA(q)
-
-```text
-Y(t) =
-c
-+ ε(t)
-+ θ1ε(t-1)
-+ θ2ε(t-2)
-+ ...
-+ θqε(t-q)
-```
-
-## Differencing
-
-```text
-Y'(t) = Y(t) - Y(t-1)
-```
-
-## Seasonal Differencing
-
-```text
-Y'(t) = Y(t) - Y(t-m)
-```
-
-## MAE
-
-```text
-MAE = (1/n) × Σ|yᵢ - ŷᵢ|
-```
-
-## MSE
-
-```text
-MSE = (1/n) × Σ(yᵢ - ŷᵢ)²
-```
-
-## RMSE
-
-```text
-RMSE = √[(1/n) × Σ(yᵢ - ŷᵢ)²]
-```
-
-## MAPE
-
-```text
-MAPE = (100/n) × Σ |(yᵢ - ŷᵢ) / yᵢ|
-```
-
-## WAPE
-
-```text
-WAPE =
-[Σ|yᵢ - ŷᵢ| / Σ|yᵢ|] × 100
-```
-
-## MASE
-
-```text
-MASE =
-MAE(Forecast)
-------------
-MAE(Naive)
-```
-
-## Bias
-
-```text
-Bias = (1/n) × Σ(yᵢ - ŷᵢ)
-```
-
-## AIC
-
-```text
-AIC = 2k - 2ln(L)
-```
-
-## BIC
-
-```text
-BIC = k × ln(n) - 2ln(L)
+2 → AR terms
+1 → First differencing
+1 → MA term
 ```
 
 ---
 
-# 110. Final Interview Checklist
-
-Before saying a forecasting model is ready:
+# 75. SARIMA Parameter Cheat Sheet
 
 ```text
-☑ Business objective defined
-☑ Forecast horizon defined
-☑ Forecast frequency defined
-☑ Time index correct
-☑ Missing dates checked
-☑ Missing values handled
-☑ Outliers investigated
-☑ Trend analyzed
-☑ Seasonality analyzed
-☑ Stationarity checked where relevant
-☑ Naive baseline created
-☑ Seasonal baseline created when appropriate
-☑ Candidate models evaluated
-☑ Time-based validation used
-☑ Temporal leakage prevented
-☑ Forecast metrics calculated
-☑ Residual diagnostics performed
-☑ Prediction intervals considered
-☑ Model compared against baseline
-☑ Business constraints considered
-☑ Model monitoring planned
+SARIMA(p,d,q)(P,D,Q,m)
+
+Non-seasonal:
+p → AR
+d → Differencing
+q → MA
+
+Seasonal:
+P → Seasonal AR
+D → Seasonal Differencing
+Q → Seasonal MA
+m → Seasonal Period
+```
+
+Example:
+
+```text
+SARIMA(1,1,1)(1,1,1,12)
+```
+
+For monthly data with yearly seasonality.
+
+---
+
+# 76. Final Interview Framework
+
+When asked:
+
+**"How would you build a forecasting model?"**
+
+Use this structure:
+
+```text
+1. Business Understanding
+        ↓
+2. Define Forecast Horizon
+        ↓
+3. Data Quality Checks
+        ↓
+4. Time-Series EDA
+        ↓
+5. Trend / Seasonality
+        ↓
+6. Stationarity
+        ↓
+7. Baseline Model
+        ↓
+8. Feature Engineering
+        ↓
+9. Candidate Models
+        ↓
+10. Time-Based Validation
+        ↓
+11. Hyperparameter Tuning
+        ↓
+12. Evaluate Metrics
+        ↓
+13. Residual Diagnostics
+        ↓
+14. Select Final Model
+        ↓
+15. Forecast + Prediction Interval
+        ↓
+16. Deployment
+        ↓
+17. Monitoring
 ```
 
 ---
 
-# 111. One-Minute Interview Answer
+# 77. One-Minute Interview Answer
 
-> I start a forecasting problem by understanding the business objective, forecast horizon, data frequency, and available historical and external variables. I perform time-series EDA to identify trend, seasonality, outliers, missing values, and structural changes. I establish a naive or seasonal-naive baseline and then evaluate suitable statistical and machine-learning models such as exponential smoothing, ARIMA, SARIMA, SARIMAX, Prophet, or tree-based models using lag, rolling, calendar, and external features. I use time-based or walk-forward validation rather than random splitting, evaluate models using metrics such as MAE, RMSE, WAPE, or MASE depending on the business problem, and perform residual diagnostics. Finally, I select the model based on out-of-sample performance, stability, interpretability, operational requirements, and business impact.
+> I would first understand the business objective, forecast horizon, frequency, and target variable. Then I would clean and validate the time index, analyze trend and seasonality, and check stationarity where relevant. I would establish a naive or seasonal-naive baseline before trying more complex models. Depending on the data, I would evaluate exponential smoothing, ARIMA/SARIMA/SARIMAX, or machine-learning models such as XGBoost. For ML models, I would create leakage-safe lag, rolling, calendar, and external-variable features. I would use chronological or walk-forward validation rather than random splitting, compare models using business-appropriate metrics such as MAE, RMSE, WAPE, or MASE, and perform residual diagnostics. Finally, I would select the simplest model that provides reliable out-of-sample performance and deploy it with monitoring.
+
+---
+
+# 78. Core Mental Model
+
+```text
+                  FORECASTING
+                       │
+                       ↓
+                 Baseline
+                       │
+           ┌───────────┼───────────┐
+           ↓           ↓           ↓
+      Exponential   Statistical     ML
+       Smoothing      Models         │
+           │           │             │
+      Holt-Winters   ARIMA        XGBoost
+                      │             │
+                   SARIMA       LightGBM
+                      │
+                  SARIMAX
+                       │
+                       ↓
+                 Deep Learning
+                       │
+                ┌──────┼──────┐
+                ↓      ↓      ↓
+               LSTM   GRU  Transformer
+                       │
+                       ↓
+                Time-Based Validation
+                       │
+                       ↓
+                  Residual Check
+                       │
+                       ↓
+                  Final Forecast
+```
+
+---
+
+# 79. Most Important Interview Concepts
+
+Prioritize these topics:
+
+```text
+1. Time-Series Components
+2. Stationarity
+3. ADF / KPSS
+4. Differencing
+5. ACF
+6. PACF
+7. Naive Forecast
+8. Seasonal Naive
+9. Exponential Smoothing
+10. Holt-Winters
+11. AR
+12. MA
+13. ARMA
+14. ARIMA
+15. SARIMA
+16. SARIMAX
+17. AIC / BIC
+18. Residual Diagnostics
+19. Walk-Forward Validation
+20. Time-Series Feature Engineering
+21. Temporal Leakage
+22. XGBoost Forecasting
+23. LSTM / GRU
+24. Forecast Metrics
+25. Model Selection
+```
