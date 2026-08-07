@@ -2,1558 +2,1595 @@
 
 # Time Series & Forecasting — Fundamentals
 
-## 1. Introduction
+## 1. What is Time Series?
 
-A **Time Series** is a sequence of observations recorded in chronological order at specific time intervals.
+A **time series** is a sequence of observations collected over time in chronological order.
 
 Examples:
 
 * Daily sales
 * Monthly revenue
-* Hourly electricity demand
-* Stock prices
-* Weekly website traffic
+* Hourly electricity consumption
+* Daily stock prices
 * Monthly production
-* Daily temperature
-* Quarterly GDP
+* Weekly demand
 
 Example:
 
-| Date | Sales |
-| ---- | ----: |
-| Jan  |   100 |
-| Feb  |   120 |
-| Mar  |   115 |
-| Apr  |   140 |
-| May  |   150 |
+| Date  | Sales |
+| ----- | ----: |
+| Jan 1 |   100 |
+| Jan 2 |   110 |
+| Jan 3 |   105 |
+| Jan 4 |   120 |
 
-The key characteristic of time-series data is:
+The most important characteristic of time-series data is:
 
-> **Time order matters.**
+> **Time/order matters.**
 
 ---
 
-# 2. Time Series vs Regular Data
+# 2. Time Series vs Normal Data
 
-In regular machine-learning datasets, observations are often assumed to be independent.
+In normal machine-learning data, observations are often assumed to be independent.
 
-In time series:
-
-```text
-Past → Present → Future
-```
-
-The current observation may depend on previous observations.
+In time-series data, observations can depend on previous observations.
 
 Example:
 
 ```text
-Sales(t)
-   ↓
-Sales(t-1)
-Sales(t-2)
-Sales(t-3)
+Today's Sales
+      ↑
+Yesterday's Sales
+      ↑
+Day Before Yesterday's Sales
 ```
 
-Therefore, time-series data requires special preprocessing, validation, and modeling techniques.
+Therefore, we cannot blindly shuffle time-series data before training a forecasting model.
 
 ---
 
-# 3. Time Series Analysis
+# 3. What is Forecasting?
 
-**Time Series Analysis** is the process of analyzing historical observations to understand patterns and relationships over time.
-
-Main objectives:
-
-* Understand historical behavior
-* Identify trends
-* Detect seasonality
-* Identify cycles
-* Detect anomalies
-* Check stationarity
-* Understand autocorrelation
-* Build forecasting models
-
----
-
-# 4. Forecasting
-
-**Forecasting** is the process of predicting future values using historical observations and potentially other explanatory variables.
+**Forecasting** means predicting future values using historical information.
 
 Example:
 
 ```text
 Historical Sales
-       ↓
-Time Series Analysis
-       ↓
-Forecasting Model
-       ↓
+      ↓
+Time Series Model
+      ↓
 Future Sales
 ```
 
-Example:
+If we have:
 
 ```text
-2024 Sales → Historical
-2025 Sales → Historical
-2026 Sales → Forecast
+Jan → 100
+Feb → 110
+Mar → 120
+Apr → 130
+```
+
+we may forecast:
+
+```text
+May → 140
 ```
 
 ---
 
-# 5. Components of a Time Series
+# 4. Time Series vs Forecasting
 
-A time series can contain several components:
+### Time Series Analysis
+
+Focuses on understanding the historical data.
+
+It studies:
+
+* Trend
+* Seasonality
+* Cycles
+* Autocorrelation
+* Stationarity
+* Noise
+
+### Forecasting
+
+Focuses on predicting future values.
+
+```text
+Time Series Analysis
+        ↓
+Understand historical patterns
+        ↓
+Forecasting
+        ↓
+Predict future values
+```
+
+---
+
+# 5. Components of Time Series
+
+A time series commonly contains:
 
 ```text
 Time Series
 │
+├── Level
 ├── Trend
 ├── Seasonality
-├── Cyclical Pattern
-├── Irregular / Random Component
+├── Cyclicity
 └── Noise
 ```
 
-A common conceptual representation is:
+The important components for interviews are:
 
-$$
-Y_t = T_t + S_t + C_t + R_t
-$$
-
-Where:
-
-* `Yₜ` = observed value
-* `Tₜ` = trend
-* `Sₜ` = seasonal component
-* `Cₜ` = cyclical component
-* `Rₜ` = irregular/random component
+1. Level
+2. Trend
+3. Seasonality
+4. Noise
 
 ---
 
-# 6. Trend
+# 6. Level
 
-A **Trend** represents the long-term direction of a time series.
-
-It can be:
-
-* Increasing
-* Decreasing
-* Constant
-* Nonlinear
-
-Example:
-
-```text
-Sales
-
-|
-|                 *
-|             *
-|          *
-|       *
-|    *
-| *
-+----------------------> Time
-```
-
-This indicates an upward trend.
-
----
-
-# 7. Types of Trend
-
-### Increasing Trend
-
-Values generally increase over time.
-
-```text
-100 → 120 → 140 → 160
-```
-
-### Decreasing Trend
-
-Values generally decrease.
-
-```text
-200 → 180 → 150 → 130
-```
-
-### Constant Trend
-
-Values fluctuate around a stable level.
-
-```text
-100 → 102 → 98 → 101
-```
-
-### Nonlinear Trend
-
-The rate of change itself changes over time.
-
-Example:
-
-```text
-100 → 105 → 115 → 135 → 170
-```
-
----
-
-# 8. Seasonality
-
-**Seasonality** is a pattern that repeats at a fixed and known frequency.
-
-Examples:
-
-* Ice cream sales increase every summer
-* Retail sales increase every December
-* Electricity demand changes by day of week
-* Hotel bookings increase every holiday season
-
-Example:
-
-```text
-Jan ↓
-Feb ↓
-Mar ↑
-Apr ↑
-May ↑
-...
-Next year:
-Jan ↓
-Feb ↓
-Mar ↑
-...
-```
-
----
-
-# 9. Seasonal Period
-
-The **seasonal period** is the number of observations between repeated seasonal patterns.
-
-Examples:
-
-| Data Frequency |    Common Seasonal Period |
-| -------------- | ------------------------: |
-| Hourly         |  24 for daily seasonality |
-| Daily          |  7 for weekly seasonality |
-| Weekly         | 52 for yearly seasonality |
-| Monthly        | 12 for yearly seasonality |
-| Quarterly      |  4 for yearly seasonality |
-
-### Important
-
-The seasonal period depends on the pattern you want to model, not only on the data frequency.
-
----
-
-# 10. Seasonality vs Trend
-
-### Trend
-
-Long-term movement.
-
-### Seasonality
-
-Repeating pattern at a fixed frequency.
-
-Example:
-
-```text
-Trend:
-Sales increase over 5 years.
-
-Seasonality:
-Sales increase every December.
-```
-
-A time series can have both.
-
----
-
-# 11. Cyclical Pattern
-
-A **Cycle** represents long-term fluctuations that do not necessarily repeat at a fixed frequency.
-
-Examples:
-
-* Economic expansion and recession
-* Business cycles
-* Long-term demand cycles
-
-### Difference
-
-```text
-Seasonality
-→ Fixed and known frequency
-
-Cycle
-→ Duration may vary
-```
-
----
-
-# 12. Trend vs Seasonality vs Cycle
-
-| Component   | Pattern                | Frequency             |
-| ----------- | ---------------------- | --------------------- |
-| Trend       | Long-term direction    | No fixed frequency    |
-| Seasonality | Repeating pattern      | Fixed                 |
-| Cycle       | Long-term fluctuations | Not necessarily fixed |
-| Noise       | Random variation       | Irregular             |
-
----
-
-# 13. Noise
-
-**Noise** represents random variation that cannot be explained by systematic patterns.
-
-Example:
-
-```text
-Expected Sales = 100
-Actual Sales = 103
-```
-
-The difference may be random noise.
-
-Noise can come from:
-
-* Measurement errors
-* Random customer behavior
-* Unexpected events
-* Data collection errors
-* External factors not included in the model
-
----
-
-# 14. White Noise
-
-A **White Noise** time series has:
-
-* Mean approximately zero or constant
-* Constant variance
-* No autocorrelation
-* Random observations
-
-Conceptually:
-
-$$
-Y_t = \epsilon_t
-$$
-
-where:
-
-$$
-E(\epsilon_t)=0
-$$
-
-and:
-
-$$
-Cov(\epsilon_t,\epsilon_{t-k})=0
-$$
-
-for:
-
-$$
-k \neq 0
-$$
-
----
-
-# 15. Why White Noise Is Important
-
-A good forecasting model should ideally leave residuals that behave approximately like white noise.
-
-Workflow:
-
-```text
-Time Series
-     ↓
-Forecasting Model
-     ↓
-Residuals
-     ↓
-Residual Diagnostics
-     ↓
-Approximately White Noise?
-```
-
-If residuals still contain systematic patterns:
-
-> The model may not have captured all useful information.
-
----
-
-# 16. Stationarity
-
-A time series is **stationary** when its statistical properties remain stable over time.
-
-Important properties include:
-
-* Mean
-* Variance
-* Autocovariance
-
-A weakly stationary series generally has:
-
-$$
-E(Y_t)=\mu
-$$
-
-where mean is constant over time.
-
-And:
-
-$$
-Var(Y_t)=\sigma^2
-$$
-
-where variance is constant.
-
-Autocovariance depends on the lag rather than the actual time point.
-
----
-
-# 17. Why Stationarity Matters
-
-Many classical time-series models work better when the series is stationary.
-
-Examples:
-
-* AR
-* MA
-* ARMA
-* ARIMA
-
-A non-stationary series can lead to:
-
-* Misleading relationships
-* Poor model estimation
-* Unstable forecasts
-* Spurious regression
-
----
-
-# 18. Types of Stationarity
-
-### Strict Stationarity
-
-The entire joint probability distribution remains unchanged under a shift in time.
-
-It is a strong theoretical condition.
-
-### Weak / Covariance Stationarity
-
-The main conditions are:
-
-```text
-Constant Mean
-Constant Variance
-Autocovariance depends only on lag
-```
-
-This is the form commonly discussed in practical time-series modeling.
-
----
-
-# 19. Non-Stationary Time Series
-
-A series can be non-stationary because of:
-
-* Trend
-* Changing variance
-* Seasonality
-* Structural changes
-* Unit roots
+**Level** represents the average or baseline value of the series.
 
 Example:
 
 ```text
 100
-120
-150
-190
-240
-300
+105
+98
+102
+101
 ```
 
-The mean changes over time, indicating non-stationarity.
+The series is approximately centered around:
+
+```text
+100
+```
+
+So the level is approximately 100.
 
 ---
 
-# 20. Random Walk
+# 7. Trend
 
-A random walk is a common example of a non-stationary time series.
+**Trend** represents the long-term direction of the time series.
 
-Basic form:
+### Increasing Trend
 
-$$
-Y_t = Y_{t-1} + \epsilon_t
-$$
+```text
+100
+110
+120
+130
+140
+```
 
-where:
+The series is increasing.
 
-$$
-\epsilon_t \sim White\ Noise
-$$
+### Decreasing Trend
 
-The current value depends on the previous value plus a random shock.
+```text
+140
+130
+120
+110
+100
+```
+
+The series is decreasing.
+
+Trend can be:
+
+* Increasing
+* Decreasing
+* Approximately constant
+* Nonlinear
 
 ---
 
-# 21. Random Walk with Drift
+# 8. Seasonality
 
-A random walk can include drift:
+**Seasonality** is a pattern that repeats at a known and fixed frequency.
 
-$$
-Y_t = c + Y_{t-1} + \epsilon_t
-$$
+Examples:
+
+### Retail Sales
+
+```text
+December → High Sales
+December → High Sales
+December → High Sales
+```
+
+### Weekly Pattern
+
+```text
+Monday    → High
+Tuesday   → Medium
+...
+Sunday    → Low
+```
+
+### Monthly Data
+
+A yearly seasonal pattern usually has:
+
+```text
+12 months
+```
+
+---
+
+# 9. Examples of Seasonality
+
+| Data Frequency | Possible Seasonality |
+| -------------- | -------------------- |
+| Hourly         | Daily                |
+| Daily          | Weekly               |
+| Weekly         | Yearly               |
+| Monthly        | Yearly               |
+| Quarterly      | Yearly               |
+
+Example:
+
+```text
+Monthly Sales
+
+Jan → 100
+Feb → 110
+...
+Dec → 200
+
+Next Year:
+
+Jan → 105
+Feb → 115
+...
+Dec → 210
+```
+
+The repeated yearly pattern is seasonality.
+
+---
+
+# 10. Cyclicity
+
+A **cycle** is a long-term rise and fall in a time series.
+
+The important difference is:
+
+> A cycle does not necessarily have a fixed and known frequency.
+
+Example:
+
+```text
+Economic Growth
+      ↓
+Economic Peak
+      ↓
+Economic Decline
+      ↓
+Economic Recovery
+```
+
+---
+
+# 11. Seasonality vs Cyclicity
+
+| Seasonality                | Cyclicity                                     |
+| -------------------------- | --------------------------------------------- |
+| Repeats at known frequency | No fixed frequency                            |
+| Usually predictable period | Duration can vary                             |
+| Often calendar-related     | Often related to business/economic conditions |
+| Christmas sales            | Economic cycle                                |
+
+### Interview Answer
+
+> Seasonality is a repeating pattern with a known frequency, while cyclicity represents longer-term fluctuations whose duration is not necessarily fixed.
+
+---
+
+# 12. Noise
+
+**Noise** represents random variation that cannot be explained by the systematic patterns in the data.
+
+Example:
+
+```text
+100
+105
+101
+108
+103
+```
+
+Some variation may simply be random.
+
+Conceptually:
+
+```text
+Observed Data
+=
+Pattern
++
+Noise
+```
+
+---
+
+# 13. Time Series Decomposition
+
+Decomposition means breaking a time series into different components.
+
+A simple conceptual representation is:
+
+```text
+Time Series
+    ↓
+Trend
++
+Seasonality
++
+Noise
+```
+
+There are two common decomposition approaches:
+
+1. Additive
+2. Multiplicative
+
+---
+
+# 14. Additive Time Series
+
+In an additive model:
+
+```text
+Y(t) = T(t) + S(t) + E(t)
+```
 
 Where:
 
-* `c` = drift
-* `εₜ` = random error
+```text
+Y(t) = Observed value
+T(t) = Trend
+S(t) = Seasonal component
+E(t) = Error / Noise
+```
+
+Use additive decomposition when the seasonal effect is approximately constant.
 
 Example:
 
 ```text
-Previous value
-      +
-Average movement
-      +
-Random shock
-      =
-Current value
+Normal Sales = 1000
+
+December effect = +200
+
+Next year:
+
+Normal Sales = 1500
+December effect = +200
 ```
 
----
-
-# 22. Differencing
-
-**Differencing** is commonly used to remove trend and make a time series more stationary.
-
-First difference:
-
-$$
-\Delta Y_t = Y_t - Y_{t-1}
-$$
-
-Example:
-
-| Time | Value | Difference |
-| ---- | ----: | ---------: |
-| 1    |   100 |          - |
-| 2    |   110 |         10 |
-| 3    |   125 |         15 |
-| 4    |   130 |          5 |
+The seasonal effect remains approximately constant.
 
 ---
 
-# 23. First-Order Differencing
+# 15. Multiplicative Time Series
 
-If:
+In a multiplicative model:
 
-$$
-Y_t
-$$
+```text
+Y(t) = T(t) × S(t) × E(t)
+```
 
-is non-stationary, calculate:
-
-$$
-Y'*t=Y_t-Y*{t-1}
-$$
-
-This removes many types of trend.
+Use multiplicative decomposition when seasonal variation changes with the level of the series.
 
 Example:
 
 ```text
-Original:
-100 → 110 → 125 → 130
+Normal Sales = 1000
+December = 1200
 
-Differenced:
-10 → 15 → 5
+Next year:
+
+Normal Sales = 2000
+December = 2400
+```
+
+The seasonal effect is proportional to the level.
+
+---
+
+# 16. Additive vs Multiplicative
+
+| Additive                         | Multiplicative                        |
+| -------------------------------- | ------------------------------------- |
+| `Y(t) = T(t) + S(t) + E(t)`      | `Y(t) = T(t) × S(t) × E(t)`           |
+| Seasonal effect roughly constant | Seasonal effect proportional to level |
+| Constant seasonal amplitude      | Increasing seasonal amplitude         |
+| Example: +100 every December     | Example: +20% every December          |
+
+### Easy Rule
+
+```text
+Constant seasonal variation
+        ↓
+Additive
+
+Seasonal variation increases with level
+        ↓
+Multiplicative
 ```
 
 ---
 
-# 24. Second-Order Differencing
+# 17. Time Series Frequency
 
-If first differencing is insufficient:
-
-$$
-\Delta^2Y_t
-===========
-
-\Delta Y_t-\Delta Y_{t-1}
-$$
-
-Example:
-
-```text
-Original Series
-      ↓
-First Difference
-      ↓
-Second Difference
-```
-
-However:
-
-> Avoid unnecessary differencing.
-
-Excessive differencing can remove useful structure and make the series unnecessarily noisy.
-
----
-
-# 25. Lag
-
-A **Lag** represents a previous observation.
-
-For lag 1:
-
-$$
-Y_{t-1}
-$$
-
-For lag 2:
-
-$$
-Y_{t-2}
-$$
-
-Example:
-
-| Month | Sales | Lag 1 |
-| ----- | ----: | ----: |
-| Jan   |   100 |     - |
-| Feb   |   120 |   100 |
-| Mar   |   130 |   120 |
-| Apr   |   150 |   130 |
-
----
-
-# 26. Lag Features
-
-Lag variables are commonly used in machine-learning forecasting.
-
-Example:
-
-```text
-Sales_t-1
-Sales_t-2
-Sales_t-3
-Sales_t-7
-Sales_t-12
-```
-
-For monthly sales:
-
-```text
-Lag 1
-→ Previous month
-
-Lag 12
-→ Same month last year
-```
-
----
-
-# 27. Lead
-
-A **Lead** represents a future observation.
-
-For example:
-
-$$
-Y_{t+1}
-$$
-
-In forecasting, future values are generally the target rather than features.
-
-Example:
-
-```text
-X_t → Predict Y_(t+1)
-```
-
----
-
-# 28. Autocorrelation
-
-**Autocorrelation** measures the relationship between a time series and its lagged values.
-
-For lag `k`:
-
-$$
-\rho_k
-======
-
-Corr(Y_t,Y_{t-k})
-$$
-
-Example:
-
-```text
-Sales today
-      ↕
-Sales yesterday
-```
-
-If strongly related:
-
-> High autocorrelation at lag 1.
-
----
-
-# 29. Positive Autocorrelation
-
-If:
-
-```text
-High → High
-Low → Low
-```
-
-then consecutive values tend to move in the same direction.
-
-This produces positive autocorrelation.
-
-Example:
-
-```text
-100 → 105 → 110 → 108 → 115
-```
-
----
-
-# 30. Negative Autocorrelation
-
-If high values tend to be followed by low values and vice versa:
-
-```text
-High → Low
-Low → High
-```
-
-then autocorrelation can be negative.
-
-Example:
-
-```text
-100 → 80 → 105 → 85 → 110
-```
-
----
-
-# 31. ACF
-
-**ACF = Autocorrelation Function**
-
-It measures correlation between:
-
-```text
-Y_t
-```
-
-and:
-
-```text
-Y_(t-k)
-```
-
-for different lag values `k`.
-
-ACF is commonly used to identify:
-
-* Serial dependence
-* Seasonality
-* MA order
-* Residual autocorrelation
-
----
-
-# 32. Partial Autocorrelation
-
-**PACF = Partial Autocorrelation Function**
-
-PACF measures the relationship between:
-
-$$
-Y_t
-$$
-
-and:
-
-$$
-Y_{t-k}
-$$
-
-after removing the effects of intermediate lags.
-
-Example:
-
-For lag 3, PACF measures the relationship between:
-
-```text
-Y_t
-```
-
-and:
-
-```text
-Y_(t-3)
-```
-
-after accounting for:
-
-```text
-Y_(t-1)
-Y_(t-2)
-```
-
----
-
-# 33. ACF vs PACF
-
-| ACF                               | PACF                             |
-| --------------------------------- | -------------------------------- |
-| Total correlation                 | Direct correlation               |
-| Includes intermediate lag effects | Removes intermediate lag effects |
-| Useful for MA identification      | Useful for AR identification     |
-| Helps detect seasonality          | Helps identify AR order          |
-
-### Rule of Thumb
-
-```text
-AR Model → PACF
-MA Model → ACF
-```
-
-This is a practical identification guideline, not an absolute rule.
-
----
-
-# 34. Autocovariance
-
-Autocovariance measures how observations at different time lags vary together.
-
-For lag `k`:
-
-$$
-\gamma_k
-========
-
-Cov(Y_t,Y_{t-k})
-$$
-
-Autocorrelation is the standardized version:
-
-$$
-\rho_k
-======
-
-\frac{\gamma_k}{\gamma_0}
-$$
-
----
-
-# 35. Seasonality and ACF
-
-Strong seasonal patterns often create significant autocorrelation at seasonal lags.
-
-For monthly data with yearly seasonality:
-
-```text
-Lag 12
-Lag 24
-Lag 36
-...
-```
-
-may show strong autocorrelation.
-
-For daily data with weekly seasonality:
-
-```text
-Lag 7
-Lag 14
-Lag 21
-...
-```
-
-may be important.
-
----
-
-# 36. Time Series Decomposition
-
-Decomposition separates a time series into components.
-
-Common components:
-
-```text
-Observed
-   ↓
-Trend
-Seasonality
-Residual
-```
-
-For additive decomposition:
-
-$$
-Y_t=T_t+S_t+R_t
-$$
-
-For multiplicative decomposition:
-
-$$
-Y_t=T_t\times S_t\times R_t
-$$
-
----
-
-# 37. Additive Model
-
-Additive decomposition is appropriate when the magnitude of seasonal fluctuations is relatively constant.
-
-$$
-Y_t=T_t+S_t+R_t
-$$
-
-Example:
-
-```text
-Trend = 100
-Seasonal effect = +20
-Residual = +5
-
-Observed = 125
-```
-
----
-
-# 38. Multiplicative Model
-
-Multiplicative decomposition is useful when seasonal fluctuations increase with the level of the series.
-
-$$
-Y_t=T_t\times S_t\times R_t
-$$
-
-Example:
-
-```text
-Trend = 100
-Seasonal factor = 1.20
-Residual = 1.05
-
-Observed ≈ 126
-```
-
----
-
-# 39. Additive vs Multiplicative
-
-| Additive                               | Multiplicative                               |
-| -------------------------------------- | -------------------------------------------- |
-| `Y = T + S + R`                        | `Y = T × S × R`                              |
-| Seasonal variation roughly constant    | Seasonal variation changes with level        |
-| Suitable for stable seasonal amplitude | Suitable for proportional seasonal amplitude |
-
-### Example
-
-If sales increase from:
-
-```text
-100 → 200
-```
-
-and seasonal variation changes from:
-
-```text
-±10 → ±20
-```
-
-multiplicative behavior may be appropriate.
-
----
-
-# 40. Log Transformation
-
-A logarithmic transformation can sometimes stabilize increasing variance and convert multiplicative relationships into additive ones.
-
-For example:
-
-$$
-Y'_t=\log(Y_t)
-$$
-
-If:
-
-$$
-Y_t=T_t\times S_t\times R_t
-$$
-
-then:
-
-$$
-\log(Y_t)
-=========
-
-\log(T_t)+\log(S_t)+\log(R_t)
-$$
-
-This can make modeling easier.
-
----
-
-# 41. Moving Average
-
-A moving average smooths a time series by calculating averages over a rolling window.
-
-For window size `k`:
-
-$$
-MA_t=
-\frac{1}{k}
-\sum_{i=0}^{k-1}Y_{t-i}
-$$
-
-Example with window 3:
-
-```text
-Values:
-10, 20, 30
-
-MA = (10 + 20 + 30) / 3
-   = 20
-```
-
----
-
-# 42. Rolling Mean
-
-In Python:
-
-```python
-df["rolling_mean"] = df["sales"].rolling(window=7).mean()
-```
-
-This can help identify:
-
-* Trend
-* Smoothing
-* Local behavior
-* Noise reduction
-
----
-
-# 43. Rolling Standard Deviation
-
-Rolling standard deviation measures local variability.
-
-```python
-df["rolling_std"] = (
-    df["sales"]
-    .rolling(window=7)
-    .std()
-)
-```
-
-If rolling variance changes significantly over time:
-
-> The series may have non-constant variance.
-
----
-
-# 44. Time-Based Features
-
-Time series models can use calendar-based features.
+Frequency tells us how often observations are recorded.
 
 Examples:
 
 ```text
-Year
-Month
-Quarter
-Week
-Day
-Day of Week
-Weekend
-Holiday
-Financial Year
+Hourly
+Daily
+Weekly
+Monthly
+Quarterly
+Yearly
 ```
-
-For retail forecasting:
-
-```text
-Month
-Holiday
-Festival
-Weekend
-Promotion
-```
-
-can be useful predictors.
-
----
-
-# 45. Lag-Based Features
-
-Common features:
-
-```text
-Lag 1
-Lag 2
-Lag 3
-Lag 7
-Lag 12
-Lag 24
-```
-
-Depending on data frequency.
 
 Example:
 
-### Daily data
-
 ```text
-Lag 1  → Yesterday
-Lag 7  → Same weekday last week
-Lag 365 → Approximately same day last year
+Date        Sales
+
+01-Jan      100
+02-Jan      105
+03-Jan      110
 ```
 
-### Monthly data
+Frequency:
 
 ```text
-Lag 1  → Previous month
-Lag 12 → Same month previous year
+Daily
 ```
 
 ---
 
-# 46. Forecast Horizon
+# 18. Seasonal Period
 
-The **Forecast Horizon** is how far into the future we want to predict.
+The **seasonal period** is the number of observations required to complete one seasonal cycle.
 
 Examples:
 
+### Hourly Data
+
+If there is daily seasonality:
+
 ```text
-Next 1 day
-Next 7 days
-Next 12 months
-Next 4 quarters
+24 observations
 ```
 
-Notation:
+So:
 
 ```text
-Forecast horizon = h
+m = 24
+```
+
+### Daily Data
+
+If there is weekly seasonality:
+
+```text
+7 observations
+```
+
+So:
+
+```text
+m = 7
+```
+
+### Monthly Data
+
+If there is yearly seasonality:
+
+```text
+12 observations
+```
+
+So:
+
+```text
+m = 12
+```
+
+### Quarterly Data
+
+Yearly seasonality:
+
+```text
+m = 4
 ```
 
 ---
 
-# 47. One-Step Forecast
+# 19. Univariate Time Series
 
-Predict only the next time point.
-
-```text
-Y₁ Y₂ Y₃ Y₄ Y₅
-         ↓
-       Predict Y₆
-```
-
-Example:
-
-> Predict tomorrow's sales.
-
----
-
-# 48. Multi-Step Forecast
-
-Predict multiple future time points.
-
-```text
-Y₁ Y₂ Y₃ Y₄ Y₅
-         ↓
-Predict:
-Y₆
-Y₇
-Y₈
-Y₉
-```
-
-Example:
-
-> Forecast sales for the next 12 months.
-
----
-
-# 49. Recursive Forecasting
-
-In recursive forecasting:
-
-```text
-Predict Y(t+1)
-      ↓
-Use prediction as input
-      ↓
-Predict Y(t+2)
-      ↓
-Use prediction
-      ↓
-Predict Y(t+3)
-```
+A **univariate time series** contains one main variable measured over time.
 
 Example:
 
 ```text
-Actual → Actual → Forecast
-                    ↓
-                  Forecast
-                    ↓
-                  Forecast
+Date → Sales
 ```
 
-### Risk
+Data:
 
-Forecast errors can accumulate over multiple steps.
+| Date | Sales |
+| ---- | ----: |
+| Jan  |   100 |
+| Feb  |   120 |
+| Mar  |   130 |
 
----
+Common models include:
 
-# 50. Direct Forecasting
-
-In direct forecasting, separate models can be trained for different forecast horizons.
-
-Example:
-
-```text
-Model 1 → Predict Y(t+1)
-Model 2 → Predict Y(t+2)
-Model 3 → Predict Y(t+3)
-```
-
-### Advantage
-
-Errors from previous predictions are not recursively propagated.
-
-### Disadvantage
-
-More models need to be trained.
-
----
-
-# 51. Forecasting Approaches
-
-Three common approaches:
-
-```text
-1. Statistical Models
-2. Machine Learning Models
-3. Deep Learning Models
-```
-
-### Statistical
-
-* Naive
-* Moving Average
-* Exponential Smoothing
-* Holt
-* Holt-Winters
 * AR
 * MA
 * ARMA
 * ARIMA
 * SARIMA
-* VAR
-
-### Machine Learning
-
-* Linear Regression
-* Random Forest
-* Gradient Boosting
-* XGBoost
-* LightGBM
-
-### Deep Learning
-
-* RNN
-* LSTM
-* GRU
-* Transformer-based models
+* Exponential Smoothing
 
 ---
 
-# 52. Naive Forecast
+# 20. Multivariate Time Series
 
-The simplest forecasting method.
+A **multivariate time series** contains multiple variables observed over time.
 
-The next prediction equals the most recent observation.
+Example:
 
-$$
-\hat{Y}_{t+1}=Y_t
-$$
+| Date | Sales | Price | Promotion | Temperature |
+| ---- | ----: | ----: | --------: | ----------: |
+| Jan  |   100 |    50 |         1 |          25 |
+| Feb  |   120 |    48 |         1 |          28 |
+| Mar  |   130 |    47 |         0 |          32 |
+
+Here:
+
+```text
+Target:
+Sales
+
+Other variables:
+Price
+Promotion
+Temperature
+```
+
+These additional variables can help forecast sales.
+
+---
+
+# 21. Exogenous Variables
+
+An **exogenous variable** is an external variable that can help explain or predict the target.
 
 Example:
 
 ```text
-Today's sales = 500
-
-Tomorrow forecast = 500
+Sales
+  ↑
+  |
+  ├── Price
+  ├── Promotion
+  ├── Holiday
+  └── Weather
 ```
 
----
-
-# 53. Seasonal Naive Forecast
-
-The forecast equals the value from the corresponding previous season.
-
-For monthly data with yearly seasonality:
-
-$$
-\hat{Y}*{t}=Y*{t-12}
-$$
-
-Example:
+For example:
 
 ```text
-January 2026 forecast
-=
-January 2025 actual
-```
-
-This is a very useful baseline for seasonal forecasting.
-
----
-
-# 54. Why Baselines Matter
-
-Before using complex models, create a baseline.
-
-Example:
-
-```text
-Naive Model
-      ↓
-ARIMA
-      ↓
-XGBoost
-      ↓
-LSTM
-```
-
-If a complex model cannot outperform the baseline:
-
-> The complexity may not be justified.
-
----
-
-# 55. Train-Test Split for Time Series
-
-Normal random train-test splitting should generally be avoided.
-
-Incorrect:
-
-```python
-train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42
+Sales = f(
+    Historical Sales,
+    Price,
+    Promotion,
+    Holiday
 )
 ```
 
-Why?
-
-Because random splitting can allow future information to enter the training set.
+Models such as SARIMAX can incorporate external variables.
 
 ---
 
-# 56. Correct Time-Based Split
+# 22. Lag
 
-Example:
+A **lag** means using a previous value of a time series.
 
-```text
-Past ------------------------> Future
-
-Train          Validation     Test
-|--------------|--------------|
-```
-
-Example:
+Suppose:
 
 ```text
-2019–2023 → Train
-2024       → Validation
-2025       → Test
+Date    Sales
+
+Day 1   100
+Day 2   110
+Day 3   120
+Day 4   130
 ```
 
-The model should be trained using past information to predict future observations.
+Lag 1 means:
+
+```text
+Day 4 prediction
+        ↓
+Previous Day Sales
+        ↓
+130 → 120
+```
+
+Mathematically:
+
+```text
+Lag 1 = Y(t-1)
+```
+
+Lag 2:
+
+```text
+Lag 2 = Y(t-2)
+```
 
 ---
 
-# 57. Data Leakage in Time Series
+# 23. Lag Features
 
-**Data Leakage** occurs when information from the future is unintentionally used to train the model.
+Lag features are commonly used in machine-learning forecasting.
+
+Example:
+
+```python
+df["lag_1"] = df["sales"].shift(1)
+
+df["lag_7"] = df["sales"].shift(7)
+
+df["lag_30"] = df["sales"].shift(30)
+```
+
+Meaning:
+
+```text
+lag_1
+→ Yesterday's sales
+
+lag_7
+→ Sales 7 periods ago
+
+lag_30
+→ Sales 30 periods ago
+```
+
+---
+
+# 24. Rolling Statistics
+
+Rolling statistics calculate statistics over a moving window.
+
+Example:
+
+```python
+df["rolling_mean_7"] = (
+    df["sales"]
+    .shift(1)
+    .rolling(7)
+    .mean()
+)
+```
+
+This calculates the average of the previous 7 observations.
+
+Common rolling features:
+
+```text
+Rolling Mean
+Rolling Median
+Rolling Standard Deviation
+Rolling Minimum
+Rolling Maximum
+Rolling Sum
+```
+
+---
+
+# 25. Why Use `shift()` Before Rolling?
+
+Suppose we want to predict today's sales.
+
+If we calculate:
+
+```python
+df["sales"].rolling(7).mean()
+```
+
+the current sales value can be included in the feature.
+
+That can create **data leakage**.
+
+Instead:
+
+```python
+df["sales"].shift(1).rolling(7).mean()
+```
+
+uses only information available before the prediction time.
+
+---
+
+# 26. Autocorrelation
+
+**Autocorrelation** measures the relationship between a time series and its previous values.
 
 Example:
 
 ```text
-Predict:
-Sales in March
-
-Feature:
-Average Sales calculated using March, April, May
+Today's Sales
+      ↕
+Yesterday's Sales
 ```
 
-This uses future information.
+If today's sales are strongly related to yesterday's sales, there is autocorrelation.
 
-Incorrect.
+Formula:
+
+```text
+ACF(k) = Corr(Y(t), Y(t-k))
+```
+
+Where:
+
+```text
+k = Lag
+```
+
+---
+
+# 27. Positive Autocorrelation
+
+Example:
+
+```text
+Yesterday → 100
+Today     → 105
+
+Yesterday → 200
+Today     → 205
+```
+
+High values tend to follow high values.
+
+Low values tend to follow low values.
+
+This indicates positive autocorrelation.
+
+---
+
+# 28. Negative Autocorrelation
+
+Negative autocorrelation means high values tend to be followed by low values and vice versa.
+
+Example:
+
+```text
+100
+50
+110
+45
+120
+```
+
+The series alternates between high and low values.
+
+---
+
+# 29. Autocorrelation Function — ACF
+
+The **Autocorrelation Function (ACF)** measures autocorrelation at different lag values.
+
+Example:
+
+```text
+Lag 1 → Correlation
+Lag 2 → Correlation
+Lag 3 → Correlation
+Lag 4 → Correlation
+...
+```
+
+ACF is commonly used for:
+
+* Understanding temporal dependence
+* Detecting seasonality
+* Identifying possible MA order
+
+---
+
+# 30. Partial Autocorrelation — PACF
+
+PACF measures the direct relationship between the current value and a particular lag after accounting for intermediate lags.
+
+Example:
+
+```text
+Y(t-3)
+  ↓
+Y(t-2)
+  ↓
+Y(t-1)
+  ↓
+Y(t)
+```
+
+PACF attempts to isolate the direct relationship between:
+
+```text
+Y(t)
+```
+
+and:
+
+```text
+Y(t-3)
+```
+
+after accounting for lags 1 and 2.
+
+PACF is commonly useful for identifying possible AR order.
+
+---
+
+# 31. ACF vs PACF
+
+| ACF                                     | PACF                             |
+| --------------------------------------- | -------------------------------- |
+| Measures correlation with lagged values | Measures direct lag relationship |
+| Includes indirect relationships         | Controls for intermediate lags   |
+| Useful for MA identification            | Useful for AR identification     |
+
+Easy interview rule:
+
+```text
+ACF → MA
+
+PACF → AR
+```
+
+This is a common diagnostic rule, not an absolute law.
+
+---
+
+# 32. Stationarity
+
+A time series is **stationary** when its statistical properties remain reasonably stable over time.
+
+For weak stationarity, commonly:
+
+```text
+Mean → Stable
+Variance → Stable
+Covariance → Depends on lag
+```
+
+Simple interview definition:
+
+> A stationary time series has statistical properties that do not systematically change over time.
+
+---
+
+# 33. Why is Stationarity Important?
+
+Several classical time-series models rely on stationarity or on transformations that produce a stationary series.
+
+Examples:
+
+```text
+AR
+MA
+ARMA
+ARIMA
+VAR
+```
+
+If a series is non-stationary, we may need:
+
+```text
+Differencing
+Transformation
+Detrending
+```
+
+---
+
+# 34. Example of Non-Stationary Series
+
+Consider:
+
+```text
+100
+120
+140
+160
+180
+```
+
+The average level keeps increasing.
+
+Therefore, the series is likely non-stationary because the mean changes over time.
+
+---
+
+# 35. Example of Stationary Series
+
+Consider:
+
+```text
+100
+95
+103
+98
+102
+97
+101
+```
+
+The series fluctuates around a relatively stable level.
+
+This may be stationary.
+
+---
+
+# 36. Causes of Non-Stationarity
+
+Common causes:
+
+```text
+Trend
+Seasonality
+Changing Variance
+Structural Changes
+```
+
+Example:
+
+```text
+Sales
+  ↑
+  |
+  |       /
+  |     /
+  |   /
+  | /
+  +----------------→ Time
+```
+
+The increasing trend can cause non-stationarity.
+
+---
+
+# 37. How to Check Stationarity?
+
+Common approaches:
+
+```text
+1. Visual inspection
+2. Rolling mean
+3. Rolling standard deviation
+4. ADF test
+5. KPSS test
+```
+
+Do not depend only on one statistical test.
+
+---
+
+# 38. Rolling Mean
+
+Rolling mean calculates the mean over a moving window.
+
+Example:
+
+```python
+df["rolling_mean"] = (
+    df["sales"]
+    .rolling(12)
+    .mean()
+)
+```
+
+If the rolling mean changes significantly over time, it may indicate non-stationarity.
+
+---
+
+# 39. Rolling Standard Deviation
+
+Rolling standard deviation measures changing variability.
+
+```python
+df["rolling_std"] = (
+    df["sales"]
+    .rolling(12)
+    .std()
+)
+```
+
+If the variance changes significantly over time, the series may not be stationary.
+
+---
+
+# 40. Augmented Dickey-Fuller Test — ADF
+
+ADF is one of the most commonly used stationarity tests.
+
+### Null Hypothesis
+
+```text
+H0:
+Series has a unit root
+→ Non-stationary
+```
+
+### Alternative Hypothesis
+
+```text
+H1:
+Series does not have a unit root
+→ Stationary
+```
+
+Decision:
+
+```text
+p-value < 0.05
+→ Reject H0
+→ Evidence of stationarity
+
+p-value >= 0.05
+→ Fail to reject H0
+→ Evidence is insufficient to claim stationarity
+```
+
+---
+
+# 41. ADF Test in Python
+
+```python
+from statsmodels.tsa.stattools import adfuller
+
+result = adfuller(
+    df["sales"].dropna()
+)
+
+print("ADF Statistic:", result[0])
+print("p-value:", result[1])
+```
+
+---
+
+# 42. KPSS Test
+
+KPSS is another stationarity test.
+
+For the common level-stationarity version:
+
+### Null Hypothesis
+
+```text
+H0:
+Series is stationary
+```
+
+### Alternative Hypothesis
+
+```text
+H1:
+Series is non-stationary
+```
+
+Decision:
+
+```text
+p-value < 0.05
+→ Reject H0
+→ Evidence of non-stationarity
+```
+
+---
+
+# 43. ADF vs KPSS
+
+The null hypotheses are opposite.
+
+| Test | Null Hypothesis |
+| ---- | --------------- |
+| ADF  | Non-stationary  |
+| KPSS | Stationary      |
+
+Using both tests can provide stronger evidence.
+
+A common pattern:
+
+```text
+ADF:
+Reject H0
+
+KPSS:
+Fail to reject H0
+
+        ↓
+
+Evidence supporting stationarity
+```
+
+---
+
+# 44. Differencing
+
+Differencing is used to remove changes such as trend and help make a series stationary.
+
+First-order differencing:
+
+```text
+Y'(t) = Y(t) - Y(t-1)
+```
+
+Example:
+
+```text
+Original:
+
+100
+110
+125
+140
+
+First Difference:
+
+10
+15
+15
+```
+
+---
+
+# 45. Second-Order Differencing
+
+If first-order differencing is not sufficient:
+
+```text
+Y''(t) = Y'(t) - Y'(t-1)
+```
+
+However:
+
+> Avoid unnecessary differencing because excessive differencing can introduce unnecessary noise.
+
+---
+
+# 46. Seasonal Differencing
+
+Seasonal differencing compares the current value with the value from the previous seasonal cycle.
+
+Formula:
+
+```text
+Y'(t) = Y(t) - Y(t-m)
+```
+
+Where:
+
+```text
+m = Seasonal period
+```
+
+For monthly data with yearly seasonality:
+
+```text
+m = 12
+```
+
+Therefore:
+
+```text
+Y'(t) = Y(t) - Y(t-12)
+```
+
+---
+
+# 47. Log Transformation
+
+Log transformation can help stabilize variance.
+
+Formula:
+
+```text
+Y' = log(Y)
+```
+
+Python:
+
+```python
+import numpy as np
+
+df["sales_log"] = np.log(
+    df["sales"]
+)
+```
+
+For data containing zeros:
+
+```python
+df["sales_log"] = np.log1p(
+    df["sales"]
+)
+```
+
+---
+
+# 48. White Noise
+
+White noise is a random process with approximately:
+
+```text
+Mean ≈ 0
+Constant variance
+No meaningful autocorrelation
+```
+
+Example:
+
+```text
+2
+-1
+0
+1
+-2
+0
+1
+```
+
+A good forecasting model should ideally leave residuals that behave approximately like white noise.
+
+---
+
+# 49. Random Walk
+
+A basic random walk is:
+
+```text
+Y(t) = Y(t-1) + E(t)
+```
+
+Where:
+
+```text
+E(t) = Random error
+```
+
+Example:
+
+```text
+100
+105
+103
+110
+108
+115
+```
+
+The next value depends on the previous value plus random movement.
+
+A basic random walk is generally non-stationary.
+
+---
+
+# 50. Residual
+
+Residual is the difference between actual and predicted values.
+
+Formula:
+
+```text
+Residual = Actual - Forecast
+```
+
+Or:
+
+```text
+E(t) = Y(t) - Y_hat(t)
+```
+
+Example:
+
+```text
+Actual   = 120
+Forecast = 110
+
+Residual = 120 - 110
+         = 10
+```
+
+---
+
+# 51. Good Residuals
+
+Ideally, residuals should have:
+
+```text
+Mean ≈ 0
+No trend
+No seasonality
+No significant autocorrelation
+Stable variance
+```
+
+If residuals still contain patterns:
+
+```text
+Model
+  ↓
+Missed Pattern
+```
+
+The model may need improvement.
+
+---
+
+# 52. Forecasting Horizon
+
+Forecast horizon means how far into the future we want to predict.
+
+Example:
+
+```text
+Forecast next 1 day
+→ Horizon = 1
+
+Forecast next 7 days
+→ Horizon = 7
+
+Forecast next 12 months
+→ Horizon = 12
+```
+
+---
+
+# 53. One-Step Forecast
+
+Predict only the next observation.
+
+```text
+Historical Data
+       ↓
+Predict t+1
+```
+
+Example:
+
+```text
+Jan
+Feb
+Mar
+Apr
+ ↓
+Forecast May
+```
+
+---
+
+# 54. Multi-Step Forecast
+
+Predict multiple future observations.
+
+```text
+Historical Data
+       ↓
+May
+June
+July
+August
+```
+
+Example:
+
+```text
+Forecast Horizon = 4
+```
+
+---
+
+# 55. Baseline Forecast
+
+Before using a complex model, create a simple baseline.
+
+Common baselines:
+
+```text
+Naive Forecast
+Seasonal Naive
+Moving Average
+```
+
+The complex model should outperform a reasonable baseline on out-of-sample data.
+
+---
+
+# 56. Naive Forecast
+
+The naive method predicts the next value using the most recent observed value.
+
+Formula:
+
+```text
+Y_hat(t+1) = Y(t)
+```
+
+Example:
+
+```text
+Today's Sales = 500
+
+Tomorrow's Forecast = 500
+```
+
+Very simple, but extremely important as a benchmark.
+
+---
+
+# 57. Seasonal Naive Forecast
+
+Seasonal naive forecasting uses the value from the previous seasonal cycle.
+
+Formula:
+
+```text
+Y_hat(t) = Y(t-m)
+```
+
+For monthly data with yearly seasonality:
+
+```text
+Y_hat(t) = Y(t-12)
+```
+
+Example:
+
+```text
+December 2025 Sales = 10,000
+
+Forecast December 2026
+≈ December 2025 Sales
+```
+
+---
+
+# 58. Train-Test Split for Time Series
+
+For time-series forecasting, data should normally be split chronologically.
 
 Correct:
 
 ```text
-Features available before March
-→ Predict March
+Past
+ ↓
+Train
+ ↓
+Validation
+ ↓
+Test
+ ↓
+Future
+```
+
+Incorrect for ordinary forecasting evaluation:
+
+```text
+Random Shuffle
+      ↓
+Random Train/Test
 ```
 
 ---
 
-# 58. Temporal Validation
+# 59. Why Random Train-Test Split is Dangerous?
 
-A forecasting model should be evaluated using a realistic temporal setup.
-
-Example:
+Suppose:
 
 ```text
-Train:
-Jan 2020 → Dec 2022
-
-Validation:
-Jan 2023 → Jun 2023
-
-Test:
-Jul 2023 → Dec 2023
+2024 Data → Training
+2023 Data → Testing
 ```
 
-This mimics real-world forecasting.
+The model has effectively learned from the future relative to the test period.
+
+This creates temporal leakage.
+
+Correct:
+
+```text
+2023 → Train
+2024 → Test
+```
 
 ---
 
-# 59. Rolling Forecast Validation
+# 60. Walk-Forward Validation
 
-Rolling validation repeatedly trains on past data and predicts future observations.
+Walk-forward validation simulates real forecasting.
 
 Example:
 
 ```text
-Train: Jan–Jun
-Test:  Jul
+Train:  Jan Feb Mar
+Test:   Apr
 
-Train: Jan–Jul
-Test:  Aug
+Train:  Jan Feb Mar Apr
+Test:   May
 
-Train: Jan–Aug
-Test:  Sep
+Train:  Jan Feb Mar Apr May
+Test:   Jun
 ```
 
 This is also called:
 
-* Rolling-origin evaluation
 * Walk-forward validation
-* Expanding-window validation
+* Rolling-origin evaluation
+* Backtesting
 
 ---
 
-# 60. Expanding Window
+# 61. Expanding Window
 
-Training data continuously grows.
+Training data keeps increasing.
 
 ```text
 Fold 1:
-Train → Jan–Jun
-Test  → Jul
+[1 2 3] → [4]
 
 Fold 2:
-Train → Jan–Jul
-Test  → Aug
+[1 2 3 4] → [5]
 
 Fold 3:
-Train → Jan–Aug
-Test  → Sep
+[1 2 3 4 5] → [6]
 ```
+
+Useful when old historical data remains relevant.
 
 ---
 
-# 61. Sliding Window
+# 62. Rolling Window
 
-The training window moves forward while maintaining a fixed size.
-
-Example:
+The training window moves forward.
 
 ```text
 Fold 1:
-Train → Jan–Jun
-Test  → Jul
+[1 2 3] → [4]
 
 Fold 2:
-Train → Feb–Jul
-Test  → Aug
+[2 3 4] → [5]
 
 Fold 3:
-Train → Mar–Aug
-Test  → Sep
+[3 4 5] → [6]
 ```
 
-### Difference
-
-```text
-Expanding Window
-→ Training size increases
-
-Sliding Window
-→ Training size remains approximately constant
-```
-
----
-
-# 62. Time Series Cross-Validation
-
-A common strategy is:
-
-```text
-Past → Future
-```
-
-rather than:
-
-```text
-Random → Random
-```
-
-Example:
-
-```text
-Fold 1:
-Train █████
-Test  ██
-
-Fold 2:
-Train ███████
-Test  ██
-
-Fold 3:
-Train █████████
-Test  ██
-```
-
-This preserves temporal ordering.
+Useful when recent history is more relevant than very old history.
 
 ---
 
@@ -1561,630 +1598,540 @@ This preserves temporal ordering.
 
 Forecast error is:
 
-$$
-e_t=Y_t-\hat{Y}_t
-$$
-
-Where:
-
-* `Yₜ` = actual value
-* `Ŷₜ` = forecast
+```text
+Error = Actual - Forecast
+```
 
 Example:
 
 ```text
-Actual = 100
-Forecast = 90
+Actual   = 500
+Forecast = 450
 
-Error = 100 - 90
-      = 10
+Error = 50
 ```
 
 ---
 
-# 64. Residual vs Forecast Error
+# 64. Common Forecasting Metrics
 
-In forecasting, these terms are closely related but can be distinguished.
-
-### Forecast Error
-
-Difference between actual and forecast:
-
-$$
-e_t=Y_t-\hat{Y}_t
-$$
-
-### Residual
-
-Difference between observed values and fitted values in the training/modeling context.
-
-For a well-specified model, residuals should ideally contain little systematic information.
-
----
-
-# 65. Good Forecasting Model
-
-A good forecasting model should generally have:
+Important metrics:
 
 ```text
-Low Forecast Error
-       +
-No Systematic Residual Pattern
-       +
-Good Generalization
-       +
-Stable Future Performance
+MAE
+MSE
+RMSE
+MAPE
+WAPE
+MASE
+sMAPE
 ```
+
+The correct metric depends on the business problem.
 
 ---
 
-# 66. Important Time Series Concepts
+# 65. MAE
+
+Mean Absolute Error:
 
 ```text
-Time Series
-    ↓
-Trend
-    ↓
-Seasonality
-    ↓
-Cycle
-    ↓
-Noise
-    ↓
-Stationarity
-    ↓
-Lag
-    ↓
-Autocorrelation
-    ↓
-ACF / PACF
-    ↓
-Differencing
-    ↓
-Forecasting
-    ↓
-Temporal Validation
+MAE = (1/n) × Σ |Y(t) - Y_hat(t)|
 ```
 
----
+Advantages:
 
-# 67. Python: Basic Time-Series Setup
-
-```python
-import pandas as pd
-import matplotlib.pyplot as plt
-
-df = pd.read_csv("sales.csv")
-
-df["date"] = pd.to_datetime(df["date"])
-
-df = df.sort_values("date")
-
-df = df.set_index("date")
-```
-
----
-
-# 68. Plot Time Series
-
-```python
-df["sales"].plot(figsize=(12, 5))
-
-plt.title("Sales Over Time")
-plt.xlabel("Date")
-plt.ylabel("Sales")
-plt.show()
-```
-
-Always visualize the series before modeling.
-
-Look for:
-
-* Trend
-* Seasonality
-* Outliers
-* Structural breaks
-* Missing periods
-* Changing variance
-
----
-
-# 69. Check Missing Dates
-
-Time series datasets should be checked for missing timestamps.
-
-Example:
-
-```python
-df.index.to_series().diff().value_counts()
-```
-
-For daily data, unexpected gaps may indicate missing observations.
-
----
-
-# 70. Resampling
-
-Resampling changes the frequency of a time series.
-
-Example:
-
-Daily → Monthly:
-
-```python
-monthly_sales = df["sales"].resample("M").sum()
-```
-
-Daily → Weekly:
-
-```python
-weekly_sales = df["sales"].resample("W").sum()
-```
-
-Monthly → Quarterly:
-
-```python
-quarterly_sales = df["sales"].resample("Q").sum()
-```
-
----
-
-# 71. Aggregation During Resampling
-
-The aggregation depends on the business meaning.
-
-### Sales
-
-```python
-.resample("M").sum()
-```
-
-### Average Temperature
-
-```python
-.resample("M").mean()
-```
-
-### Closing Stock Price
-
-```python
-.resample("M").last()
-```
-
-Choosing the wrong aggregation can distort the time series.
-
----
-
-# 72. Outliers in Time Series
-
-Outliers can be caused by:
-
-* Data errors
-* Promotions
-* Holidays
-* Pandemics
-* Supply disruptions
-* Weather events
-* Sudden market changes
-
-Do not automatically remove every outlier.
-
-First determine:
-
-> Is it a data error or a genuine business event?
-
----
-
-# 73. Structural Break
-
-A **Structural Break** occurs when the underlying behavior of a time series changes.
+* Easy to understand
+* Same unit as target
+* Less sensitive to large errors than RMSE
 
 Example:
 
 ```text
-Before:
-Sales ≈ 100 units/day
+MAE = 20
 
-After:
-Sales ≈ 180 units/day
 ```
 
-Possible causes:
-
-* New product
-* Pricing change
-* New market
-* Regulation
-* Pandemic
-* Major competitor
-* Business strategy change
+means the average absolute forecast error is 20 units.
 
 ---
 
-# 74. Concept Drift
+# 66. RMSE
 
-In forecasting, **concept drift** occurs when the relationship between predictors and the target changes over time.
+Root Mean Squared Error:
+
+```text
+RMSE = √[(1/n) × Σ(Y(t) - Y_hat(t))²]
+```
+
+RMSE penalizes large errors more strongly than MAE.
+
+Use RMSE when large errors are particularly important.
+
+---
+
+# 67. MAPE
+
+Mean Absolute Percentage Error:
+
+```text
+MAPE = (100/n) × Σ |(Y(t) - Y_hat(t)) / Y(t)|
+```
+
+Main problem:
+
+```text
+Actual = 0
+```
+
+causes division by zero.
+
+MAPE can also become unstable when actual values are very close to zero.
+
+---
+
+# 68. WAPE
+
+Weighted Absolute Percentage Error:
+
+```text
+WAPE =
+Σ|Y(t) - Y_hat(t)|
+-------------------
+Σ|Y(t)|
+× 100
+```
+
+WAPE is commonly useful for aggregate sales or demand forecasting.
+
+---
+
+# 69. MASE
+
+Mean Absolute Scaled Error:
+
+```text
+MASE =
+MAE of Forecast
+----------------
+MAE of Naive Forecast
+```
+
+Interpretation:
+
+```text
+MASE < 1
+→ Better than naive forecast
+
+MASE = 1
+→ Same as naive forecast
+
+MASE > 1
+→ Worse than naive forecast
+```
+
+---
+
+# 70. Prediction Interval
+
+A point forecast gives only one value.
 
 Example:
 
 ```text
-Before:
-Promotion → Strong increase in sales
-
-After:
-Promotion → Small increase in sales
+Forecast = 500
 ```
 
-The model may become less accurate because the underlying relationship has changed.
+A prediction interval communicates uncertainty.
 
----
-
-# 75. Time Series Workflow
+Example:
 
 ```text
-Business Problem
-      ↓
-Define Target
-      ↓
-Define Forecast Horizon
-      ↓
-Collect Time-Series Data
-      ↓
-Sort by Time
-      ↓
-Check Frequency
-      ↓
-Handle Missing Dates
-      ↓
-EDA
-      ↓
-Trend / Seasonality / Cycles
-      ↓
-Outlier Analysis
-      ↓
-Check Stationarity
-      ↓
-Transform / Difference if Required
-      ↓
-Create Baseline
-      ↓
-Feature Engineering
-      ↓
-Train Forecasting Models
-      ↓
-Time-Based Validation
-      ↓
-Evaluate Forecast
-      ↓
-Residual Diagnostics
-      ↓
-Final Model
-      ↓
-Future Forecast
-      ↓
-Monitor Performance
+Forecast = 500
+
+95% Prediction Interval:
+450 – 550
+```
+
+This means the forecast is uncertain, and the interval represents a range for a future observation under the model's assumptions.
+
+---
+
+# 71. Important Time Series Models
+
+At a high level:
+
+```text
+Naive
+Seasonal Naive
+Moving Average
+Simple Exponential Smoothing
+Holt
+Holt-Winters
+AR
+MA
+ARMA
+ARIMA
+SARIMA
+SARIMAX
+VAR
+Prophet
+Machine Learning
+LSTM
+GRU
+Transformers
+```
+
+These models will be covered in the later modeling file.
+
+---
+
+# 72. Time Series Analysis Workflow
+
+Use this workflow in interviews:
+
+```text
+1. Understand Business Problem
+        ↓
+2. Define Target
+        ↓
+3. Define Forecast Horizon
+        ↓
+4. Check Date Column
+        ↓
+5. Sort Chronologically
+        ↓
+6. Check Frequency
+        ↓
+7. Check Missing Values
+        ↓
+8. Check Missing Dates
+        ↓
+9. Visualize Time Series
+        ↓
+10. Identify Trend
+        ↓
+11. Identify Seasonality
+        ↓
+12. Check Stationarity
+        ↓
+13. ACF / PACF
+        ↓
+14. Create Baseline
+        ↓
+15. Build Models
+        ↓
+16. Time-Based Validation
+        ↓
+17. Evaluate Metrics
+        ↓
+18. Check Residuals
+        ↓
+19. Forecast Future
+        ↓
+20. Monitor Model
 ```
 
 ---
 
-# 76. Important Interview Questions
+# 73. Important Interview Questions
 
 ## Q1. What is a time series?
 
-A sequence of observations recorded chronologically over time.
+A time series is a sequence of observations recorded in chronological order where temporal relationships may exist between observations.
 
 ---
 
 ## Q2. What is forecasting?
 
-Predicting future values using historical time-dependent information and potentially external variables.
+Forecasting is the process of predicting future values using historical observations and potentially external variables.
 
 ---
 
 ## Q3. What are the main components of a time series?
 
-* Trend
-* Seasonality
-* Cyclical component
-* Irregular/random component
+```text
+Level
+Trend
+Seasonality
+Noise
+```
+
+Cycles may also be present.
 
 ---
 
-## Q4. Difference between trend and seasonality?
+## Q4. What is trend?
 
-**Trend** is long-term direction.
-
-**Seasonality** is a repeating pattern at a fixed frequency.
+Trend is the long-term direction of a time series.
 
 ---
 
-## Q5. Difference between seasonality and cyclic behavior?
+## Q5. What is seasonality?
 
-Seasonality has a fixed and known frequency, while cycles generally have variable duration.
-
----
-
-## Q6. What is stationarity?
-
-A stationary time series has stable statistical properties over time, particularly constant mean, constant variance, and autocovariance dependent primarily on lag.
+Seasonality is a repeating pattern occurring at a known frequency.
 
 ---
 
-## Q7. Why is stationarity important?
+## Q6. What is the difference between seasonality and cyclicity?
 
-Many classical time-series models rely on stationary behavior for reliable estimation and interpretation.
+Seasonality repeats at a known frequency, while cycles have variable duration and do not necessarily follow a fixed period.
 
 ---
 
-## Q8. How can you make a time series stationary?
+## Q7. What is stationarity?
 
-Common approaches:
+Stationarity means that the statistical behavior of the time series remains stable over time.
 
-* Differencing
-* Log transformation
-* Box-Cox transformation
-* Removing trend
-* Seasonal differencing
+---
+
+## Q8. How do you check stationarity?
+
+I would use:
+
+```text
+Visual Analysis
+Rolling Statistics
+ADF Test
+KPSS Test
+```
 
 ---
 
 ## Q9. What is differencing?
 
-Subtracting a previous observation from the current observation:
+Differencing subtracts the previous observation from the current observation:
 
-$$
-\Delta Y_t=Y_t-Y_{t-1}
-$$
+```text
+Y'(t) = Y(t) - Y(t-1)
+```
 
----
-
-## Q10. What is autocorrelation?
-
-The correlation between a time series and its lagged values.
+It is commonly used to remove trend and help achieve stationarity.
 
 ---
 
-## Q11. What is ACF?
+## Q10. What is ACF?
 
-ACF measures autocorrelation at different lag values.
-
----
-
-## Q12. What is PACF?
-
-PACF measures the direct relationship between a value and a particular lag after accounting for intermediate lags.
+ACF measures correlation between a time series and its lagged values.
 
 ---
 
-## Q13. Why are ACF and PACF important?
+## Q11. What is PACF?
 
-They help identify temporal dependencies and are useful when selecting AR and MA components.
-
----
-
-## Q14. Why should random train-test split generally be avoided?
-
-Because it can allow future observations to influence training and cause data leakage.
+PACF measures the direct relationship between a time series and a specific lag after accounting for intermediate lags.
 
 ---
 
-## Q15. What is walk-forward validation?
+## Q12. Why do we use ACF and PACF?
 
-A validation approach where the model is repeatedly trained on historical data and tested on the next future period.
-
----
-
-## Q16. What is a naive forecast?
-
-The next forecast equals the most recent observed value.
-
-$$
-\hat{Y}_{t+1}=Y_t
-$$
+They help understand temporal dependence and provide diagnostic information for selecting AR and MA orders.
 
 ---
 
-## Q17. What is seasonal naive forecasting?
+## Q13. Why should we not randomly split time-series data?
 
-The forecast equals the value from the corresponding previous seasonal period.
-
-For monthly yearly seasonality:
-
-$$
-\hat{Y}*t=Y*{t-12}
-$$
+Because random splitting can mix future observations into the training data and cause temporal leakage.
 
 ---
 
-## Q18. What is white noise?
+## Q14. What is walk-forward validation?
 
-A random process with approximately constant mean and variance and no meaningful autocorrelation.
-
----
-
-## Q19. What should good model residuals look like?
-
-They should ideally:
-
-* Have mean near zero
-* Show approximately constant variance
-* Have little/no autocorrelation
-* Contain no obvious systematic pattern
+Walk-forward validation sequentially trains on historical data and evaluates on later observations, simulating real-world forecasting.
 
 ---
 
-## Q20. What is forecast horizon?
+## Q15. What is a naive forecast?
 
-The number of future time periods for which forecasts are required.
+A naive forecast uses the latest observed value as the next forecast.
 
----
-
-# 77. Scenario-Based Interview Questions
-
-## Scenario 1
-
-Your sales data has strong yearly seasonality.
-
-What would you do?
-
-### Answer
-
-Identify the seasonal period, visualize the seasonal pattern, consider seasonal decomposition and seasonal forecasting models such as Holt-Winters or SARIMA, and use a seasonal-naive baseline for comparison.
+```text
+Y_hat(t+1) = Y(t)
+```
 
 ---
 
-## Scenario 2
+## Q16. Why is a baseline model important?
 
-Your time series has an upward trend.
-
-Is it stationary?
-
-### Answer
-
-Not necessarily. A persistent trend usually indicates non-stationarity in the mean.
+It provides a simple benchmark. A complex model should demonstrate that it provides meaningful improvement over the baseline.
 
 ---
 
-## Scenario 3
+## Q17. What is residual?
 
-Your ACF shows strong spikes at lag 12, 24, and 36 for monthly data.
+Residual is:
 
-What could this indicate?
-
-### Answer
-
-It strongly suggests yearly seasonality.
+```text
+Actual - Forecast
+```
 
 ---
 
-## Scenario 4
+## Q18. What should good residuals look like?
 
-Your model performs very well on random train-test split but poorly in production.
+Ideally:
 
-What could be wrong?
-
-### Answer
-
-Potential causes include temporal data leakage, unrealistic validation, concept drift, distribution changes, or future information accidentally entering the training features.
-
----
-
-## Scenario 5
-
-Your residuals show strong autocorrelation.
-
-What does it indicate?
-
-### Answer
-
-The model may not have captured all temporal structure, suggesting that additional lag/seasonal components or a different forecasting model may be required.
+```text
+Mean ≈ 0
+No trend
+No seasonality
+No significant autocorrelation
+Stable variance
+```
 
 ---
 
-# 78. Quick Revision
+## Q19. What is forecast horizon?
+
+Forecast horizon is the number of future periods we want to predict.
+
+---
+
+## Q20. What is temporal leakage?
+
+Temporal leakage occurs when information that would not have been available at prediction time is used to create features, train the model, or evaluate the forecast.
+
+---
+
+# 74. Quick Revision
 
 ```text
 TIME SERIES
-│
-├── Time-ordered observations
-│
-├── Trend
-│
-├── Seasonality
-│
-├── Cycle
-│
-├── Noise
-│
-├── Stationarity
-│
-├── Lag
-│
-├── Autocorrelation
-│
-├── ACF
-│
-├── PACF
-│
-├── Differencing
-│
-├── Decomposition
-│
-├── Forecast Horizon
-│
-├── One-Step Forecast
-│
-├── Multi-Step Forecast
-│
-├── Naive Forecast
-│
-├── Seasonal Naive
-│
-└── Temporal Validation
-```
+→ Ordered observations over time
 
----
-
-# 79. Must Remember
-
-```text
-Time Series
-→ Observations ordered by time
-
-Forecasting
+FORECASTING
 → Predict future values
 
-Trend
+LEVEL
+→ Baseline value
+
+TREND
 → Long-term direction
 
-Seasonality
+SEASONALITY
 → Repeating fixed-frequency pattern
 
-Cycle
-→ Long-term non-fixed fluctuations
+CYCLE
+→ Long-term fluctuation without fixed frequency
 
-Noise
+NOISE
 → Random variation
 
-Stationarity
-→ Stable statistical properties over time
-
-Lag
+LAG
 → Previous observation
 
-Autocorrelation
-→ Relationship with lagged observations
-
 ACF
-→ Overall lag correlation
+→ Correlation with lagged values
 
 PACF
-→ Direct lag correlation
+→ Direct correlation with a lag
 
-Differencing
-→ Y(t) - Y(t-1)
+STATIONARITY
+→ Stable statistical behavior
 
-Naive Forecast
-→ Last observed value
+ADF
+→ Null: Unit root / non-stationary
 
-Seasonal Naive
-→ Previous seasonal value
+KPSS
+→ Null: Stationary
 
-Forecast Error
+DIFFERENCING
+→ Current value - previous value
+
+SEASONAL DIFFERENCING
+→ Current value - value from previous season
+
+NAIVE
+→ Last value as forecast
+
+SEASONAL NAIVE
+→ Previous season's value as forecast
+
+MAE
+→ Average absolute error
+
+RMSE
+→ Penalizes large errors
+
+MAPE
+→ Percentage error; problematic around zero
+
+WAPE
+→ Aggregate percentage error
+
+MASE
+→ Error relative to naive benchmark
+
+RESIDUAL
 → Actual - Forecast
 
-Walk-Forward Validation
-→ Train on past → predict future
-
-Data Leakage
-→ Future information enters training
-
-Good Residuals
-→ Approximately white noise
+WALK-FORWARD
+→ Sequential time-based validation
 ```
 
 ---
 
-# 80. One-Minute Interview Explanation
+# 75. One-Minute Interview Summary
 
-> Time-series forecasting deals with predicting future values from time-ordered historical data. The important components of a time series are trend, seasonality, cycles, and noise. Before modeling, I check the time frequency, missing timestamps, outliers, trend, seasonality, autocorrelation, and stationarity. For classical models, I may use differencing or transformations when required to achieve stationarity. I also use ACF and PACF to understand temporal dependencies. For validation, I avoid random train-test splits and use time-based or walk-forward validation to prevent future data leakage. I start with simple baselines such as naive and seasonal-naive forecasts and then compare them with statistical, machine-learning, or deep-learning models based on the business problem and forecast horizon.
+If an interviewer asks:
+
+**"How would you approach a time-series forecasting problem?"**
+
+Answer:
+
+```text
+First, I would understand the business objective,
+target variable, forecast horizon, and required frequency.
+
+Then I would validate the time index, sort the data
+chronologically, check missing timestamps, missing values,
+duplicates, and outliers.
+
+Next, I would perform time-series EDA to identify trend,
+seasonality, cycles, and autocorrelation.
+
+I would check stationarity using visual analysis,
+rolling statistics, ADF, and KPSS tests where appropriate.
+
+Then I would create a simple baseline such as naive or
+seasonal-naive forecasting.
+
+After that, I would engineer appropriate lag, rolling,
+calendar, and external-variable features while preventing
+temporal leakage.
+
+I would evaluate candidate models using time-based or
+walk-forward validation rather than random splitting.
+
+Finally, I would compare models using appropriate
+forecasting metrics, analyze residuals, generate forecasts
+with uncertainty intervals where appropriate, and monitor
+the model after deployment.
+```
+
+---
+
+# 76. Core Concepts to Remember
+
+```text
+Time Order Matters
+        ↓
+Understand Trend
+        ↓
+Understand Seasonality
+        ↓
+Check Stationarity
+        ↓
+Understand ACF / PACF
+        ↓
+Create Baseline
+        ↓
+Avoid Temporal Leakage
+        ↓
+Use Time-Based Validation
+        ↓
+Evaluate Forecast Error
+        ↓
+Check Residuals
+        ↓
+Forecast Future
+```
