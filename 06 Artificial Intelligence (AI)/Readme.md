@@ -5,7 +5,58 @@
 ---
 
 ## 📁 AI Roadmap
-
+                 DEEP LEARNING
+                       │
+          ┌────────────┴────────────┐
+          ↓                         ↓
+    Neural Networks             CNN
+          │
+          ↓
+      RNN / LSTM / GRU
+          │
+          ↓
+      Attention
+          │
+          ↓
+     Transformers
+          │
+     ┌────┴────┐
+     ↓         ↓
+    BERT       GPT
+     │         │
+     └────┬────┘
+          ↓
+         LLM
+          ↓
+    Generative AI
+          │
+     ┌────┴─────────────┐
+     ↓                  ↓
+   Prompting           RAG
+     │                  │
+     │          ┌───────┴────────┐
+     │          ↓                ↓
+     │     Vector DB       Advanced RAG
+     │                           │
+     └──────────┬────────────────┘
+                ↓
+          AI Applications
+                ↓
+          AI Agents
+                ↓
+          Tool Calling
+                ↓
+              MCP
+                ↓
+         Agentic AI
+                ↓
+        AI System Design
+                ↓
+       Deployment / LLMOps
+                ↓
+          INTERVIEW
+                ↓
+              JOB
 ```text
 AI/
 │
