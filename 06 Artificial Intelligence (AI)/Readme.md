@@ -1,354 +1,938 @@
-# AI — Interview Preparation Roadmap
+# Deep Learning & AI — Interview Preparation
 
-> **Goal:** Build job-ready AI knowledge from fundamentals to advanced **Generative AI, RAG, LLMs, and AI Agents**.
-
----
-
-## 📁 AI Roadmap
-                 DEEP LEARNING
-                       │
-          ┌────────────┴────────────┐
-          ↓                         ↓
-    Neural Networks             CNN
-          │
-          ↓
-      RNN / LSTM / GRU
-          │
-          ↓
-      Attention
-          │
-          ↓
-     Transformers
-          │
-     ┌────┴────┐
-     ↓         ↓
-    BERT       GPT
-     │         │
-     └────┬────┘
-          ↓
-         LLM
-          ↓
-    Generative AI
-          │
-     ┌────┴─────────────┐
-     ↓                  ↓
-   Prompting           RAG
-     │                  │
-     │          ┌───────┴────────┐
-     │          ↓                ↓
-     │     Vector DB       Advanced RAG
-     │                           │
-     └──────────┬────────────────┘
-                ↓
-          AI Applications
-                ↓
-          AI Agents
-                ↓
-          Tool Calling
-                ↓
-              MCP
-                ↓
-         Agentic AI
-                ↓
-        AI System Design
-                ↓
-       Deployment / LLMOps
-                ↓
-          INTERVIEW
-                ↓
-              JOB
-```text
-AI/
-│
-├── README.md
-│
-├── 01_AI_Fundamentals.md
-├── 02_Mathematics_for_AI.md
-├── 03_Machine_Learning_for_AI.md
-├── 04_Deep_Learning_Fundamentals.md
-├── 05_NLP_Fundamentals.md
-│
-├── 06_Neural_Networks.md
-├── 07_CNN.md
-├── 08_RNN_LSTM_GRU.md
-├── 09_Attention_Mechanism.md
-├── 10_Transformers.md
-│
-├── 11_LLM_Fundamentals.md
-├── 12_Generative_AI_Fundamentals.md
-├── 13_Prompt_Engineering.md
-├── 14_Embeddings.md
-├── 15_Vector_Databases.md
-│
-├── 16_RAG_Fundamentals.md
-├── 17_Advanced_RAG.md
-├── 18_RAG_Evaluation.md
-├── 19_LangChain.md
-├── 20_LlamaIndex.md
-│
-├── 21_Fine_Tuning.md
-├── 22_PEFT_LoRA_QLoRA.md
-├── 23_Model_Quantization.md
-├── 24_Hugging_Face.md
-│
-├── 25_AI_Agents.md
-├── 26_Agentic_AI.md
-├── 27_Tool_Calling.md
-├── 28_MCP.md
-├── 29_Multi_Agent_Systems.md
-│
-├── 30_Generative_AI_Architecture.md
-├── 31_AI_Guardrails.md
-├── 32_AI_Safety.md
-├── 33_LLM_Evaluation.md
-│
-├── 34_AI_Deployment.md
-├── 35_LLMOps.md
-├── 36_MLOps_for_AI.md
-├── 37_AI_Monitoring.md
-├── 38_AI_Cost_Latency_Optimization.md
-│
-├── 39_Azure_AI.md
-├── 40_AWS_Generative_AI.md
-├── 41_GCP_Generative_AI.md
-│
-├── 42_GenAI_Project_Architecture.md
-├── 43_GenAI_Interview_Questions.md
-└── 44_GenAI_End_to_End_Project.md
-```
+> **Objective:** Build strong theoretical, practical, and interview-ready knowledge of **Deep Learning, NLP, Transformers, Generative AI, LLMs, RAG, AI Agents, and Production AI** for Data Scientist / AI / GenAI roles.
 
 ---
 
-# 1. AI Fundamentals
+# 📚 Learning Roadmap
 
 ```text
-AI
- ↓
-Types of AI
- ↓
-AI vs ML vs DL
- ↓
-Supervised / Unsupervised / Reinforcement Learning
- ↓
-Training / Validation / Testing
- ↓
-Model Evaluation
- ↓
-Overfitting / Underfitting
-```
-
-**File:** `01_AI_Fundamentals.md`
-
----
-
-# 2. Mathematics for AI
-
-```text
-Linear Algebra
-Probability
-Statistics
-Calculus
-Optimization
-```
-
-**File:** `02_Mathematics_for_AI.md`
-
----
-
-# 3. Machine Learning for AI
-
-```text
-Regression
-Classification
-Clustering
-Feature Engineering
-Feature Selection
-Model Evaluation
-Ensemble Learning
-Hyperparameter Tuning
-```
-
-**File:** `03_Machine_Learning_for_AI.md`
-
----
-
-# 4. Deep Learning
-
-```text
+Deep Learning
+      ↓
 Neural Networks
- ↓
-Backpropagation
- ↓
-Optimization
- ↓
-CNN
- ↓
-RNN
- ↓
-LSTM / GRU
- ↓
+      ↓
+CNN ───────────────→ Computer Vision
+      ↓
+RNN → LSTM → GRU
+      ↓
 Attention
- ↓
+      ↓
 Transformers
-```
-
-**Files:** `04` → `10`
-
----
-
-# 5. NLP Fundamentals
-
-```text
-Text Preprocessing
- ↓
-Tokenization
- ↓
-N-Grams
- ↓
-TF-IDF
- ↓
-Word Embeddings
- ↓
-Semantic Similarity
- ↓
-Attention
- ↓
-Transformers
-```
-
-**File:** `05_NLP_Fundamentals.md`
-
----
-
-# 6. Transformers
-
-```text
-Encoder
-Decoder
-Self-Attention
-Multi-Head Attention
-Positional Encoding
-Feed Forward Network
-Layer Normalization
-Residual Connections
-```
-
-**File:** `10_Transformers.md`
-
----
-
-# 7. LLM Fundamentals
-
-```text
-LLM
- ↓
-Tokens
- ↓
-Tokenization
- ↓
-Embeddings
- ↓
-Transformer
- ↓
-Pretraining
- ↓
-Instruction Tuning
- ↓
-Alignment
- ↓
-Inference
-```
-
-**File:** `11_LLM_Fundamentals.md`
-
----
-
-# 8. Generative AI
-
-```text
-Generative AI
-│
-├── LLMs
-├── Diffusion Models
-├── GANs
-├── VAEs
-└── Multimodal AI
-```
-
-Focus primarily on:
-
-```text
+      ↓
+BERT / GPT
+      ↓
 LLMs
-Text Generation
-Image Generation
-Multimodal Models
-Foundation Models
+      ↓
+Generative AI
+      ↓
+Prompt Engineering
+      ↓
+Embeddings
+      ↓
+Vector Databases
+      ↓
+RAG
+      ↓
+Advanced RAG
+      ↓
+Fine-Tuning
+      ↓
+LoRA / QLoRA
+      ↓
+AI Agents
+      ↓
+Tool Calling
+      ↓
+MCP
+      ↓
+Agentic AI
+      ↓
+AI System Design
+      ↓
+Deployment / LLMOps
+      ↓
+Interview Preparation
 ```
-
-**File:** `12_Generative_AI_Fundamentals.md`
 
 ---
 
-# 9. Prompt Engineering
+# 🟦 Phase 1 — Deep Learning Fundamentals
+
+### 01. Deep Learning Fundamentals
+
+**Core Topics**
+
+* Artificial Neural Networks
+* Deep Learning vs Machine Learning
+* Neural Network Architecture
+* Input Layer
+* Hidden Layers
+* Output Layer
+* Parameters
+* Weights
+* Bias
+* Forward Propagation
+* Backpropagation
+* Training vs Inference
+
+**File:** `01_Deep_Learning_Fundamentals.md`
+
+---
+
+### 02. Neural Networks
+
+* Perceptron
+* Multi-Layer Perceptron
+* Feed Forward Neural Network
+* Neurons
+* Weights and Bias
+* Decision Boundary
+* Computational Graph
+* Forward Pass
+* Backward Pass
+
+**File:** `02_Neural_Networks.md`
+
+---
+
+### 03. Perceptron & MLP
+
+* Single Perceptron
+* Multi-Layer Perceptron
+* Linear Separability
+* XOR Problem
+* Hidden Layers
+* Universal Approximation
+
+**File:** `03_Perceptron_and_MLP.md`
+
+---
+
+### 04. Backpropagation
+
+* Chain Rule
+* Gradient Calculation
+* Error Propagation
+* Computational Graph
+* Vanishing Gradient
+* Exploding Gradient
+* Gradient Flow
+
+**File:** `04_Backpropagation.md`
+
+---
+
+### 05. Activation Functions
+
+Important:
+
+* Sigmoid
+* Tanh
+* ReLU
+* Leaky ReLU
+* PReLU
+* ELU
+* GELU
+* Softmax
+
+Understand:
+
+* Formula
+* Graph
+* Advantages
+* Disadvantages
+* Vanishing Gradient
+* When to use
+
+**File:** `05_Activation_Functions.md`
+
+---
+
+### 06. Loss Functions
+
+* MSE
+* MAE
+* Binary Cross Entropy
+* Categorical Cross Entropy
+* Sparse Categorical Cross Entropy
+* Hinge Loss
+* Focal Loss
+
+Understand which loss function is suitable for which problem.
+
+**File:** `06_Loss_Functions.md`
+
+---
+
+### 07. Gradient Descent
+
+* Batch Gradient Descent
+* Stochastic Gradient Descent
+* Mini-Batch Gradient Descent
+* Learning Rate
+* Learning Rate Scheduling
+* Local Minima
+* Global Minima
+* Saddle Points
+
+**File:** `07_Gradient_Descent.md`
+
+---
+
+### 08. Optimizers
+
+Important:
+
+* SGD
+* Momentum
+* AdaGrad
+* RMSProp
+* Adam
+* AdamW
+* Nadam
+
+Understand:
 
 ```text
-Zero-Shot
-Few-Shot
-Role Prompting
-System Prompts
-Chain-of-Thought
-Structured Output
-Prompt Templates
-Prompt Chaining
-Function / Tool Calling
+Optimizer
+→ How it works
+→ Advantages
+→ Disadvantages
+→ When to use
 ```
 
-**File:** `13_Prompt_Engineering.md`
+**File:** `08_Optimizers.md`
 
 ---
 
-# 10. Embeddings
+### 09. Regularization
+
+* L1 Regularization
+* L2 Regularization
+* Dropout
+* Early Stopping
+* Data Augmentation
+* Weight Decay
+
+Focus on:
+
+```text
+Overfitting
+      ↓
+Regularization
+      ↓
+Better Generalization
+```
+
+**File:** `09_Regularization.md`
+
+---
+
+### 10. Batch Normalization
+
+* Internal Covariate Shift
+* Normalization
+* Batch Statistics
+* Training vs Inference
+* BatchNorm vs LayerNorm
+
+**File:** `10_Batch_Normalization.md`
+
+---
+
+### 11. Weight Initialization
+
+* Zero Initialization
+* Random Initialization
+* Xavier / Glorot
+* He Initialization
+* Initialization and Vanishing Gradients
+
+**File:** `11_Weight_Initialization.md`
+
+---
+
+### 12. Hyperparameter Tuning
+
+Important parameters:
+
+* Learning Rate
+* Batch Size
+* Epochs
+* Number of Layers
+* Number of Neurons
+* Dropout
+* Weight Decay
+* Optimizer
+
+Methods:
+
+* Grid Search
+* Random Search
+* Bayesian Optimization
+
+**File:** `12_Hyperparameter_Tuning.md`
+
+---
+
+# 🟦 Phase 2 — CNN & Computer Vision
+
+## 13. CNN
+
+Learn:
+
+* Convolution
+* Kernel / Filter
+* Stride
+* Padding
+* Feature Map
+* Receptive Field
+* Pooling
+* Max Pooling
+* Average Pooling
+* Flatten
+* Fully Connected Layer
+
+**File:** `13_CNN.md`
+
+---
+
+## 14. CNN Architectures
+
+Important models:
+
+```text
+LeNet
+AlexNet
+VGG
+GoogLeNet / Inception
+ResNet
+DenseNet
+EfficientNet
+```
+
+**File:** `14_CNN_Architectures.md`
+
+---
+
+## 15. Transfer Learning
+
+* Pretrained Models
+* Feature Extraction
+* Fine-Tuning
+* Freezing Layers
+* Unfreezing Layers
+* ImageNet
+* Transfer Learning Workflow
+
+**File:** `15_Transfer_Learning.md`
+
+---
+
+## 16. Object Detection
+
+Understand:
+
+* Classification vs Detection
+* Bounding Boxes
+* IoU
+* Precision / Recall
+* mAP
+* Anchor Boxes
+
+Important models:
+
+```text
+R-CNN
+Fast R-CNN
+Faster R-CNN
+YOLO
+SSD
+```
+
+**File:** `16_Object_Detection.md`
+
+---
+
+## 17. YOLO
+
+Focus on:
+
+* YOLO architecture
+* Grid-based detection
+* Bounding boxes
+* Confidence score
+* Non-Maximum Suppression
+* IoU
+* mAP
+* YOLO versions conceptually
+
+**File:** `17_YOLO.md`
+
+---
+
+## 18. Image Segmentation
+
+* Semantic Segmentation
+* Instance Segmentation
+* Panoptic Segmentation
+* U-Net
+* Mask R-CNN
+
+Metrics:
+
+* IoU
+* Dice Score
+
+**File:** `18_Segmentation.md`
+
+---
+
+# 🟦 Phase 3 — RNN & Sequential Models
+
+## 19. RNN
+
+* Sequential Data
+* Hidden State
+* Recurrent Connection
+* Unrolled RNN
+* Many-to-One
+* Many-to-Many
+* Vanishing Gradient
+* Exploding Gradient
+
+**File:** `19_RNN.md`
+
+---
+
+## 20. LSTM
+
+Understand deeply:
+
+* Cell State
+* Hidden State
+* Forget Gate
+* Input Gate
+* Output Gate
+* Candidate Cell State
+* Vanishing Gradient Solution
+
+**File:** `20_LSTM.md`
+
+---
+
+## 21. GRU
+
+* Update Gate
+* Reset Gate
+* Hidden State
+* GRU vs LSTM
+
+**File:** `21_GRU.md`
+
+---
+
+## 22. Seq2Seq
+
+* Encoder
+* Decoder
+* Context Vector
+* Teacher Forcing
+* Sequence-to-Sequence Learning
+* Limitations of Fixed Context
+
+**File:** `22_Seq2Seq.md`
+
+---
+
+# 🟦 Phase 4 — Attention & Transformers
+
+## 23. Attention Mechanism
+
+**Very High Priority**
+
+Understand:
+
+```text
+Query
+Key
+Value
+```
+
+Topics:
+
+* Attention Scores
+* Scaled Dot Product
+* Self-Attention
+* Cross-Attention
+* Attention Weights
+
+**File:** `23_Attention_Mechanism.md`
+
+---
+
+## 24. Self-Attention
+
+* Query
+* Key
+* Value
+* Attention Matrix
+* Scaled Dot-Product
+* Contextual Representation
+
+**File:** `24_Self_Attention.md`
+
+---
+
+## 25. Transformer
+
+**One of the most important topics in AI interviews.**
+
+Architecture:
+
+```text
+Input
+ ↓
+Tokenization
+ ↓
+Embedding
+ ↓
+Positional Encoding
+ ↓
+Multi-Head Attention
+ ↓
+Add & Norm
+ ↓
+Feed Forward Network
+ ↓
+Add & Norm
+ ↓
+Output
+```
+
+Learn:
+
+* Encoder
+* Decoder
+* Encoder-Decoder
+* Self-Attention
+* Cross-Attention
+* Multi-Head Attention
+* Positional Encoding
+* Residual Connections
+* Layer Normalization
+* Feed Forward Network
+
+**File:** `25_Transformers.md`
+
+---
+
+## 26. Transformer Architecture
+
+Understand the original Transformer paper architecture.
+
+Focus on:
+
+* Encoder Block
+* Decoder Block
+* Masked Attention
+* Cross Attention
+* Positional Encoding
+* LayerNorm
+* Residual Connection
+
+**File:** `26_Transformer_Architecture.md`
+
+---
+
+# 🟦 Phase 5 — NLP & Language Models
+
+## 27. NLP with Deep Learning
+
+* Text Classification
+* Sequence Classification
+* Named Entity Recognition
+* Sentiment Analysis
+* Language Modeling
+* Sequence Generation
+
+**File:** `27_NLP_Deep_Learning.md`
+
+---
+
+## 28. Word Embeddings
+
+* One-Hot Encoding
+* Word2Vec
+* CBOW
+* Skip-Gram
+* GloVe
+* FastText
+* Contextual Embeddings
+
+**File:** `28_Word_Embeddings.md`
+
+---
+
+## 29. BERT
+
+Understand:
+
+* Encoder-only Transformer
+* Bidirectional Context
+* Masked Language Modeling
+* Next Sentence Prediction
+* Pretraining
+* Fine-Tuning
+* BERT Architecture
+
+**File:** `29_BERT.md`
+
+---
+
+## 30. RoBERTa
+
+* BERT improvements
+* Dynamic Masking
+* Training Strategy
+* RoBERTa vs BERT
+
+**File:** `30_RoBERTa.md`
+
+---
+
+## 31. T5
+
+* Text-to-Text Framework
+* Encoder-Decoder Transformer
+* Pretraining
+* Fine-Tuning
+
+**File:** `31_T5.md`
+
+---
+
+## 32. GPT
+
+Understand:
+
+* Decoder-only Transformer
+* Autoregressive Generation
+* Next Token Prediction
+* Pretraining
+* Instruction Tuning
+* Generation
+
+**File:** `32_GPT.md`
+
+---
+
+# 🟦 Phase 6 — AI & Generative AI
+
+## 33. AI Fundamentals
+
+* AI
+* Machine Learning
+* Deep Learning
+* Generative AI
+* Predictive AI
+* Discriminative Models
+* Foundation Models
+
+**File:** `33_AI_Fundamentals.md`
+
+---
+
+## 34. Generative AI
+
+Understand:
+
+* Generative vs Discriminative AI
+* Foundation Models
+* Text Generation
+* Image Generation
+* Audio Generation
+* Video Generation
+* Multimodal AI
+
+**File:** `34_Generative_AI.md`
+
+---
+
+## 35. Generative Models
+
+Important models:
+
+```text
+GAN
+VAE
+Diffusion Models
+Autoregressive Models
+LLMs
+```
+
+**File:** `35_Generative_AI_Models.md`
+
+---
+
+## 36. GAN
+
+* Generator
+* Discriminator
+* Adversarial Training
+* Minimax Objective
+* Mode Collapse
+* GAN Variants
+
+**File:** `36_GAN.md`
+
+---
+
+## 37. VAE
+
+* Encoder
+* Latent Space
+* Decoder
+* Reconstruction Loss
+* KL Divergence
+* Reparameterization Trick
+
+**File:** `37_VAE.md`
+
+---
+
+## 38. Diffusion Models
+
+* Forward Diffusion
+* Noise Addition
+* Reverse Diffusion
+* Denoising
+* Latent Diffusion
+* Stable Diffusion — Conceptual Understanding
+
+**File:** `38_Diffusion_Models.md`
+
+---
+
+# 🟦 Phase 7 — LLMs
+
+## 39. LLM Fundamentals
+
+* What is an LLM?
+* Parameters
+* Tokens
+* Context Window
+* Pretraining
+* Fine-Tuning
+* Instruction Tuning
+* Alignment
+* Inference
+
+**File:** `39_LLM_Fundamentals.md`
+
+---
+
+## 40. LLM Architecture
 
 ```text
 Text
  ↓
-Embedding Model
+Tokenizer
  ↓
-Vector
+Token Embeddings
  ↓
-Similarity Search
+Positional Information
+ ↓
+Transformer Blocks
+ ↓
+Language Modeling Head
+ ↓
+Next Token
 ```
 
-Learn:
-
-```text
-Dense Embeddings
-Semantic Similarity
-Cosine Similarity
-Embedding Models
-Chunk Embeddings
-Query Embeddings
-```
-
-**File:** `14_Embeddings.md`
+**File:** `40_LLM_Architecture.md`
 
 ---
 
-# 11. Vector Databases
+## 41. Tokenization
+
+* Token
+* Vocabulary
+* Subword Tokenization
+* BPE
+* WordPiece
+* SentencePiece
+* Token Count
+* Context Window
+
+**File:** `41_Tokenization.md`
+
+---
+
+## 42. LLM Pretraining
+
+* Self-Supervised Learning
+* Next Token Prediction
+* Causal Language Modeling
+* Masked Language Modeling
+* Training Data
+* Pretraining Objective
+
+**File:** `42_LLM_Pretraining.md`
+
+---
+
+## 43. Instruction Tuning
+
+* Instruction Dataset
+* Supervised Fine-Tuning
+* Instruction Following
+* Alignment
+
+**File:** `43_Instruction_Tuning.md`
+
+---
+
+## 44. RLHF
+
+Understand conceptually:
 
 ```text
-Documents
- ↓
-Chunking
- ↓
-Embeddings
- ↓
-Vector Database
- ↓
-Similarity Search
+Pretrained LLM
+      ↓
+SFT
+      ↓
+Reward Model
+      ↓
+Human Preference
+      ↓
+RL Optimization
+      ↓
+Aligned Model
 ```
 
-Learn:
+**File:** `44_RLHF.md`
+
+---
+
+## 45. DPO
+
+* Preference Dataset
+* Chosen Response
+* Rejected Response
+* Direct Preference Optimization
+* DPO vs RLHF
+
+**File:** `45_DPO.md`
+
+---
+
+## 46. LLM Inference
+
+* Temperature
+* Top-K
+* Top-P
+* Greedy Decoding
+* Beam Search
+* Sampling
+* Context Window
+* KV Cache
+
+**File:** `46_LLM_Inference.md`
+
+---
+
+## 47. Hallucination
+
+* What is hallucination?
+* Causes
+* Factual Hallucination
+* Contextual Hallucination
+* Reducing Hallucination
+* RAG
+* Grounding
+* Evaluation
+
+**File:** `47_Hallucination.md`
+
+---
+
+# 🟦 Phase 8 — Prompt Engineering
+
+## 48. Prompt Engineering
+
+* Zero-Shot
+* One-Shot
+* Few-Shot
+* Role Prompting
+* System Prompt
+* Context
+* Constraints
+* Structured Prompt
+* Prompt Templates
+
+**File:** `48_Prompt_Engineering.md`
+
+---
+
+## 49. Prompt Techniques
+
+* Chain-of-Thought
+* Self-Consistency
+* ReAct
+* Tree-of-Thought — Conceptual
+* Few-Shot
+* Prompt Chaining
+* Decomposition
+
+**File:** `49_Prompt_Techniques.md`
+
+---
+
+## 50. Structured Output
+
+* JSON Output
+* Schema
+* Function Calling
+* Output Validation
+* Pydantic Models
+
+**File:** `50_Structured_Output.md`
+
+---
+
+# 🟦 Phase 9 — Embeddings & Vector Search
+
+## 51. Embeddings
+
+* Dense Embeddings
+* Sparse Embeddings
+* Semantic Similarity
+* Cosine Similarity
+* Euclidean Distance
+* Embedding Dimensions
+* Query Embeddings
+* Document Embeddings
+
+**File:** `51_Embeddings.md`
+
+---
+
+## 52. Semantic Search
+
+* Semantic Similarity
+* Vector Search
+* Query-Document Similarity
+* Nearest Neighbor Search
+* ANN
+
+**File:** `52_Semantic_Search.md`
+
+---
+
+## 53. Vector Databases
+
+Important technologies:
 
 ```text
 FAISS
@@ -359,195 +943,329 @@ Milvus
 pgvector
 ```
 
-**File:** `15_Vector_Databases.md`
+Topics:
+
+* Vector Index
+* Similarity Search
+* Metadata Filtering
+* ANN
+* HNSW
+
+**File:** `53_Vector_Databases.md`
 
 ---
 
-# 12. RAG
+## 54. Hybrid Search
+
+```text
+Keyword Search
+       +
+Vector Search
+       ↓
+Hybrid Search
+```
+
+Learn:
+
+* BM25
+* Dense Retrieval
+* Sparse Retrieval
+* Hybrid Retrieval
+* Score Fusion
+
+**File:** `54_Hybrid_Search.md`
+
+---
+
+## 55. Reranking
+
+* Initial Retrieval
+* Candidate Documents
+* Reranker
+* Cross Encoder
+* Final Context
+
+**File:** `55_Reranking.md`
+
+---
+
+# 🟦 Phase 10 — RAG
+
+## 56. RAG Fundamentals
+
+**Very High Priority**
 
 ```text
 Documents
  ↓
-Load
+Parsing
  ↓
-Clean
+Chunking
  ↓
-Chunk
+Embedding
  ↓
-Embed
+Vector DB
  ↓
-Store
+Retriever
  ↓
-Retrieve
+Context
  ↓
-Augment Prompt
+Prompt
  ↓
 LLM
  ↓
 Answer
 ```
 
-**File:** `16_RAG_Fundamentals.md`
+Learn:
+
+* Why RAG?
+* RAG vs Fine-Tuning
+* RAG Components
+* Retrieval
+* Augmentation
+* Generation
+
+**File:** `56_RAG_Fundamentals.md`
 
 ---
 
-# 13. Advanced RAG
+## 57. RAG Pipeline
 
-```text
-Naive RAG
- ↓
-Hybrid Search
- ↓
-Metadata Filtering
- ↓
-Query Rewriting
- ↓
-Query Expansion
- ↓
-Reranking
- ↓
-Context Compression
- ↓
-Multi-Query Retrieval
- ↓
-Parent-Child Retrieval
- ↓
-Graph RAG
- ↓
-Agentic RAG
-```
+* Document Ingestion
+* Document Parsing
+* Chunking
+* Embeddings
+* Indexing
+* Retrieval
+* Prompt Construction
+* Generation
+* Citation / Source Grounding
 
-**File:** `17_Advanced_RAG.md`
+**File:** `57_RAG_Pipeline.md`
 
 ---
 
-# 14. RAG Evaluation
+## 58. Document Chunking
 
-```text
-Retrieval Evaluation
- ↓
-Context Relevance
- ↓
-Context Recall
- ↓
-Answer Relevance
- ↓
-Faithfulness
- ↓
-Groundedness
-```
+Important strategies:
+
+* Fixed-size Chunking
+* Recursive Chunking
+* Semantic Chunking
+* Sentence Chunking
+* Paragraph Chunking
+* Parent-Child Chunking
+
+Understand:
+
+* Chunk Size
+* Chunk Overlap
+* Retrieval Quality
+* Context Size
+
+**File:** `58_Document_Chunking.md`
+
+---
+
+## 59. Retrieval Strategies
+
+* Dense Retrieval
+* Sparse Retrieval
+* Hybrid Retrieval
+* Metadata Filtering
+* Similarity Search
+* MMR
+* Top-K Retrieval
+
+**File:** `59_Retrieval_Strategies.md`
+
+---
+
+## 60. Advanced RAG
+
+* Query Rewriting
+* Query Expansion
+* Query Decomposition
+* Multi-Query RAG
+* Contextual Compression
+* Reranking
+* Parent-Document Retrieval
+* Multi-Hop Retrieval
+* Graph RAG
+* Agentic RAG
+
+**File:** `60_Advanced_RAG.md`
+
+---
+
+## 61. RAG Evaluation
+
+Metrics:
+
+* Context Precision
+* Context Recall
+* Faithfulness
+* Answer Relevance
+* Groundedness
+* Answer Correctness
 
 Tools:
 
-```text
-RAGAS
-DeepEval
-LangSmith
-```
+* RAGAS
+* DeepEval
+* LangSmith
 
-**File:** `18_RAG_Evaluation.md`
+**File:** `61_RAG_Evaluation.md`
 
 ---
 
-# 15. LLM Frameworks
+# 🟦 Phase 11 — Fine-Tuning
+
+## 62. Fine-Tuning
+
+* Pretrained Model
+* Dataset Preparation
+* Training
+* Validation
+* Fine-Tuned Model
+* Evaluation
+
+Understand:
 
 ```text
-LangChain
-LlamaIndex
-Hugging Face
-LangGraph
+RAG vs Fine-Tuning
+Prompt Engineering vs Fine-Tuning
 ```
 
-Focus on:
-
-```text
-Chains
-Retrievers
-Tools
-Agents
-Memory
-Document Loaders
-Vector Stores
-Callbacks
-Tracing
-```
-
-**Files:** `19_LangChain.md`, `20_LlamaIndex.md`
+**File:** `62_Fine_Tuning.md`
 
 ---
 
-# 16. Fine-Tuning
+## 63. Supervised Fine-Tuning
 
-```text
-Pretrained Model
- ↓
-Dataset
- ↓
-Fine-Tuning
- ↓
-Evaluation
- ↓
-Deployment
-```
+* Instruction Dataset
+* Input / Output Pairs
+* Training Objective
+* Evaluation
+* Dataset Quality
 
-Learn:
-
-```text
-Full Fine-Tuning
-Instruction Tuning
-Supervised Fine-Tuning
-PEFT
-LoRA
-QLoRA
-```
-
-**Files:** `21` → `22`
+**File:** `63_SFT.md`
 
 ---
 
-# 17. Model Optimization
+## 64. PEFT
 
-```text
-Quantization
-Pruning
-Distillation
-Caching
-Batching
-Speculative Decoding
-```
+* Parameter-Efficient Fine-Tuning
+* Adapters
+* LoRA
+* QLoRA
 
-Focus on:
-
-```text
-FP32
-FP16
-BF16
-INT8
-INT4
-```
-
-**File:** `23_Model_Quantization.md`
+**File:** `64_PEFT.md`
 
 ---
 
-# 18. Hugging Face
+## 65. LoRA
 
-Learn:
+Understand:
 
-```text
-Transformers
-Datasets
-Tokenizers
-Model Hub
-Pipelines
-PEFT
-```
+* Low-Rank Matrices
+* Frozen Base Model
+* Trainable Parameters
+* Rank
+* Alpha
+* Dropout
+* Advantages
 
-**File:** `24_Hugging_Face.md`
+**File:** `65_LoRA.md`
 
 ---
 
-# 19. AI Agents
+## 66. QLoRA
+
+* Quantized Base Model
+* LoRA Adapters
+* 4-bit Quantization
+* NF4
+* Memory Efficiency
+
+**File:** `66_QLoRA.md`
+
+---
+
+## 67. Model Quantization
+
+* FP32
+* FP16
+* BF16
+* INT8
+* INT4
+* Post-Training Quantization
+* Quantization-Aware Training
+
+**File:** `67_Model_Quantization.md`
+
+---
+
+# 🟦 Phase 12 — AI Frameworks
+
+## 68. Hugging Face
+
+* Transformers
+* Tokenizers
+* Datasets
+* Model Hub
+* Pipelines
+* PEFT
+
+**File:** `68_Hugging_Face.md`
+
+---
+
+## 69. LangChain
+
+* Models
+* Prompts
+* Chains
+* Retrievers
+* Tools
+* Agents
+* Memory
+* Vector Stores
+
+**File:** `69_LangChain.md`
+
+---
+
+## 70. LlamaIndex
+
+* Data Connectors
+* Document Indexing
+* Retrieval
+* Query Engines
+* RAG
+* Agents
+
+**File:** `70_LlamaIndex.md`
+
+---
+
+## 71. LangGraph
+
+* State
+* Nodes
+* Edges
+* Graph Workflows
+* Agent Orchestration
+* Human-in-the-Loop
+
+**File:** `71_LangGraph.md`
+
+---
+
+# 🟦 Phase 13 — AI Agents
+
+## 72. AI Agents
 
 ```text
 LLM
@@ -561,495 +1279,705 @@ Tool Execution
 Observation
  ↓
 Next Action
- ↓
-Final Answer
 ```
 
 Learn:
 
-```text
-Agent
-Tool
-Memory
-Planning
-Reasoning
-Tool Calling
-Agent Loops
-```
+* Agent
+* Tools
+* Memory
+* Planning
+* Reasoning
+* State
 
-**File:** `25_AI_Agents.md`
+**File:** `72_AI_Agents.md`
 
 ---
 
-# 20. Agentic AI
+## 73. Agentic AI
 
-```text
-Simple LLM
- ↓
-LLM + Tools
- ↓
-Single Agent
- ↓
-Agentic Workflow
- ↓
-Multi-Agent System
-```
+* Agentic Workflow
+* Autonomous Agents
+* Planning
+* Reflection
+* Reasoning
+* Human-in-the-Loop
+* Agent State
 
-**File:** `26_Agentic_AI.md`
+**File:** `73_Agentic_AI.md`
 
 ---
 
-# 21. Tool Calling
+## 74. ReAct
 
 ```text
-User
+Reason
  ↓
-LLM
+Act
  ↓
-Tool Selection
+Observe
  ↓
-Function Call
+Reason
  ↓
-Tool Result
- ↓
-LLM
- ↓
-Final Response
+Act
 ```
 
-**File:** `27_Tool_Calling.md`
+Understand how ReAct combines reasoning and tool usage.
+
+**File:** `74_ReAct.md`
 
 ---
 
-# 22. MCP
+## 75. Tool Calling
+
+* Function Calling
+* Tool Definition
+* Tool Selection
+* Tool Execution
+* Tool Results
+* Error Handling
+* Tool Security
+
+**File:** `75_Tool_Calling.md`
+
+---
+
+## 76. MCP
+
+**Model Context Protocol**
 
 Learn:
 
-```text
-Model Context Protocol
- ↓
-MCP Client
- ↓
-MCP Server
- ↓
-Tools
-Resources
-Prompts
-```
+* MCP Client
+* MCP Server
+* Tools
+* Resources
+* Prompts
+* Context Exchange
+* MCP Architecture
 
-Focus on practical MCP architecture and integration.
-
-**File:** `28_MCP.md`
+**File:** `76_MCP.md`
 
 ---
 
-# 23. Multi-Agent Systems
+## 77. Multi-Agent Systems
 
-```text
-Supervisor Agent
-       ↓
- ┌─────┼─────┐
- ↓     ↓     ↓
-Agent Agent Agent
- ↓     ↓     ↓
- └─────┼─────┘
-       ↓
-Final Result
-```
+* Supervisor Agent
+* Worker Agents
+* Specialized Agents
+* Agent Communication
+* Shared State
+* Sequential Agents
+* Parallel Agents
 
-**File:** `29_Multi_Agent_Systems.md`
+**File:** `77_Multi_Agent_Systems.md`
 
 ---
 
-# 24. GenAI Architecture
+# 🟦 Phase 14 — Production AI
 
-Learn end-to-end architecture:
+## 78. AI System Design
+
+Learn to design:
 
 ```text
 User
- ↓
-Application
  ↓
 API
  ↓
-LLM / RAG / Agent
+Application
  ↓
-Vector DB
+RAG / Agent
  ↓
-Tools / APIs
+LLM
+ ↓
+Vector DB / Tools
+ ↓
+Guardrails
  ↓
 Response
  ↓
 Monitoring
-```
-
-**File:** `30_Generative_AI_Architecture.md`
-
----
-
-# 25. AI Safety & Guardrails
-
-```text
-Prompt Injection
-Jailbreaking
-Data Leakage
-Hallucination
-Toxicity
-PII
-Unauthorized Tool Usage
-```
-
-Guardrails:
-
-```text
-Input Validation
-Output Validation
-Content Filtering
-Access Control
-Human-in-the-Loop
-```
-
-**Files:** `31` → `32`
-
----
-
-# 26. LLM Evaluation
-
-Learn:
-
-```text
-Accuracy
-Relevance
-Faithfulness
-Groundedness
-Toxicity
-Bias
-Hallucination
-Latency
-Cost
-```
-
-**File:** `33_LLM_Evaluation.md`
-
----
-
-# 27. AI Deployment
-
-```text
-Model
- ↓
-API
- ↓
-Container
- ↓
-Cloud
- ↓
-Monitoring
-```
-
-Learn:
-
-```text
-FastAPI
-Docker
-REST APIs
-CI/CD
-Model Serving
-GPU Inference
-```
-
-**File:** `34_AI_Deployment.md`
-
----
-
-# 28. LLMOps
-
-```text
-Data
- ↓
-Prompt
- ↓
-Model
- ↓
-Evaluation
- ↓
-Deployment
- ↓
-Monitoring
- ↓
-Feedback
- ↓
-Improvement
 ```
 
 Focus on:
 
-```text
-Prompt Versioning
-Model Versioning
-Tracing
-Evaluation
-Monitoring
-Cost Tracking
-Latency
-Caching
-```
+* Scalability
+* Reliability
+* Security
+* Latency
+* Cost
+* Availability
 
-**File:** `35_LLMOps.md`
+**File:** `78_AI_System_Design.md`
 
 ---
 
-# 29. AI Monitoring
+## 79. GenAI Architecture
+
+* RAG Architecture
+* Agent Architecture
+* LLM Application Architecture
+* API Layer
+* Vector DB
+* Cache
+* Queue
+* Monitoring
+
+**File:** `79_GenAI_Architecture.md`
+
+---
+
+## 80. Guardrails
+
+* Input Validation
+* Output Validation
+* Content Filtering
+* Schema Validation
+* Tool Permissions
+* PII Protection
+* Human Approval
+
+**File:** `80_AI_Guardrails.md`
+
+---
+
+## 81. AI Safety
+
+* Prompt Injection
+* Jailbreaking
+* Data Leakage
+* Hallucination
+* Bias
+* Toxicity
+* Privacy
+* Unauthorized Tool Usage
+
+**File:** `81_AI_Safety.md`
+
+---
+
+## 82. LLM Evaluation
+
+* Correctness
+* Relevance
+* Faithfulness
+* Groundedness
+* Safety
+* Hallucination
+* LLM-as-a-Judge
+* Human Evaluation
+
+**File:** `82_LLM_Evaluation.md`
+
+---
+
+## 83. AI Monitoring
 
 Monitor:
 
+* Latency
+* Token Usage
+* Cost
+* Error Rate
+* Hallucination
+* Retrieval Quality
+* Model Quality
+* User Feedback
+
+**File:** `83_AI_Monitoring.md`
+
+---
+
+## 84. LLMOps
+
+* Prompt Versioning
+* Model Versioning
+* Experiment Tracking
+* Evaluation
+* Tracing
+* Monitoring
+* Cost Tracking
+* Feedback Loop
+
+**File:** `84_LLMOps.md`
+
+---
+
+## 85. AI Deployment
+
+* FastAPI
+* REST API
+* Docker
+* Model Serving
+* GPU Inference
+* Authentication
+* Scaling
+* CI/CD
+
+**File:** `85_AI_Deployment.md`
+
+---
+
+## 86. Inference Optimization
+
+* Quantization
+* Batching
+* Caching
+* KV Cache
+* Streaming
+* Smaller Models
+* Model Routing
+* Speculative Decoding
+
+**File:** `86_Inference_Optimization.md`
+
+---
+
+## 87. Cost & Latency Optimization
+
 ```text
+Quality
+   ↕
 Latency
-Token Usage
+   ↕
 Cost
-Errors
-Hallucination
-Retrieval Quality
-Model Performance
-Drift
 ```
 
-**File:** `37_AI_Monitoring.md`
+Learn:
+
+* Model Selection
+* Prompt Optimization
+* Token Optimization
+* Caching
+* Batching
+* Quantization
+* Efficient Retrieval
+* Model Routing
+
+**File:** `87_Cost_Latency_Optimization.md`
 
 ---
 
-# 30. Cost & Latency Optimization
+# 🟦 Phase 15 — Cloud AI
 
-```text
-Model Selection
- ↓
-Prompt Optimization
- ↓
-Caching
- ↓
-Batching
- ↓
-Quantization
- ↓
-Smaller Models
- ↓
-Efficient Retrieval
-```
+## 88. Azure AI
 
-**File:** `38_AI_Cost_Latency_Optimization.md`
+Important:
+
+* Azure OpenAI
+* Azure AI Foundry
+* Azure AI Search
+* Azure Machine Learning
+* Azure Storage
+* Azure AI Services
+
+**File:** `88_Azure_AI.md`
 
 ---
 
-# 31. Cloud AI
+## 89. AWS Generative AI
 
-## Azure
+Important:
 
-```text
-Azure OpenAI
-Azure AI Foundry
-Azure AI Search
-Azure Machine Learning
-Azure Storage
-```
+* Amazon Bedrock
+* Bedrock Agents
+* SageMaker
+* S3
+* Lambda
+* CloudWatch
 
-**File:** `39_Azure_AI.md`
-
-## AWS
-
-```text
-Amazon Bedrock
-Amazon SageMaker
-Amazon S3
-AWS Lambda
-Bedrock Agents
-```
-
-**File:** `40_AWS_Generative_AI.md`
-
-## GCP
-
-```text
-Vertex AI
-Gemini
-BigQuery
-Cloud Storage
-```
-
-**File:** `41_GCP_Generative_AI.md`
+**File:** `89_AWS_Generative_AI.md`
 
 ---
 
-# 32. End-to-End GenAI Project
+## 90. GCP Generative AI
 
-Build at least one production-style project:
+Important:
+
+* Vertex AI
+* Gemini
+* BigQuery
+* Cloud Storage
+
+**File:** `90_GCP_Generative_AI.md`
+
+---
+
+# 🟦 Phase 16 — Interview Preparation
+
+## 91. Deep Learning Interview Questions
+
+Cover:
+
+* Neural Networks
+* Backpropagation
+* Activation Functions
+* Loss Functions
+* Optimizers
+* CNN
+* RNN
+* LSTM
+* GRU
+* Attention
+* Transformers
+
+**File:** `91_Deep_Learning_Interview_Questions.md`
+
+---
+
+## 92. GenAI Interview Questions
+
+Cover:
+
+* LLMs
+* Prompt Engineering
+* Embeddings
+* Vector DB
+* RAG
+* Fine-Tuning
+* LoRA
+* Agents
+* MCP
+* LLMOps
+
+**File:** `92_GenAI_Interview_Questions.md`
+
+---
+
+## 93. RAG Interview Questions
+
+Focus on:
+
+* RAG Architecture
+* Chunking
+* Embeddings
+* Retrieval
+* Hybrid Search
+* Reranking
+* Advanced RAG
+* RAG Evaluation
+* RAG vs Fine-Tuning
+
+**File:** `93_RAG_Interview_Questions.md`
+
+---
+
+## 94. LLM Interview Questions
+
+* Transformer
+* Tokenization
+* Context Window
+* Pretraining
+* Fine-Tuning
+* RLHF
+* DPO
+* Inference
+* Hallucination
+* Quantization
+
+**File:** `94_LLM_Interview_Questions.md`
+
+---
+
+## 95. AI Agent Interview Questions
+
+* Agents
+* ReAct
+* Tool Calling
+* Memory
+* Planning
+* Agentic AI
+* MCP
+* Multi-Agent Systems
+
+**File:** `95_AI_Agent_Interview_Questions.md`
+
+---
+
+## 96. AI System Design Interview
+
+Practice designing:
+
+* Enterprise RAG
+* Document Q&A
+* AI Chatbot
+* Recommendation System
+* AI Search
+* Agentic Workflow
+* Multi-Agent System
+* LLM Application
+
+**File:** `96_AI_System_Design_Interview.md`
+
+---
+
+## 97. End-to-End AI Project
+
+Build at least one complete project:
 
 ```text
-User
- ↓
-Frontend / API
- ↓
-Authentication
- ↓
-RAG Pipeline
- ↓
-Embedding Model
- ↓
+Business Problem
+       ↓
+Data
+       ↓
+Data Processing
+       ↓
+Embedding
+       ↓
 Vector DB
- ↓
-Retriever
- ↓
-Reranker
- ↓
+       ↓
+RAG / Agent
+       ↓
 LLM
- ↓
+       ↓
 Guardrails
- ↓
-Response
- ↓
+       ↓
+FastAPI
+       ↓
+Docker
+       ↓
+Cloud
+       ↓
 Monitoring
 ```
 
-**File:** `44_GenAI_End_to_End_Project.md`
+**File:** `97_End_to_End_AI_Project.md`
 
 ---
 
-# 33. Priority Order
+# ⭐ Priority Levels
 
-## 🔴 Must Know
+## 🔴 Tier 1 — Must Master
 
 ```text
-AI Fundamentals
-ML Fundamentals
-Deep Learning
-NLP
+Neural Networks
+Backpropagation
+Gradient Descent
+Activation Functions
+Loss Functions
+Optimizers
+Regularization
+
+CNN
+RNN
+LSTM
+GRU
+
+Attention
+Self-Attention
 Transformers
-LLMs
-Generative AI
+
+BERT
+GPT
+LLM Fundamentals
+
 Prompt Engineering
 Embeddings
 Vector Databases
+
 RAG
 Advanced RAG
-LLM Evaluation
-LangChain
-AI Agents
-Tool Calling
-MCP
-Deployment
-LLMOps
-```
+Hybrid Search
+Reranking
+RAG Evaluation
 
-## 🟠 Important
-
-```text
 Fine-Tuning
+SFT
+PEFT
 LoRA
 QLoRA
-Quantization
-Hugging Face
-LlamaIndex
-Guardrails
-AI Safety
-Multi-Agent Systems
-Cloud AI
-Cost Optimization
+
+AI Agents
+ReAct
+Tool Calling
+MCP
+
+LLM Evaluation
+AI System Design
+LLMOps
+Deployment
 ```
 
-## 🟢 Advanced
+---
+
+# 🟠 Tier 2 — Important
 
 ```text
+Transfer Learning
+LeNet
+AlexNet
+VGG
+Inception
+ResNet
+EfficientNet
+
+Seq2Seq
+Encoder-Decoder
+
+RoBERTa
+T5
+
+GAN
+VAE
+Diffusion Models
+
+Quantization
+Knowledge Distillation
+
+Hugging Face
+LangChain
+LlamaIndex
+LangGraph
+
+Multi-Agent Systems
 Graph RAG
 Agentic RAG
-Advanced Agent Architectures
-Multimodal AI
-Model Distillation
-Inference Optimization
-Distributed LLM Serving
-Advanced LLMOps
+
+Guardrails
+AI Safety
+AI Monitoring
+Cloud AI
 ```
 
 ---
 
-# 34. Final Roadmap
+# 🟢 Tier 3 — Conceptual
 
 ```text
-AI Fundamentals
-       ↓
-Machine Learning
-       ↓
-Deep Learning
-       ↓
-NLP
-       ↓
-Transformers
-       ↓
-LLMs
-       ↓
-Generative AI
-       ↓
-Prompt Engineering
-       ↓
-Embeddings
-       ↓
-Vector Databases
-       ↓
-RAG
-       ↓
-Advanced RAG
-       ↓
-RAG Evaluation
-       ↓
-Fine-Tuning
-       ↓
-LLMOps
-       ↓
-AI Agents
-       ↓
-Agentic AI
-       ↓
-Tool Calling
-       ↓
-MCP
-       ↓
-Multi-Agent Systems
-       ↓
-AI Safety / Guardrails
-       ↓
-Deployment
-       ↓
-Cloud AI
-       ↓
-Production GenAI Project
-       ↓
-Interview Preparation
+Advanced CNN Architectures
+Advanced GAN Architectures
+Advanced Diffusion Architectures
+Distributed Training
+GPU Architecture
+Advanced RL
+Research-Level LLM Architectures
 ```
 
 ---
 
-## 🎯 Job-Ready Target
+# 🎯 Interview Preparation Strategy
+
+For every topic, prepare these **8 questions**:
+
+```text
+1. What is it?
+2. Why do we need it?
+3. How does it work?
+4. What is the architecture?
+5. What are the important parameters?
+6. What are the advantages and limitations?
+7. When would you use it?
+8. How is it different from alternatives?
+```
+
+For important models, additionally prepare:
+
+```text
+Architecture
+↓
+Mathematical Intuition
+↓
+Training
+↓
+Inference
+↓
+Advantages
+↓
+Limitations
+↓
+Real-world Use Case
+↓
+Python Implementation
+↓
+Interview Questions
+```
+
+---
+
+# 🏆 Final Job-Oriented Path
+
+```text
+                DEEP LEARNING
+                     │
+                     ↓
+              Neural Networks
+                     │
+             ┌───────┴───────┐
+             ↓               ↓
+            CNN          RNN/LSTM/GRU
+             │               │
+             └───────┬───────┘
+                     ↓
+                 Attention
+                     ↓
+                Transformers
+                     ↓
+              BERT / GPT
+                     ↓
+                    LLM
+                     ↓
+              Generative AI
+                     ↓
+           Prompt Engineering
+                     ↓
+                 Embeddings
+                     ↓
+              Vector Database
+                     ↓
+                    RAG
+                     ↓
+               Advanced RAG
+                     ↓
+               Fine-Tuning
+                     ↓
+               LoRA / QLoRA
+                     ↓
+                 AI Agents
+                     ↓
+               Tool Calling
+                     ↓
+                    MCP
+                     ↓
+              Agentic AI
+                     ↓
+             AI System Design
+                     ↓
+          Deployment / LLMOps
+                     ↓
+              Cloud / Production
+                     ↓
+             Interview Questions
+                     ↓
+                    JOB
+```
+
+## 🎯 End Goal
 
 ```text
 Data Scientist
       +
-ML / DL
+Deep Learning
+      +
+NLP
+      +
+Transformers
       +
 LLMs
       +
+Generative AI
+      +
 RAG
       +
-Vector DB
+Fine-Tuning
       +
-Prompt Engineering
-      +
-Agents
+AI Agents
       +
 MCP
       +
-Cloud
+AI System Design
       +
-Deployment
-      +
-LLMOps
+Cloud / Deployment
       =
-AI / GenAI Data Scientist
+Job-Ready AI / GenAI Data Scientist
 ```
